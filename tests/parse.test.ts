@@ -31,6 +31,15 @@ describe("agent output parser", () => {
     expect(parsed.artboards[0].source).toContain("partial");
   });
 
+  it("extracts dc-write and dc-set-props", () => {
+    const parsed = parseAgentOutput(`
+<dc-write path="A.dc.html" title="A" mount="false"><html></html></dc-write>
+<dc-set-props path="A.dc.html">{"x":1}</dc-set-props>
+`);
+    expect(parsed.dcWrites[0].mount).toBe(false);
+    expect(parsed.dcSetProps[0].props.x).toBe(1);
+  });
+
   it("lays out new boards to the right of existing ones", () => {
     const pos = layoutNewArtboards(
       [{ x: 80, y: 80, width: 1000 }],

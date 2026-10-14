@@ -33,7 +33,7 @@ export function RightRail() {
         <div className="border-b border-white/8 px-3 py-2">
           <TabsList>
             <TabsTrigger value="tweaks" data-testid="tab-tweaks">
-              Tweaks
+              {board?.kind === "dc" ? "Props" : "Tweaks"}
             </TabsTrigger>
             <TabsTrigger value="inspect" data-testid="tab-inspect">
               Inspect
@@ -50,8 +50,19 @@ export function RightRail() {
           <ScrollArea className="h-full">
             <div className="space-y-4 p-3" data-testid="tweak-panel">
               {!board && <Empty>Select an artboard.</Empty>}
+              {board?.kind === "dc" && (
+                <p className="text-[11px] leading-relaxed text-stone-500" data-testid="dc-props-hint">
+                  Instance props for{" "}
+                  <span className="font-mono text-amber-200/80">{board.dcPath}</span>. Changing these
+                  does not rewrite the component file.
+                </p>
+              )}
               {board && Object.keys(board.tweakSchema).length === 0 && (
-                <Empty>This board has no declared tweaks. Ask the agent to make it tweakable.</Empty>
+                <Empty>
+                  {board.kind === "dc"
+                    ? "This component has an empty prop schema."
+                    : "This board has no declared tweaks. Ask the agent to make it tweakable."}
+                </Empty>
               )}
               {board &&
                 Object.entries(board.tweakSchema).map(([key, field]) => {
@@ -106,6 +117,7 @@ export function RightRail() {
                       )}
                       {field.type === "boolean" && (
                         <Switch
+                          data-testid={`tweak-${key}`}
                           checked={Boolean(value)}
                           onCheckedChange={(v) =>
                             setTweaks(board.id, { ...board.tweaks, [key]: v })

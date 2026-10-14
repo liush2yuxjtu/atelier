@@ -2,7 +2,8 @@ import { transform } from "sucrase";
 import { marked } from "marked";
 import { buildRuntimeScript } from "./runtime";
 import { mergeTweaksIntoHtml } from "../tweaks";
-import type { ArtboardKind, TweakMap, TweakSchema } from "../types";
+import { filesFromList, flattenAllSafe, isDcSource } from "../dc";
+import type { ArtboardKind, ProjectFile, TweakMap, TweakSchema } from "../types";
 
 export interface CompileOptions {
   kind: ArtboardKind;
@@ -11,6 +12,9 @@ export interface CompileOptions {
   vendorBase: string;
   tweaks?: TweakMap;
   tweakSchema?: TweakSchema;
+  files?: ProjectFile[];
+  dcPath?: string;
+  dcProps?: TweakMap;
 }
 
 function wrapDocument(body: string, nonce: string, extraHead = ""): string {
@@ -37,6 +41,9 @@ export function compileArtboard(opts: CompileOptions): string {
   const { kind, source, nonce, vendorBase } = opts;
   let html: string;
   switch (kind) {
+    case "dc":
+      html = compileDc(opts);
+      break;
     case "react":
       html = compileReact(source, nonce, vendorBase);
       break;
@@ -65,6 +72,26 @@ export function compileArtboard(opts: CompileOptions): string {
     html = mergeTweaksIntoHtml(html, opts.tweaks, opts.tweakSchema);
   }
   return html;
+}
+
+function compileDc(opts: CompileOptions): string {
+  const files = filesFromList(opts.files ?? []);
+  if (opts.dcPath && files[opts.dcPath] != null) {
+    const flat = flattenAllSafe(opts.dcPath, files, opts.dcProps ?? opts.tweaks);
+    if (flat.error && !/<html/i.test(flat.html)) {
+      return wrapDocument(
+        `<pre style="padding:24px;color:#b42318;font:13px/1.4 ui-monospace,monospace">${escapeHtml(flat.error)}</pre>`,
+        opts.nonce,
+      );
+    }
+    return ensureDocument(flat.html, opts.nonce);
+  }
+  if (isDcSource(opts.source, opts.dcPath)) {
+    const tmp = { ...(files), [opts.dcPath || "__inline.dc.html"]: opts.source };
+    const flat = flattenAllSafe(opts.dcPath || "__inline.dc.html", tmp, opts.dcProps ?? opts.tweaks);
+    return ensureDocument(flat.html, opts.nonce);
+  }
+  return ensureDocument(opts.source, opts.nonce);
 }
 
 function ensureDocument(source: string, nonce: string): string {
@@ -124,6 +151,7 @@ function escapeHtml(s: string): string {
 
 export function detectKind(source: string, hint?: string): ArtboardKind {
   const h = (hint || "").toLowerCase();
+  if (h === "dc" || h.includes("dc.html") || isDcSource(source)) return "dc";
   if (h.includes("mermaid")) return "mermaid";
   if (h.includes("markdown") || h === "md") return "markdown";
   if (h.includes("svg")) return "svg";

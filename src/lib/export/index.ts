@@ -13,7 +13,11 @@ export interface ExportPng {
   height: number;
 }
 
-export function artboardToStandaloneHtml(board: Artboard, vendorBase = ""): string {
+export function artboardToStandaloneHtml(
+  board: Artboard,
+  vendorBase = "",
+  files: ProjectFile[] = [],
+): string {
   const compiled = compileArtboard({
     kind: board.kind,
     source: board.source,
@@ -21,6 +25,9 @@ export function artboardToStandaloneHtml(board: Artboard, vendorBase = ""): stri
     vendorBase,
     tweaks: board.tweaks,
     tweakSchema: board.tweakSchema,
+    files,
+    dcPath: board.dcPath,
+    dcProps: board.dcProps ?? board.tweaks,
   });
   // Strip the injected runtime for a clean standalone file.
   return compiled.replace(/<script>\(\(\) => \{\s*const CHANNEL = "atelier"[\s\S]*?<\/script>/, "");
@@ -61,7 +68,7 @@ export async function buildZip(project: Project, vendorBase = ""): Promise<Blob>
   );
   for (const board of project.artboards) {
     const slug = slugify(board.title) || board.id;
-    zip.file(`artboards/${slug}.html`, artboardToStandaloneHtml(board, vendorBase));
+    zip.file(`artboards/${slug}.html`, artboardToStandaloneHtml(board, vendorBase, project.files));
     zip.file(`artboards/${slug}.source.txt`, board.source);
   }
   for (const file of project.files) {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useStudio } from "@/lib/store";
 import { ChatPanel } from "./ChatPanel";
+import { LibraryPanel } from "./LibraryPanel";
 import { CanvasView } from "./CanvasView";
 import { RightRail } from "./RightRail";
 import { Toolbar } from "./Toolbar";
@@ -46,6 +47,7 @@ export function StudioApp({ projectId }: { projectId: string }) {
         />
         <div className="flex min-h-0 flex-1">
           <ChatPanel />
+          <LibraryPanel />
           <CanvasView />
           <RightRail />
         </div>

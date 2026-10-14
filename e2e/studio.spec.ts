@@ -12,6 +12,16 @@ function save(pageShot: Buffer, name: string) {
   fs.writeFileSync(path.join(artifacts, name), pageShot);
 }
 
+async function openDemo(page: import("@playwright/test").Page) {
+  await page.goto("/");
+  await page.getByTestId("open-demo").click();
+  await expect(page.getByTestId("studio-app")).toBeVisible();
+  await expect(page.getByTestId("canvas-view")).toBeVisible();
+  await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
+  await expect(page.locator("[data-artboard=true]")).toHaveCount(6);
+  await page.waitForTimeout(2200);
+}
+
 test.describe("Atelier studio", () => {
   test("landing opens the demo canvas with multiple artboards", async ({ page }) => {
     await page.goto("/");
@@ -23,17 +33,14 @@ test.describe("Atelier studio", () => {
     await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-pricing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-phone")).toBeVisible();
-    await expect(page.locator("[data-artboard=true]")).toHaveCount(5);
+    await expect(page.getByTestId("artboard-ab-dc-grid")).toBeVisible();
+    await expect(page.locator("[data-artboard=true]")).toHaveCount(6);
     await page.waitForTimeout(2500);
     save(await page.screenshot({ fullPage: true }), "canvas-multi-artboard.png");
   });
 
   test("edit mode, tweak panel, and export dialog", async ({ page }) => {
-    await page.goto("/");
-    await page.getByTestId("open-demo").click();
-    await expect(page.getByTestId("studio-app")).toBeVisible();
-    await expect(page.locator("[data-artboard=true]")).toHaveCount(5);
-    await page.waitForTimeout(2500);
+    await openDemo(page);
     await page.getByTestId("artboard-title-ab-landing").click();
     await page.getByTestId("mode-edit").click();
     await expect(page.getByTestId("mode-edit")).toHaveClass(/text-amber-100/);
@@ -56,8 +63,7 @@ test.describe("Atelier studio", () => {
   });
 
   test("offline chat streams a new artboard onto the canvas", async ({ page }) => {
-    await page.goto("/");
-    await page.getByTestId("open-demo").click();
+    await openDemo(page);
     await expect(page.getByTestId("chat-panel")).toBeVisible();
     const before = await page.locator("[data-artboard=true]").count();
     await page.getByTestId("chat-input").fill("Poster for a weekend cupping.");
@@ -72,10 +78,7 @@ test.describe("Atelier studio", () => {
   });
 
   test("duplicate and arrange artboards", async ({ page }) => {
-    await page.goto("/");
-    await page.getByTestId("open-demo").click();
-    await expect(page.getByTestId("studio-app")).toBeVisible();
-    await expect(page.locator("[data-artboard=true]")).toHaveCount(5);
+    await openDemo(page);
     const before = await page.locator("[data-artboard=true]").count();
     await page.getByTestId("artboard-title-ab-phone").click();
     await page.getByTestId("duplicate-artboard").click();
@@ -83,5 +86,34 @@ test.describe("Atelier studio", () => {
     await page.getByTestId("arrange-artboards").click();
     await expect(page.getByText(/copy/i).first()).toBeVisible();
     save(await page.screenshot({ fullPage: true }), "arranged-artboards.png");
+  });
+
+  test("design component library, composed board, and prop tweaks", async ({ page }) => {
+    await openDemo(page);
+    const library = page.getByTestId("library-panel");
+    await expect(library).toBeVisible();
+    await expect(page.getByTestId("library-item-Badge")).toBeVisible();
+    await expect(page.getByTestId("library-item-PriceCard")).toBeVisible();
+    await expect(page.getByTestId("library-item-RoastGrid")).toBeVisible();
+    await page.waitForTimeout(800);
+    save(await library.screenshot(), "dc-library-panel.png");
+
+    await page.getByTestId("artboard-title-ab-dc-grid").click();
+    await expect(page.getByTestId("artboard-ab-dc-grid")).toHaveAttribute("data-kind", "dc");
+    await page.waitForTimeout(1200);
+    save(await page.getByTestId("artboard-ab-dc-grid").screenshot(), "dc-composed.png");
+    save(await page.screenshot({ fullPage: true }), "dc-composed-canvas.png");
+
+    await page.getByTestId("tab-tweaks").click();
+    await expect(page.getByTestId("dc-props-hint")).toBeVisible();
+    const headline = page.getByTestId("tweak-headline");
+    await expect(headline).toBeVisible();
+    await headline.fill("Pick a cadence");
+    await page.waitForTimeout(600);
+    save(await page.locator("[data-testid=right-rail]").screenshot(), "dc-props-tweak.png");
+
+    const before = await page.locator("[data-artboard=true]").count();
+    await page.getByTestId("library-place-PriceCard").click();
+    await expect(page.locator("[data-artboard=true]")).toHaveCount(before + 1);
   });
 });

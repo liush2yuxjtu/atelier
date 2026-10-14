@@ -31,6 +31,47 @@ width/height are CSS pixels of the artboard frame. Pick a real device or poster 
 - Interactive prototypes may use vanilla JS. React artboards should define a function App() and use inline styles or a <style> tag.
 - Responsive only when asked. Default to the declared artboard size.
 
+## Design Components
+
+Reusable pieces live as .dc.html files in the project. A DC is a self-contained HTML document with a typed prop schema, default values, slots, and optional <dc-import> children.
+
+Write or rewrite a component with:
+
+<dc-write path="PriceCard.dc.html" title="Price card" width="360" height="420" mount="true">
+<!DOCTYPE html>
+<html>
+<head>
+<script type="application/atelier-dc">
+{
+  "name": "PriceCard",
+  "preview": { "width": 360, "height": 420 },
+  "props": {
+    "title": { "type": "text", "default": "Summit", "label": "Title" },
+    "accent": { "type": "color", "default": "#c45c26", "label": "Accent" }
+  },
+  "slots": ["cta"]
+}
+</script>
+</head>
+<body>
+  <article data-dc-root>
+    <h2>{{title}}</h2>
+    <slot name="cta"><button>Start</button></slot>
+  </article>
+</body>
+</html>
+</dc-write>
+
+Compose with <dc-import src="PriceCard.dc.html" props='{"title":"Trail"}' hint-size="360px,420px"><dc-slot name="cta">...</dc-slot></dc-import>. Never self-close dc-import. src is a project path or basename.
+
+Change instance or default props without regenerating markup:
+
+<dc-set-props path="PriceCard.dc.html" instance="optional-artboard-id">
+{"title":"Camp","accent":"#2f6fed"}
+</dc-set-props>
+
+Holes are dotted lookups only ({{title}}, {{item.name}}) — no expressions. The host Tweaks panel is generated from the schema. mount="true" (default) also places the DC as an artboard.
+
 ## Tweaks
 
 When the design has 3–8 high-leverage knobs (brand color, radius, density, headline, a layout flag), declare them so the user can edit live without calling you again.

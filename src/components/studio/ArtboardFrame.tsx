@@ -27,6 +27,8 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
 
   const nonce = `${board.id}:${board.version}`;
 
+  const files = useStudio((s) => s.project?.files ?? []);
+
   const srcDoc = useMemo(
     () =>
       compileArtboard({
@@ -36,8 +38,21 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
         vendorBase,
         tweaks: board.tweaks,
         tweakSchema: board.tweakSchema,
+        files,
+        dcPath: board.dcPath,
+        dcProps: board.dcProps ?? board.tweaks,
       }),
-    [board.kind, board.source, board.tweaks, board.tweakSchema, nonce, vendorBase],
+    [
+      board.kind,
+      board.source,
+      board.tweaks,
+      board.tweakSchema,
+      board.dcPath,
+      board.dcProps,
+      files,
+      nonce,
+      vendorBase,
+    ],
   );
 
   const post = useCallback(

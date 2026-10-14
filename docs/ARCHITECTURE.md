@@ -50,7 +50,11 @@ or `<script type="application/atelier-tweaks">`. The right rail generates contro
 
 ## Streaming
 
-`parseStreaming` in `src/lib/agent/parse.ts` incrementally reads `<artboard>` tags, including an unclosed last tag, and lays new boards out to the right of existing ones. A load `error` from the iframe queues a single auto-fix turn.
+`parseStreaming` in `src/lib/agent/parse.ts` incrementally reads `<artboard>` and `<dc-write>` tags, including an unclosed last tag, and lays new boards out to the right of existing ones. A load `error` from the iframe queues a single auto-fix turn.
+
+## Design Components
+
+Reusable pieces are `.dc.html` files with an `application/atelier-dc` schema block, `{{prop}}` holes, `<dc-import>` children, and `<slot>` / `<dc-slot>`. The host (`src/lib/dc/`) parses the schema, builds an import graph, rejects cycles, and **flattens** a tree into ordinary HTML for the iframe and for export. Instance props live on the artboard (`dcPath` / `dcProps`); `setTweaks` for `kind === "dc"` updates those props and recompiles without rewriting the file. Changing a file hot-recompiles every dependent artboard. Full spec: [DC-PROTOCOL.md](DC-PROTOCOL.md).
 
 ## Persistence
 

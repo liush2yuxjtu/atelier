@@ -16,7 +16,8 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 - **Streaming render** — `<artboard>` tags land on the canvas while the model is still writing
 - **Self-check** — iframe errors trigger one auto-fix turn
 - **Direct manipulation** — Edit / Inspect / Comment modes inside the frame
-- **Tweaks panel** — sliders, colors, text, booleans from a declared JSON block; applied live, no model call
+- **Tweaks panel** — sliders, colors, text, booleans from a declared JSON block **or** a Design Component prop schema; applied live, no model call
+- **Design Components** — `.dc.html` files with typed props, slots, `<dc-import>` composition, cycle detection, library + drag onto canvas, `dc-write` / `dc-set-props` agent tools, flatten on export. Spec: [docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)
 - **Pinned comments** — queued into the next turn; the agent resolves them by id
 - **Project files + history** — versions snapshot after each generation
 - **Optional design-system extract** — image palette, URL CSS, or GitHub repo
@@ -29,6 +30,12 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 | Canvas | Edit mode | Tweaks | Export |
 | --- | --- | --- | --- |
 | ![](docs/screenshots/canvas-multi-artboard.png) | ![](docs/screenshots/edit-mode.png) | ![](docs/screenshots/tweak-panel.png) | ![](docs/screenshots/export-dialog.png) |
+
+| Component library | Composed DC | Instance props |
+| --- | --- | --- |
+| ![](docs/screenshots/dc-library-panel.png) | ![](docs/screenshots/dc-composed.png) | ![](docs/screenshots/dc-props-tweak.png) |
+
+Demo recording of the DC flow: [docs/media/dc-demo.webm](docs/media/dc-demo.webm) · [docs/media/dc-demo.mp4](docs/media/dc-demo.mp4)
 
 ## Quick start
 
@@ -46,7 +53,7 @@ ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 ```bash
-npm test             # Vitest: protocol, tweaks, parse, export
+npm test             # Vitest: protocol, tweaks, parse, export, design components
 npx playwright install chromium
 npm run test:e2e     # Playwright + screenshots in docs/screenshots and e2e/artifacts
 npm run build

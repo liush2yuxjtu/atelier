@@ -80,7 +80,7 @@ export function ExportDialog({ open, onOpenChange }: Props) {
           project.artboards.find((b) => b.id === project.selectedArtboardId) ??
           project.artboards[0];
         if (!board) throw new Error("no artboard");
-        const html = artboardToStandaloneHtml(board, window.location.origin);
+        const html = artboardToStandaloneHtml(board, window.location.origin, project.files);
         downloadBlob(new Blob([html], { type: "text/html" }), `${slugify(board.title)}.html`);
       } else if (kind === "zip") {
         const blob = await buildZip(project, window.location.origin);

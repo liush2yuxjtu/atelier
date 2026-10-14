@@ -48,7 +48,7 @@ export function Landing() {
               Chat on the left. Infinite canvas on the right.
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-stone-400">
-              Atelier is a production-ready alternative to closed visual artifact tools. Multiple sandboxed artboards, live tweaks, pinned comments, and export to HTML, ZIP, PDF, PNG, and PPTX — with your own model keys.
+              Atelier is a production-ready alternative to closed visual artifact tools. Multiple sandboxed artboards, reusable Design Components, live tweaks, pinned comments, and export to HTML, ZIP, PDF, PNG, and PPTX — with your own model keys.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" onClick={() => void openDemo()} data-testid="open-demo">

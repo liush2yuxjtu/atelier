@@ -1,4 +1,4 @@
-export type ArtboardKind = "html" | "react" | "svg" | "markdown" | "mermaid";
+export type ArtboardKind = "html" | "react" | "svg" | "markdown" | "mermaid" | "dc";
 
 export type StudioMode = "preview" | "edit" | "comment" | "inspect";
 
@@ -45,6 +45,10 @@ export interface Artboard {
   status: "idle" | "streaming" | "ready" | "error" | "fixing";
   autoFixed: boolean;
   version: number;
+  /** Project file path of a Design Component this artboard instantiates. */
+  dcPath?: string;
+  /** Instance-level prop overrides (live tweaks; does not rewrite the .dc.html file). */
+  dcProps?: TweakMap;
 }
 
 export interface ProjectFile {

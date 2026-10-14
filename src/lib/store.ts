@@ -16,6 +16,14 @@ import { loadProject, saveProject } from "./storage";
 import { loadSettings, saveSettings } from "./providers";
 import { applyTweaksToSource, parseTweaksSchema, schemaToMap } from "./tweaks";
 import { layoutNewArtboards, parseStreaming, type ParsedCommand } from "./agent/parse";
+import {
+  dependentsOf,
+  filesFromList,
+  flattenAllSafe,
+  schemaToTweakSchema,
+  setFileProps,
+  tweakMapFromSchema,
+} from "./dc";
 
 interface StudioStore {
   project: Project | null;
@@ -48,6 +56,7 @@ interface StudioStore {
   appendMessage: (id: string, chunk: string) => void;
   applyParsed: (parsed: ParsedCommand, streaming: boolean) => void;
   writeFile: (path: string, content: string) => void;
+  placeDc: (path: string, at?: { x: number; y: number }) => string | null;
   setBusy: (busy: boolean) => void;
 }
 
@@ -72,6 +81,9 @@ export const useStudio = create<StudioStore>((set, get) => ({
       } else {
         project.id = id;
       }
+      await saveProject(project);
+    } else if (id === "demo" && !project.files.some((f) => f.path === "RoastGrid.dc.html")) {
+      project = createDemoProject("demo");
       await saveProject(project);
     }
     set({ project, settings, hydrated: true });
@@ -153,6 +165,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
       status: "ready",
       autoFixed: false,
       version: 1,
+      dcPath: partial.dcPath,
+      dcProps: partial.dcProps,
     };
     set({
       project: touch({
@@ -225,18 +239,29 @@ export const useStudio = create<StudioStore>((set, get) => ({
   setTweaks: (id, tweaks) => {
     const p = get().project;
     if (!p) return;
+    const map = filesFromList(p.files);
     set({
       project: touch({
         ...p,
-        artboards: p.artboards.map((b) =>
-          b.id === id
-            ? {
-                ...b,
-                tweaks,
-                source: applyTweaksToSource(b.source, tweaks, b.tweakSchema),
-              }
-            : b,
-        ),
+        artboards: p.artboards.map((b) => {
+          if (b.id !== id) return b;
+          if (b.kind === "dc" && b.dcPath) {
+            const flat = flattenAllSafe(b.dcPath, map, tweaks);
+            return {
+              ...b,
+              tweaks,
+              dcProps: tweaks,
+              source: flat.html,
+              version: b.version + 1,
+              error: flat.error ?? null,
+            };
+          }
+          return {
+            ...b,
+            tweaks,
+            source: applyTweaksToSource(b.source, tweaks, b.tweakSchema),
+          };
+        }),
       }),
     });
     get().persist();
@@ -382,6 +407,91 @@ export const useStudio = create<StudioStore>((set, get) => ({
     const p = get().project;
     if (!p) return;
     let artboards = [...p.artboards];
+    const files = [...p.files];
+    const changedDc: string[] = [];
+
+    for (const write of parsed.dcWrites) {
+      const path = write.path.endsWith(".dc.html") ? write.path : `${write.path}.dc.html`;
+      const row = { path, content: write.source, updatedAt: Date.now() };
+      const idx = files.findIndex((x) => x.path === path);
+      if (idx >= 0) files[idx] = row;
+      else files.push(row);
+      changedDc.push(path);
+      if (write.mount) {
+        const map = filesFromList(files);
+        const flat = flattenAllSafe(path, map);
+        const tweaks = tweakMapFromSchema(flat.schema);
+        const existing = artboards.find((b) => b.dcPath === path || b.title === write.title);
+        if (existing) {
+          artboards = artboards.map((b) =>
+            b.id === existing.id
+              ? {
+                  ...b,
+                  title: write.title,
+                  kind: "dc" as const,
+                  source: flat.html,
+                  width: write.width,
+                  height: write.height,
+                  tweaks: { ...tweaks, ...b.tweaks },
+                  tweakSchema: schemaToTweakSchema(flat.schema),
+                  dcPath: path,
+                  dcProps: { ...tweaks, ...b.dcProps },
+                  status: streaming ? "streaming" : "ready",
+                  error: flat.error ?? null,
+                  version: b.version + 1,
+                }
+              : b,
+          );
+        } else {
+          const pos = layoutNewArtboards(artboards, [
+            { title: write.title, kind: "dc", width: write.width, height: write.height, source: "" },
+          ])[0];
+          artboards.push({
+            id: nanoid(8),
+            title: write.title,
+            kind: "dc",
+            source: flat.html,
+            x: pos?.x ?? 80,
+            y: pos?.y ?? 80,
+            width: write.width,
+            height: write.height,
+            tweaks,
+            tweakSchema: schemaToTweakSchema(flat.schema),
+            comments: [],
+            error: flat.error ?? null,
+            status: streaming ? "streaming" : "ready",
+            autoFixed: false,
+            version: 1,
+            dcPath: path,
+            dcProps: tweaks,
+          });
+        }
+      }
+    }
+
+    for (const setp of parsed.dcSetProps) {
+      if (!setp.path) continue;
+      if (setp.instance) {
+        artboards = artboards.map((b) => {
+          if (b.id !== setp.instance && b.title !== setp.instance) return b;
+          const nextProps = { ...(b.dcProps ?? b.tweaks), ...setp.props };
+          return { ...b, tweaks: nextProps, dcProps: nextProps };
+        });
+        const board = artboards.find((b) => b.id === setp.instance || b.title === setp.instance);
+        if (board?.dcPath) changedDc.push(board.dcPath);
+      } else {
+        const idx = files.findIndex((f) => f.path === setp.path);
+        if (idx >= 0) {
+          files[idx] = {
+            ...files[idx],
+            content: setFileProps(files[idx].content, setp.props),
+            updatedAt: Date.now(),
+          };
+          changedDc.push(setp.path);
+        }
+      }
+    }
+
     const positions = layoutNewArtboards(
       artboards,
       parsed.artboards.filter((a) => !artboards.some((e) => e.title === a.title && e.status === "streaming")),
@@ -403,6 +513,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
                 status: streaming ? "streaming" : "ready",
                 error: null,
                 version: b.version + 1,
+                dcPath: incoming.dcPath ?? b.dcPath,
+                dcProps: incoming.dcProps ?? b.dcProps,
               }
             : b,
         );
@@ -424,6 +536,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
           status: streaming ? "streaming" : "ready",
           autoFixed: false,
           version: 1,
+          dcPath: incoming.dcPath,
+          dcProps: incoming.dcProps,
         });
       }
     });
@@ -436,13 +550,18 @@ export const useStudio = create<StudioStore>((set, get) => ({
         comments: b.comments.map((c) => (c.id === id ? { ...c, resolved: true, queued: false } : c)),
       }));
     }
-    const files = [...p.files];
     for (const f of parsed.files) {
       const idx = files.findIndex((x) => x.path === f.path);
       const row = { path: f.path, content: f.content, updatedAt: Date.now() };
       if (idx >= 0) files[idx] = row;
       else files.push(row);
+      if (f.path.endsWith(".dc.html")) changedDc.push(f.path);
     }
+
+    if (changedDc.length) {
+      artboards = recompileDcArtboards(artboards, files, changedDc);
+    }
+
     set({ project: touch({ ...p, artboards, files }) });
     if (!streaming) get().persist();
   },
@@ -455,12 +574,78 @@ export const useStudio = create<StudioStore>((set, get) => ({
     const row = { path, content, updatedAt: Date.now() };
     if (idx >= 0) files[idx] = row;
     else files.push(row);
-    set({ project: touch({ ...p, files }) });
+    const artboards = path.endsWith(".dc.html")
+      ? recompileDcArtboards(p.artboards, files, [path])
+      : p.artboards;
+    set({ project: touch({ ...p, files, artboards }) });
     get().persist();
+  },
+
+  placeDc: (path, at) => {
+    const p = get().project;
+    if (!p) return null;
+    const map = filesFromList(p.files);
+    const flat = flattenAllSafe(path, map);
+    const schema = flat.schema;
+    const tweaks = tweakMapFromSchema(schema);
+    const id = nanoid(8);
+    const preview = schema.preview ?? { width: 960, height: 640 };
+    const board: Artboard = {
+      id,
+      title: schema.name || path.replace(/\.dc\.html$/i, ""),
+      kind: "dc",
+      source: flat.html,
+      x: at?.x ?? 80 + p.artboards.length * 48,
+      y: at?.y ?? 80 + p.artboards.length * 24,
+      width: preview.width,
+      height: preview.height,
+      tweaks,
+      tweakSchema: schemaToTweakSchema(schema),
+      comments: [],
+      error: flat.error ?? null,
+      status: "ready",
+      autoFixed: false,
+      version: 1,
+      dcPath: path,
+      dcProps: tweaks,
+    };
+    set({
+      project: touch({
+        ...p,
+        artboards: [...p.artboards, board],
+        selectedArtboardId: id,
+      }),
+    });
+    get().persist();
+    return id;
   },
 
   setBusy: (busy) => set({ busy }),
 }));
+
+function recompileDcArtboards(
+  artboards: Artboard[],
+  files: Project["files"],
+  changedPaths: string[],
+): Artboard[] {
+  const map = filesFromList(files);
+  const affected = new Set<string>();
+  for (const path of changedPaths) {
+    for (const dep of dependentsOf(map, path)) affected.add(dep);
+  }
+  return artboards.map((b) => {
+    if (b.kind !== "dc" || !b.dcPath || !affected.has(b.dcPath)) return b;
+    const flat = flattenAllSafe(b.dcPath, map, b.dcProps ?? b.tweaks);
+    return {
+      ...b,
+      source: flat.html,
+      tweakSchema: schemaToTweakSchema(flat.schema),
+      version: b.version + 1,
+      error: flat.error ?? null,
+      status: b.status === "streaming" ? "streaming" : flat.error ? "error" : "ready",
+    };
+  });
+}
 
 export function queuedCommentsPrompt(project: Project): string {
   const pins = project.artboards.flatMap((b) =>

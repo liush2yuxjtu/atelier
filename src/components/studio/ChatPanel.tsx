@@ -185,6 +185,8 @@ export function ChatPanel() {
 function stripTags(s: string) {
   return s
     .replace(/<artboard\b[\s\S]*?<\/artboard>/gi, "\n[artboard placed]\n")
+    .replace(/<dc-write\b[\s\S]*?<\/dc-write>/gi, "\n[component written]\n")
+    .replace(/<dc-set-props\b[\s\S]*?<\/dc-set-props>/gi, "\n[props updated]\n")
     .replace(/<file\b[\s\S]*?<\/file>/gi, "\n[file written]\n")
     .replace(/<resolve-comment[^>]*\/>/gi, "")
     .trim();

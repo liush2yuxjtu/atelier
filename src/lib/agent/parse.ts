@@ -1,5 +1,6 @@
-import type { ArtboardKind } from "../types";
+import type { ArtboardKind, TweakMap } from "../types";
 import { detectKind } from "../sandbox/compile";
+import { parsePropsAttr } from "../dc/parse";
 
 export interface ParsedArtboard {
   title: string;
@@ -7,21 +8,40 @@ export interface ParsedArtboard {
   width: number;
   height: number;
   source: string;
+  dcPath?: string;
+  dcProps?: TweakMap;
+}
+
+export interface ParsedDcWrite {
+  path: string;
+  title: string;
+  width: number;
+  height: number;
+  mount: boolean;
+  source: string;
+}
+
+export interface ParsedDcSetProps {
+  path: string;
+  instance?: string;
+  props: TweakMap;
 }
 
 export interface ParsedCommand {
   resolveCommentIds: string[];
   artboards: ParsedArtboard[];
   files: { path: string; content: string }[];
+  dcWrites: ParsedDcWrite[];
+  dcSetProps: ParsedDcSetProps[];
   prose: string;
 }
 
 function attrs(tag: string): Record<string, string> {
   const out: Record<string, string> = {};
-  const re = /([a-zA-Z_:][\w:.-]*)=["']([^"']*)["']/g;
+  const re = /([a-zA-Z_:][\w:.-]*)=(["'])([\s\S]*?)\2/g;
   let m: RegExpExecArray | null;
   while ((m = re.exec(tag))) {
-    out[m[1].toLowerCase()] = m[2];
+    out[m[1].toLowerCase()] = m[3];
   }
   return out;
 }
@@ -34,6 +54,8 @@ export function parseAgentOutput(text: string): ParsedCommand {
   const artboards: ParsedArtboard[] = [];
   const files: { path: string; content: string }[] = [];
   const resolveCommentIds: string[] = [];
+  const dcWrites: ParsedDcWrite[] = [];
+  const dcSetProps: ParsedDcSetProps[] = [];
 
   const boardRe = /<artboard\b([^>]*)>([\s\S]*?)<\/artboard>/gi;
   let m: RegExpExecArray | null;
@@ -46,6 +68,8 @@ export function parseAgentOutput(text: string): ParsedCommand {
       width: num(a.width, 1280),
       height: num(a.height, 800),
       source,
+      dcPath: a.src || a.path || a.dcpath,
+      dcProps: a.props ? parsePropsAttr(a.props) : undefined,
     });
   }
 
@@ -59,18 +83,66 @@ export function parseAgentOutput(text: string): ParsedCommand {
     resolveCommentIds.push(m[1]);
   }
 
+  const writeRe = /<dc-write\b([^>]*)>([\s\S]*?)<\/dc-write>/gi;
+  while ((m = writeRe.exec(text))) {
+    const a = attrs(m[1]);
+    dcWrites.push({
+      path: a.path || a.filename || "Component.dc.html",
+      title: a.title || a.name || basenameTitle(a.path || a.filename),
+      width: num(a.width, 960),
+      height: num(a.height, 640),
+      mount: a.mount !== "false",
+      source: stripFence(m[2].trim()),
+    });
+  }
+
+  const setRe = /<dc-set-props\b([^>]*)>([\s\S]*?)<\/dc-set-props>/gi;
+  while ((m = setRe.exec(text))) {
+    const a = attrs(m[1]);
+    dcSetProps.push({
+      path: a.path || a.filename || "",
+      instance: a.instance || a.artboard,
+      props: parsePropsAttr(stripFence(m[2].trim()) || a.props || "{}"),
+    });
+  }
+
   const prose = text
     .replace(/<artboard\b([^>]*)>([\s\S]*?)<\/artboard>/gi, "")
     .replace(/<file\s+path=["']([^"']+)["'][^>]*>([\s\S]*?)<\/file>/gi, "")
     .replace(/<resolve-comment\s+id=["']([^"']+)["']\s*\/>/gi, "")
+    .replace(/<dc-write\b([^>]*)>([\s\S]*?)<\/dc-write>/gi, "")
+    .replace(/<dc-set-props\b([^>]*)>([\s\S]*?)<\/dc-set-props>/gi, "")
     .trim();
 
-  return { artboards, files, resolveCommentIds, prose };
+  return { artboards, files, resolveCommentIds, dcWrites, dcSetProps, prose };
+}
+
+function basenameTitle(path?: string): string {
+  if (!path) return "Component";
+  return path.replace(/^.*\//, "").replace(/\.dc\.html$/i, "");
 }
 
 /** Incremental parse while the model is still streaming — include an unclosed last artboard. */
 export function parseStreaming(text: string): ParsedCommand {
   const complete = parseAgentOutput(text);
+  const openedWrites = text.match(/<dc-write\b/gi)?.length ?? 0;
+  if (complete.dcWrites.length < openedWrites) {
+    const open = text.match(/<dc-write\b([^>]*)>([\s\S]*)$/i);
+    if (open) {
+      const a = attrs(open[1]);
+      const source = stripFence(open[2].replace(/<\/dc-write>\s*$/i, "").trim());
+      if (source) {
+        complete.dcWrites.push({
+          path: a.path || a.filename || "Streaming.dc.html",
+          title: a.title || a.name || basenameTitle(a.path),
+          width: num(a.width, 960),
+          height: num(a.height, 640),
+          mount: a.mount !== "false",
+          source,
+        });
+      }
+    }
+  }
   const opened = text.match(/<artboard\b/gi)?.length ?? 0;
   if (complete.artboards.length === opened) return complete;
 

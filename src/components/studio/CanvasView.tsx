@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { useStudio } from "@/lib/store";
 import { ArtboardFrame } from "./ArtboardFrame";
 import { cn } from "@/lib/cn";
+import { DC_DRAG_MIME } from "@/lib/dc/types";
 
 export function CanvasView() {
   const project = useStudio((s) => s.project);
   const setCanvas = useStudio((s) => s.setCanvas);
   const selectArtboard = useStudio((s) => s.selectArtboard);
   const updateArtboard = useStudio((s) => s.updateArtboard);
+  const placeDc = useStudio((s) => s.placeDc);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [space, setSpace] = useState(false);
   const [panning, setPanning] = useState(false);
@@ -111,6 +113,29 @@ export function CanvasView() {
       onClick={(e) => {
         if (e.target === e.currentTarget) selectArtboard(null);
       }}
+      onDragOver={(e) => {
+        if (
+          e.dataTransfer.types.includes(DC_DRAG_MIME) ||
+          e.dataTransfer.types.includes("text/plain")
+        ) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "copy";
+        }
+      }}
+      onDrop={(e) => {
+        const path =
+          e.dataTransfer.getData(DC_DRAG_MIME) || e.dataTransfer.getData("text/plain");
+        if (!path.endsWith(".dc.html")) return;
+        e.preventDefault();
+        const rect = wrapRef.current?.getBoundingClientRect();
+        if (!rect) {
+          placeDc(path);
+          return;
+        }
+        const x = (e.clientX - rect.left - canvas.panX) / canvas.zoom;
+        const y = (e.clientY - rect.top - canvas.panY) / canvas.zoom;
+        placeDc(path, { x, y });
+      }}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-40"
@@ -136,6 +161,8 @@ export function CanvasView() {
               style={{ left: board.x, top: board.y }}
               data-testid={`artboard-${board.id}`}
               data-artboard="true"
+              data-kind={board.kind}
+              data-dc-path={board.dcPath ?? ""}
             >
               <div className="mb-2 flex items-center gap-2">
                 <button
