@@ -10,6 +10,7 @@ export function PresentDock() {
   const undoTweaks = useStudio((s) => s.undoTweaks);
   const redoTweaks = useStudio((s) => s.redoTweaks);
   const approveLook = useStudio((s) => s.approveLook);
+  const saveVariant = useStudio((s) => s.saveVariant);
   const setCompare = useStudio((s) => s.setCompare);
   const setPresenting = useStudio((s) => s.setPresenting);
   const generateKnobs = useStudio((s) => s.generateKnobs);
@@ -88,6 +89,14 @@ export function PresentDock() {
             onClick={() => setCompare(comparing ? null : (before?.id ?? null))}
           >
             Compare
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            data-testid="save-look"
+            onClick={() => saveVariant(board.id, "Look")}
+          >
+            Save look
           </Button>
           <Button
             size="sm"

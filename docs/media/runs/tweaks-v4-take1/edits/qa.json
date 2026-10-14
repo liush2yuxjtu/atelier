@@ -1,0 +1,24 @@
+{
+  "metadata_pass": true,
+  "visual_review": "pass — no chat; 3 palettes; Compare; Save→Approved; thesis card in walkthrough",
+  "raw_sha256": "df6a3445e33b44adca3244588063bc3fdf9424874931c158bfd68fac2179752f",
+  "gif_sha256": "553f5b1fcf426da448c08a03005704a49a4fe57c83242b4fef3c53415a21052f",
+  "demo_mp4_sha256": "d76024e4280f217f7d7104cc563eea05aa4619d527c3f743aff2cae022479aba",
+  "gif_bytes": 1933323,
+  "gif_width": 520,
+  "fps_requested": 12,
+  "fps_used": 12,
+  "gce_delay_cs_sum": 800,
+  "gce_frame_count": 96,
+  "loop": 0,
+  "excerpt_start_s": 11.246,
+  "excerpt_end_s": 19.246000000000002,
+  "proof_interval_s": 3.195000000000004,
+  "raw_duration_s": 30.52,
+  "raw_size": [
+    1280,
+    800
+  ],
+  "budget_ok": true,
+  "gce_ok": true
+}

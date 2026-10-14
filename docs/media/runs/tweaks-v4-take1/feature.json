@@ -1,0 +1,29 @@
+{
+  "feature_id": "atelier-tweaks-explore-v4",
+  "story": "C-tweaks-explore",
+  "user_outcome": "Present dock, three live palette switches (Moss/Night/Signal) on Home+Pricing+About, Compare A|B, Save look → Approved. Exploration, not pixel-pushing.",
+  "ui_language": "en",
+  "presentation": "user-story",
+  "textOverlays": true,
+  "clip_test_cutout": {
+    "verdict": "n/a",
+    "reason": "Product UI only."
+  },
+  "gif": {
+    "width_px": 520,
+    "fps": 12,
+    "loop": 0,
+    "duration_s": 8,
+    "excerpt_start_s": 11.246,
+    "excerpt_end_s": 19.246,
+    "proof_interval_s": 3.195,
+    "gce_delay_cs_sum": 800,
+    "gce_frame_count": 96
+  },
+  "take_verification": {
+    "take": "tweaks-v4-take1",
+    "verdict": "keep",
+    "reason": "English UI; no chat; locked camera; Moss/Night/Signal; Compare; Save→Approved; 2s thesis card in walkthrough; Generate knobs + undo before GIF; GCE 96/800cs.",
+    "strip": "docs/media/runs/tweaks-v4-take1/edits/contact-gif-window.jpg"
+  }
+}

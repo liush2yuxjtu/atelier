@@ -1,0 +1,99 @@
+{
+  "t0": 1792003805721,
+  "markers": [
+    {
+      "name": "landing",
+      "elapsed_ms": 1254
+    },
+    {
+      "name": "thesis_card",
+      "elapsed_ms": 1272
+    },
+    {
+      "name": "thesis_card_end",
+      "elapsed_ms": 3516
+    },
+    {
+      "name": "open_card",
+      "elapsed_ms": 3519
+    },
+    {
+      "name": "open_card_end",
+      "elapsed_ms": 5748
+    },
+    {
+      "name": "studio_ready",
+      "elapsed_ms": 7802
+    },
+    {
+      "name": "present_on",
+      "elapsed_ms": 8397
+    },
+    {
+      "name": "before_state",
+      "elapsed_ms": 8910
+    },
+    {
+      "name": "generate_knobs",
+      "elapsed_ms": 9194
+    },
+    {
+      "name": "palette_preview",
+      "elapsed_ms": 9948
+    },
+    {
+      "name": "palette_undo",
+      "elapsed_ms": 10833
+    },
+    {
+      "name": "gif_window_start",
+      "elapsed_ms": 11246
+    },
+    {
+      "name": "beat_context_end",
+      "elapsed_ms": 11847
+    },
+    {
+      "name": "palette_moss",
+      "elapsed_ms": 12062
+    },
+    {
+      "name": "palette_night",
+      "elapsed_ms": 12842
+    },
+    {
+      "name": "palette_signal",
+      "elapsed_ms": 13611
+    },
+    {
+      "name": "compare_on",
+      "elapsed_ms": 14419
+    },
+    {
+      "name": "save_look",
+      "elapsed_ms": 15592
+    },
+    {
+      "name": "approved",
+      "elapsed_ms": 16051
+    },
+    {
+      "name": "proof_hold_end",
+      "elapsed_ms": 19337
+    },
+    {
+      "name": "gif_window_end",
+      "elapsed_ms": 19337
+    },
+    {
+      "name": "after_hold_end",
+      "elapsed_ms": 23540
+    },
+    {
+      "name": "walkthrough_hold_end",
+      "elapsed_ms": 27543
+    }
+  ],
+  "story": "C-tweaks-linked",
+  "v3": true
+}

@@ -1,6 +1,6 @@
 # Atelier
 
-![Lena switches Moss on Home, Pricing, and About at once — linked Tweaks](docs/media/tweaks-v3.gif)
+![Three palette switches, Compare, Approved — Tweaks as exploration, not pixel-pushing](docs/media/tweaks-v4.gif)
 
 **An open-source design canvas.** Chat on the left. An infinite pan/zoom board of sandboxed artboards on the right. Generate HTML, React, SVG, Markdown, and Mermaid; pre-generate tweak knobs; adjust live in a client demo; pin comments; export HTML / ZIP / PDF / PNG / PPTX.
 
@@ -35,7 +35,7 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 | --- | --- | --- |
 | ![](docs/screenshots/dc-library-panel.png) | ![](docs/screenshots/dc-composed.png) | ![](docs/screenshots/dc-props-tweak.png) |
 
-Hero user-story 8s GIF (520px / 12fps, Lena / linked Tweaks on Home+Pricing+About): [docs/media/tweaks-v3.gif](docs/media/tweaks-v3.gif) · full walkthrough [docs/media/tweaks-v3.mp4](docs/media/tweaks-v3.mp4). v2 (Present + Moss, one board): [docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif). v1 gap take (accent hex only): [docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif). Story: [docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md). Maya / Saturday cupping (archive): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · [docs/media/demo.mp4](docs/media/demo.mp4). Straight demo: [docs/media/demo-straight-8s.gif](docs/media/demo-straight-8s.gif). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm).
+Hero user-story 8s GIF (520px / 12fps, three palettes + Compare + Approved): [docs/media/tweaks-v4.gif](docs/media/tweaks-v4.gif) · full walkthrough [docs/media/tweaks-v4.mp4](docs/media/tweaks-v4.mp4). v3 (linked pages + Pricing up): [docs/media/tweaks-v3.gif](docs/media/tweaks-v3.gif). v2: [docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif). v1: [docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif). Story: [docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md). Maya / Saturday cupping (archive): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · [docs/media/demo.mp4](docs/media/demo.mp4). Straight demo: [docs/media/demo-straight-8s.gif](docs/media/demo-straight-8s.gif). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm).
 
 ## Quick start
 

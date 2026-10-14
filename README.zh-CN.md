@@ -1,6 +1,6 @@
 # Atelier
 
-![Lena 一次改 Moss，Home / Pricing / About 一起变 — 全局联动 Tweaks](docs/media/tweaks-v3.gif)
+![三次色板、Compare、Approved — Tweaks 是探索，不是抠像素](docs/media/tweaks-v4.gif)
 
 **开源设计画布。** 左侧对话，右侧无限平移/缩放画板。生成 HTML、React、SVG、Markdown、Mermaid；预先生成 Tweaks 旋钮，客户演示时当场调到点头；在元素上钉评论；导出 HTML / ZIP / PDF / PNG / PPTX。
 
@@ -17,7 +17,7 @@ Atelier 是独立的 MIT 项目。它借鉴了 Claude Artifacts / Claude Design 
 - **自检** — iframe 报错后自动发起一轮修复
 - **直接操作** — 编辑 / 检查 / 评论模式
 - **Tweaks** — 设计的关键价值，也是相对 Claude Design 的差异：项目级主题 + 共享章节绑在**每一页**上。代理（或「生成旋钮」）预先准备色板、字号、密度，以及结构旋钮（章节顺序、布局变体、显隐）。Home 上改 Moss 或上移 Pricing，Pricing / About 一起变（`linked in N boards`）。单页可 Unlink，也可 **Push to all**。**Present** 锁定机位，Compare A|B，撤销，**Approved**。不必再生成一轮。
-- **Design Components** — `.dc.html` 类型化 props、插槽、`<dc-import>` 组合、循环检测、组件库拖到画布、`dc-write` / `dc-set-props`、导出时内联。协议：[docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)。Tweaks 用户故事 8 秒 GIF：[docs/media/tweaks-v3.gif](docs/media/tweaks-v3.gif)；v2：[docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif)；v1 缺口：[docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif)；故事：[docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md)
+- **Design Components** — `.dc.html` 类型化 props、插槽、`<dc-import>` 组合、循环检测、组件库拖到画布、`dc-write` / `dc-set-props`、导出时内联。协议：[docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)。Tweaks 用户故事 8 秒 GIF：[docs/media/tweaks-v4.gif](docs/media/tweaks-v4.gif)；v3：[docs/media/tweaks-v3.gif](docs/media/tweaks-v3.gif)；v2：[docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif)；v1：[docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif)；故事：[docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md)
 - **钉选评论** — 进入下一轮上下文，模型按 id 标记已处理
 - **项目文件与历史** — 每次生成后快照
 - **可选设计体系提取** — 图片色板、URL CSS、GitHub 仓库

@@ -1,8 +1,8 @@
 /**
  * Story C (tweaks live client demo) GT.
  * record-production-feature SKILL.md §3 user-story + §5 讲解层.
- * TAKE_ID e.g. tweaks-v3-take1
- * PRESENT=1 uses Present dock + linked theme (v3).
+ * TAKE_ID e.g. tweaks-v4-take1
+ * PRESENT=1 uses Present dock + linked theme (v4 research beats).
  */
 import { chromium } from "@playwright/test";
 import fs from "node:fs";
@@ -10,7 +10,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const RUN_ID = process.env.TAKE_ID || "tweaks-v3-take1";
+const RUN_ID = process.env.TAKE_ID || "tweaks-v4-take1";
 const RUN = path.join(ROOT, "docs/media/runs", RUN_ID);
 const RAW = path.join(RUN, "raw");
 const EVIDENCE = path.join(RUN, "evidence");
@@ -163,7 +163,7 @@ try {
     page,
     "Lena Park · Northbound pitch",
     "“Doesn’t feel right.”",
-    "Tweak the color. Move pricing up. The old loop is another file next week.",
+    "Twenty clicks, not twenty chat messages.",
   );
   mark("open_card");
   await page.screenshot({ path: path.join(EVIDENCE, "title-open.png") });
@@ -198,54 +198,77 @@ try {
     await expectVisible(page, "artboard-ab-pricing");
     await expectVisible(page, "artboard-ab-about");
     await expectVisible(page, "linked-count");
-    await page.waitForTimeout(700);
-    await storyHide(page);
+    await page.waitForTimeout(500);
     mark("before_state");
     await page.screenshot({ path: path.join(EVIDENCE, "before-state.png") });
 
-    mark("gif_window_start");
-    await page.waitForTimeout(1100);
-    mark("beat_context_end");
-
+    await storyBar(page, "Make it feel more premium.");
     const knobs = page.getByTestId("generate-knobs");
     await moveTo(page, knobs, 12);
     await knobs.click({ force: true });
     mark("generate_knobs");
-    await page.waitForTimeout(450);
+    await page.waitForTimeout(500);
 
     const moss = page.getByTestId("palette-moss");
     await moveTo(page, moss, 14);
     await moss.click({ force: true });
-    mark("palette_set");
-    await page.getByTestId("studio-app").waitFor({ state: "visible" });
-    await page.waitForTimeout(800);
-
-    const pricingUp = page.getByTestId("section-pricing-up");
-    await moveTo(page, pricingUp, 12);
-    await pricingUp.click({ force: true });
-    mark("pricing_up");
+    mark("palette_preview");
     await page.waitForTimeout(700);
-    await page.screenshot({ path: path.join(EVIDENCE, "proof-linked.png") });
-    await page.waitForTimeout(5200);
-    mark("proof_hold_end");
-    mark("gif_window_end");
+    const undo = page.getByTestId("tweak-undo");
+    await moveTo(page, undo, 10);
+    await undo.click({ force: true });
+    mark("palette_undo");
+    await page.getByTestId("palette-ember").waitFor({ state: "visible" });
+    await page.waitForTimeout(400);
+    await storyHide(page);
 
-    await storyBar(page, "Compare the look they walked in on.");
+    mark("gif_window_start");
+    await page.waitForTimeout(600);
+    mark("beat_context_end");
+
+    await moveTo(page, moss, 12);
+    await moss.click({ force: true });
+    mark("palette_moss");
+    await page.waitForTimeout(550);
+
+    const night = page.getByTestId("palette-night");
+    await moveTo(page, night, 12);
+    await night.click({ force: true });
+    mark("palette_night");
+    await page.waitForTimeout(550);
+
+    const signal = page.getByTestId("palette-signal");
+    await moveTo(page, signal, 12);
+    await signal.click({ force: true });
+    mark("palette_signal");
+    await page.waitForTimeout(500);
+    await page.screenshot({ path: path.join(EVIDENCE, "proof-linked.png") });
+
     const compare = page.getByTestId("compare-look");
     await moveTo(page, compare, 12);
     await compare.click({ force: true });
     mark("compare_on");
     await page.getByTestId("compare-split").first().waitFor({ state: "visible", timeout: 5_000 });
     await page.screenshot({ path: path.join(EVIDENCE, "compare.png") });
-    await page.waitForTimeout(2200);
+    await page.waitForTimeout(900);
+
+    const save = page.getByTestId("save-look");
+    await moveTo(page, save, 10);
+    await save.click({ force: true });
+    mark("save_look");
+    await page.waitForTimeout(280);
 
     const approve = page.getByTestId("approve-look");
-    await moveTo(page, approve, 12);
+    await moveTo(page, approve, 10);
     await approve.click({ force: true });
     mark("approved");
     await page.getByTestId("look-approved").waitFor({ state: "visible", timeout: 5_000 });
-    await storyBar(page, "Signed off. One look, every page.");
     await page.screenshot({ path: path.join(EVIDENCE, "proof-done.png") });
+    await page.waitForTimeout(3200);
+    mark("proof_hold_end");
+    mark("gif_window_end");
+
+    await storyBar(page, "Signed off. Apply it across the site.");
     await page.waitForTimeout(4200);
     mark("after_hold_end");
   } else {
@@ -264,7 +287,7 @@ try {
     mark("proof_hold_end");
   }
 
-  await page.waitForTimeout(4000);
+  await page.waitForTimeout(2800);
   mark("walkthrough_hold_end");
 
   const postText = await page.locator("body").innerText();
@@ -275,7 +298,7 @@ try {
         ui_language: "en",
         v3: V3,
         cjk_ui: /[\u3400-\u9fff]/.test(postText),
-        visible_tweaks: /linked|approved|palette|moss|pricing/i.test(postText),
+        visible_tweaks: /linked|approved|palette|moss|night|signal/i.test(postText),
         presenting: await page.getByTestId("present-dock").count(),
         chat_in_present: await page.getByTestId("chat-panel").count(),
       },
