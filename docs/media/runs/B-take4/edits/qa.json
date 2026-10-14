@@ -1,0 +1,35 @@
+{
+  "metadata_pass": true,
+  "visual_review": {
+    "result": "pass",
+    "reviewer": "atelier-cloud-agent",
+    "time": "2026-10-14T15:29:00Z",
+    "images": [
+      "docs/media/runs/B-take4/edits/poster.png",
+      "docs/media/runs/B-take4/edits/contact-gif-window.jpg",
+      "docs/media/runs/B-take4/edits/contact-gif-all.jpg",
+      "docs/media/runs/B-take4/edits/frames/gif_000.png",
+      "docs/media/runs/B-take4/edits/frames/gif_024.png",
+      "docs/media/runs/B-take4/edits/frames/gif_048.png",
+      "docs/media/runs/B-take4/edits/frames/gif_060.png",
+      "docs/media/runs/B-take4/evidence/preflight-en.png",
+      "docs/media/runs/B-take4/evidence/proof-done.png"
+    ],
+    "notes": "Pointer reaches Send then canvas then Headline then HTML. RoastGrid props update. Export Done holds ≥3s. English chrome only. Pure-screen, no captions."
+  },
+  "raw_sha256": "6df671e57b23f4ff5178b086cbd37642b30956a45b9dce0a717fce0896c678d4",
+  "gif_sha256": "9ff725c24be188d34efca6d8d5d9db774ea6710fcc8c2eaed78a6b78cc00f728",
+  "demo_mp4_sha256": "b8c564af41f77403050245dd3ac3af42fc9472d12285cbc47fb68461cb7836b0",
+  "gif_bytes": 1455905,
+  "gif_width": 520,
+  "fps_used": 12,
+  "gce_delay_cs_sum": 800,
+  "gce_frame_count": 96,
+  "loop": 0,
+  "excerpt_start_s": 6.04,
+  "excerpt_end_s": 14.04,
+  "proof_interval_s": 3.371,
+  "budget_ok": true,
+  "gce_ok": true,
+  "cjk_ui": false
+}

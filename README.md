@@ -1,10 +1,10 @@
 # Atelier
 
+![Stream an artboard, tweak Design Component props, export HTML](docs/media/feature-8s.gif)
+
 **An open-source design canvas.** Chat on the left. An infinite pan/zoom board of sandboxed artboards on the right. Generate HTML, React, SVG, Markdown, and Mermaid; tweak colors live; pin comments; export HTML / ZIP / PDF / PNG / PPTX.
 
 [English](README.md) · [简体中文](README.zh-CN.md)
-
-![Multiple artboards on the canvas](docs/screenshots/canvas-multi-artboard.png)
 
 Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude Artifacts and Claude Design (chat + live canvas + isolated iframes + tweaks). It does **not** copy Anthropic prompts, trademarks, or source. See [docs/COMPARISON.md](docs/COMPARISON.md).
 
@@ -35,7 +35,7 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 | --- | --- | --- |
 | ![](docs/screenshots/dc-library-panel.png) | ![](docs/screenshots/dc-composed.png) | ![](docs/screenshots/dc-props-tweak.png) |
 
-Demo recording of the DC flow: [docs/media/dc-demo.webm](docs/media/dc-demo.webm) · [docs/media/dc-demo.mp4](docs/media/dc-demo.mp4)
+Email 8s GIF (520px / 12fps): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · full take [docs/media/demo.mp4](docs/media/demo.mp4). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm).
 
 ## Quick start
 

@@ -48,3 +48,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# GIF encode intermediates (keep contact sheets, qa, raw, deliverables)
+docs/media/runs/**/edits/frames/
+docs/media/runs/**/edits/*.tmp.gif
+docs/media/runs/**/edits/feature-8s.*fps.gif
+docs/media/runs/**/edits/seq.mp4
+docs/media/runs/**/edits/palette.png
+docs/media/runs/**/edits/frames.txt
+docs/media/runs/B-take1-*/
+docs/media/runs/B-take2-*/
+docs/media/runs/B-take3-*/
+docs/media/runs/**/demo.mp4
+docs/media/runs/**/feature-8s.gif
+docs/media/runs/**/edits/full.mp4
+docs/media/runs/**/raw/page@*.webm

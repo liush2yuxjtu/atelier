@@ -1,0 +1,65 @@
+{
+  "t0": 1791991635280,
+  "markers": [
+    {
+      "name": "landing",
+      "elapsed_ms": 675
+    },
+    {
+      "name": "studio_ready",
+      "elapsed_ms": 2865
+    },
+    {
+      "name": "canvas_framed",
+      "elapsed_ms": 3252
+    },
+    {
+      "name": "prompt_typed",
+      "elapsed_ms": 3995
+    },
+    {
+      "name": "gif_window_start",
+      "elapsed_ms": 4396
+    },
+    {
+      "name": "beat_context_end",
+      "elapsed_ms": 5298
+    },
+    {
+      "name": "send_clicked",
+      "elapsed_ms": 5712
+    },
+    {
+      "name": "artboard_streamed",
+      "elapsed_ms": 6571
+    },
+    {
+      "name": "streamed_board_in_view",
+      "elapsed_ms": 7360
+    },
+    {
+      "name": "dc_selected",
+      "elapsed_ms": 8607
+    },
+    {
+      "name": "headline_set",
+      "elapsed_ms": 9518
+    },
+    {
+      "name": "export_open",
+      "elapsed_ms": 10293
+    },
+    {
+      "name": "export_done",
+      "elapsed_ms": 10669
+    },
+    {
+      "name": "proof_hold_end",
+      "elapsed_ms": 14170
+    },
+    {
+      "name": "gif_window_end",
+      "elapsed_ms": 14170
+    }
+  ]
+}

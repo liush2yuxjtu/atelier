@@ -1,0 +1,5 @@
+2026-10-14T15:24:30Z B-take1 discard new-artboard-off-canvas evidence=docs/media/runs/B-take1-offcanvas/evidence
+2026-10-14T15:25:28Z B-take2 discard streamed-board-locator evidence=docs/media/runs/B-take2-locator
+2026-10-14T15:26:36Z B-take3 discard a11y-hidden-offcanvas-title evidence=docs/media/runs/B-take3
+2026-10-14T15:27:14Z B-take4 discard raced-old-script
+2026-10-14T15:29:00Z B-take4 keep stream+dc-props+export-done evidence=docs/media/runs/B-take4/edits/contact-gif-window.jpg gif=docs/media/feature-8s.gif 1455905B 8.00s 520px 12fps

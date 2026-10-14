@@ -1,0 +1,46 @@
+{
+  "feature_id": "atelier-core-flow",
+  "user_outcome": "A Cupping poster artboard streams onto the infinite canvas, RoastGrid instance headline updates live, Export HTML shows Done.",
+  "ui_language": "en",
+  "presentation": "pure-screen",
+  "textOverlays": false,
+  "clip_test_cutout": {
+    "verdict": "n/a",
+    "reason": "No stock footage. Product UI only."
+  },
+  "recording_lock": {
+    "owner": "atelier-cloud-agent",
+    "note": "Mac mini chatcut-rec-lock N/A; Playwright Chromium on this VM."
+  },
+  "capture": { "width": 1280, "height": 800, "host": "playwright-chromium" },
+  "gif": {
+    "width_px": 520,
+    "fps": 12,
+    "loop": 0,
+    "duration_s": 8,
+    "budget_bytes": 3145728,
+    "excerpt_start_s": 6.04,
+    "excerpt_end_s": 14.04,
+    "proof_interval_s": 3.371
+  },
+  "markers_s": {
+    "gif_window_start": 4.396,
+    "send_clicked": 5.712,
+    "artboard_streamed": 6.571,
+    "streamed_board_in_view": 7.36,
+    "dc_selected": 8.607,
+    "headline_set": 9.518,
+    "export_open": 10.293,
+    "export_done": 10.669,
+    "proof_hold_end": 14.17
+  },
+  "take_verification": {
+    "take": "B-take4",
+    "verdict": "keep",
+    "reason": "English UI; stream visible in chat and as Cupping poster sliver; RoastGrid props headline types; Export Done readable ≥3s; no CJK UI.",
+    "strip": "docs/media/runs/B-take4/edits/contact-gif-window.jpg",
+    "contact_all": "docs/media/runs/B-take4/edits/contact-gif-all.jpg",
+    "preflight": "docs/media/runs/B-take4/evidence/preflight-en.png",
+    "proof": "docs/media/runs/B-take4/evidence/proof-done.png"
+  }
+}
