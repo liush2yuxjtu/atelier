@@ -24,6 +24,7 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
   const addComment = useStudio((s) => s.addComment);
   const setTweaks = useStudio((s) => s.setTweaks);
   const selected = useStudio((s) => s.project?.selectedArtboardId === board.id);
+  const selectArtboard = useStudio((s) => s.selectArtboard);
 
   const nonce = `${board.id}:${board.version}`;
 
@@ -179,6 +180,18 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
         className="h-full w-full border-0 bg-white"
         data-selected={selected ? "true" : "false"}
       />
+      {mode === "preview" && (
+        <button
+          type="button"
+          aria-label={`Select ${board.title}`}
+          className="absolute inset-0 z-[1] cursor-pointer bg-transparent"
+          data-testid={`artboard-select-${board.id}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            selectArtboard(board.id);
+          }}
+        />
+      )}
       {board.status === "streaming" && (
         <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 overflow-hidden">
           <div className="h-full w-1/2 animate-pulse bg-amber-400" />

@@ -98,8 +98,9 @@ test.describe("Atelier studio", () => {
     await page.waitForTimeout(800);
     save(await library.screenshot(), "dc-library-panel.png");
 
-    await page.getByTestId("artboard-title-ab-dc-grid").click();
+    await page.getByTestId("artboard-select-ab-dc-grid").click();
     await expect(page.getByTestId("artboard-ab-dc-grid")).toHaveAttribute("data-kind", "dc");
+    await expect(page.getByTestId("tab-tweaks")).toHaveText(/Props/i);
     await page.waitForTimeout(1200);
     save(await page.getByTestId("artboard-ab-dc-grid").screenshot(), "dc-composed.png");
     save(await page.screenshot({ fullPage: true }), "dc-composed-canvas.png");
@@ -115,5 +116,7 @@ test.describe("Atelier studio", () => {
     const before = await page.locator("[data-artboard=true]").count();
     await page.getByTestId("library-place-PriceCard").click();
     await expect(page.locator("[data-artboard=true]")).toHaveCount(before + 1);
+    await expect(page.getByTestId("tab-tweaks")).toHaveText(/Props/i);
+    await expect(page.getByTestId("dc-props-hint")).toContainText("PriceCard");
   });
 });

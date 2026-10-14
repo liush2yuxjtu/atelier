@@ -184,6 +184,11 @@ export function CanvasView() {
                 >
                   {board.title}
                 </button>
+                {board.kind === "dc" && (
+                  <span className="rounded bg-amber-300/15 px-1 text-[9px] font-medium tracking-wide text-amber-200/90 uppercase">
+                    DC
+                  </span>
+                )}
                 <span className="text-[10px] text-stone-600">
                   {board.width}×{board.height}
                 </span>

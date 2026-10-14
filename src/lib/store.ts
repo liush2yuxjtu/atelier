@@ -590,13 +590,17 @@ export const useStudio = create<StudioStore>((set, get) => ({
     const tweaks = tweakMapFromSchema(schema);
     const id = nanoid(8);
     const preview = schema.preview ?? { width: 960, height: 640 };
+    const laid = layoutNewArtboards(p.artboards, [
+      { title: schema.name, kind: "dc", width: preview.width, height: preview.height, source: "" },
+    ])[0];
+    const pos = at ?? laid ?? { x: 80, y: 80 };
     const board: Artboard = {
       id,
       title: schema.name || path.replace(/\.dc\.html$/i, ""),
       kind: "dc",
       source: flat.html,
-      x: at?.x ?? 80 + p.artboards.length * 48,
-      y: at?.y ?? 80 + p.artboards.length * 24,
+      x: pos.x,
+      y: pos.y,
       width: preview.width,
       height: preview.height,
       tweaks,
@@ -609,11 +613,17 @@ export const useStudio = create<StudioStore>((set, get) => ({
       dcPath: path,
       dcProps: tweaks,
     };
+    const z = p.canvas.zoom;
     set({
       project: touch({
         ...p,
         artboards: [...p.artboards, board],
         selectedArtboardId: id,
+        canvas: {
+          ...p.canvas,
+          panX: 48 - pos.x * z,
+          panY: 48 - pos.y * z,
+        },
       }),
     });
     get().persist();

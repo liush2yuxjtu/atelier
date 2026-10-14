@@ -25,6 +25,12 @@ export function LibraryPanel() {
 
   if (!project) return null;
 
+  function startDrag(e: React.DragEvent, path: string) {
+    e.dataTransfer.setData(DC_DRAG_MIME, path);
+    e.dataTransfer.setData("text/plain", path);
+    e.dataTransfer.effectAllowed = "copy";
+  }
+
   return (
     <aside
       className="flex h-full w-[196px] shrink-0 flex-col border-r border-white/8 bg-[#14121c]"
@@ -50,17 +56,18 @@ export function LibraryPanel() {
             return (
               <div
                 key={item.path}
-                draggable
                 data-testid={`library-item-${item.schema.name}`}
-                onDragStart={(e) => {
-                  e.dataTransfer.setData(DC_DRAG_MIME, item.path);
-                  e.dataTransfer.setData("text/plain", item.path);
-                  e.dataTransfer.effectAllowed = "copy";
-                }}
-                className="cursor-grab rounded-lg border border-white/8 bg-black/25 p-1.5 active:cursor-grabbing"
+                className="rounded-lg border border-white/8 bg-black/25 p-1.5"
               >
                 <div className="mb-1 flex items-center gap-1 px-0.5">
-                  <GripVertical className="size-3 text-stone-600" />
+                  <div
+                    draggable
+                    title="Drag onto the canvas"
+                    className="cursor-grab rounded p-0.5 text-stone-600 hover:bg-white/8 hover:text-stone-300 active:cursor-grabbing"
+                    onDragStart={(e) => startDrag(e, item.path)}
+                  >
+                    <GripVertical className="size-3" />
+                  </div>
                   <div className="min-w-0 flex-1 truncate font-mono text-[10px] text-amber-100/90">
                     {item.schema.name}
                   </div>
@@ -82,17 +89,25 @@ export function LibraryPanel() {
                     />
                   )}
                 </div>
-                <div className="mt-1.5 flex items-center justify-between px-0.5">
-                  <span className="truncate font-mono text-[9px] text-stone-600">{item.path}</span>
+                <div className="mt-1.5 px-0.5">
+                  <span className="mb-1 block truncate font-mono text-[9px] text-stone-600">
+                    {item.path}
+                  </span>
                   <Button
+                    type="button"
                     size="sm"
-                    variant="ghost"
-                    className="h-6 px-1.5 text-[10px]"
+                    variant="secondary"
+                    className="h-7 w-full text-[11px]"
                     data-testid={`library-place-${item.schema.name}`}
-                    onClick={() => placeDc(item.path)}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      placeDc(item.path);
+                    }}
                   >
                     <Plus className="size-3" />
-                    Place
+                    Place on canvas
                   </Button>
                 </div>
               </div>
