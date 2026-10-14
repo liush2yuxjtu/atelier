@@ -1,0 +1,24 @@
+{
+  "metadata_pass": true,
+  "visual_review": "pending",
+  "raw_sha256": "affc61711a4eb63ddd822268f49e9362793e649914c5751cdaff9da7a9efab83",
+  "gif_sha256": "2c55001b3c1e9bc4fd332b1afb36a21307c71c4c51e5cb8d07dce4c43c8e6482",
+  "demo_mp4_sha256": "91c3fc9a7c758d0a3296ecbc6a957c9c92378af984e37e71a7f0ca6c65a84690",
+  "gif_bytes": 1968642,
+  "gif_width": 520,
+  "fps_requested": 12,
+  "fps_used": 12,
+  "gce_delay_cs_sum": 800,
+  "gce_frame_count": 96,
+  "loop": 0,
+  "excerpt_start_s": 11.001,
+  "excerpt_end_s": 19.000999999999998,
+  "proof_interval_s": 4.954999999999998,
+  "raw_duration_s": 29.68,
+  "raw_size": [
+    1280,
+    800
+  ],
+  "budget_ok": true,
+  "gce_ok": true
+}

@@ -9,12 +9,15 @@ import type {
   ProviderSettings,
   StudioMode,
   TweakMap,
+  TweakVariant,
 } from "./types";
 import { DEFAULT_SETTINGS } from "./types";
 import { createBlankProject, createDemoProject } from "./demo";
 import { loadProject, saveProject } from "./storage";
 import { loadSettings, saveSettings } from "./providers";
-import { applyTweaksToSource, parseTweaksSchema, schemaToMap } from "./tweaks";
+import { applyTweaksToSource, mapsEqual, parseTweaksSchema, schemaToMap } from "./tweaks";
+import { applyLook } from "./palettes";
+import { enrichSchema } from "./infer-tweaks";
 import { layoutNewArtboards, parseStreaming, type ParsedCommand } from "./agent/parse";
 import {
   dependentsOf,
@@ -43,6 +46,14 @@ interface StudioStore {
   removeArtboard: (id: string) => void;
   arrangeArtboards: () => void;
   setTweaks: (id: string, tweaks: TweakMap) => void;
+  undoTweaks: (id: string) => void;
+  redoTweaks: (id: string) => void;
+  applyPalette: (id: string, lookId: string) => void;
+  saveVariant: (id: string, label: string) => string | null;
+  approveLook: (id: string) => string | null;
+  setCompare: (variantId: string | null) => void;
+  setPresenting: (on: boolean) => void;
+  generateKnobs: (id: string) => void;
   addComment: (id: string, comment: Omit<PinComment, "id" | "createdAt">) => void;
   resolveComment: (artboardId: string, commentId: string) => void;
   applySelection: (
@@ -62,6 +73,46 @@ interface StudioStore {
 
 function touch(p: Project): Project {
   return { ...p, updatedAt: Date.now() };
+}
+
+function normalizeProject(p: Project): Project {
+  return {
+    ...p,
+    presenting: p.presenting ?? false,
+    compareVariantId: p.compareVariantId ?? null,
+    artboards: p.artboards.map((b) => ({
+      ...b,
+      tweakUndo: b.tweakUndo ?? [],
+      tweakRedo: b.tweakRedo ?? [],
+      variants: b.variants ?? [],
+      approvedVariantId: b.approvedVariantId ?? null,
+    })),
+  };
+}
+
+function withTweaks(b: Artboard, tweaks: TweakMap, files: ReturnType<typeof filesFromList>): Artboard {
+  if (mapsEqual(b.tweaks, tweaks)) return b;
+  const undo = [...(b.tweakUndo ?? []), b.tweaks].slice(-40);
+  if (b.kind === "dc" && b.dcPath) {
+    const flat = flattenAllSafe(b.dcPath, files, tweaks);
+    return {
+      ...b,
+      tweaks,
+      dcProps: tweaks,
+      source: flat.html,
+      version: b.version + 1,
+      error: flat.error ?? null,
+      tweakUndo: undo,
+      tweakRedo: [],
+    };
+  }
+  return {
+    ...b,
+    tweaks,
+    source: applyTweaksToSource(b.source, tweaks, b.tweakSchema),
+    tweakUndo: undo,
+    tweakRedo: [],
+  };
 }
 
 export const useStudio = create<StudioStore>((set, get) => ({
@@ -85,8 +136,14 @@ export const useStudio = create<StudioStore>((set, get) => ({
     } else if (id === "demo" && !project.files.some((f) => f.path === "RoastGrid.dc.html")) {
       project = createDemoProject("demo");
       await saveProject(project);
+    } else if (id === "demo") {
+      const landing = project.artboards.find((b) => b.id === "ab-landing");
+      if (!landing?.tweakSchema?.look) {
+        project = createDemoProject("demo");
+        await saveProject(project);
+      }
     }
-    set({ project, settings, hydrated: true });
+    set({ project: normalizeProject(project), settings, hydrated: true });
   },
 
   persist: () => {
@@ -148,7 +205,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
     const p = get().project;
     if (!p) return "";
     const id = partial.id || nanoid(8);
-    const schema = parseTweaksSchema(partial.source || "");
+    const schema = enrichSchema(partial.source || "");
     const board: Artboard = {
       id,
       title: partial.title || "Artboard",
@@ -243,23 +300,141 @@ export const useStudio = create<StudioStore>((set, get) => ({
     set({
       project: touch({
         ...p,
+        artboards: p.artboards.map((b) => (b.id === id ? withTweaks(b, tweaks, map) : b)),
+      }),
+    });
+    get().persist();
+  },
+
+  undoTweaks: (id) => {
+    const p = get().project;
+    if (!p) return;
+    const map = filesFromList(p.files);
+    set({
+      project: touch({
+        ...p,
         artboards: p.artboards.map((b) => {
           if (b.id !== id) return b;
-          if (b.kind === "dc" && b.dcPath) {
-            const flat = flattenAllSafe(b.dcPath, map, tweaks);
-            return {
-              ...b,
-              tweaks,
-              dcProps: tweaks,
-              source: flat.html,
-              version: b.version + 1,
-              error: flat.error ?? null,
-            };
-          }
+          const stack = b.tweakUndo ?? [];
+          if (stack.length === 0) return b;
+          const prev = stack[stack.length - 1]!;
+          const patched = withTweaks(b, prev, map);
+          return {
+            ...patched,
+            tweakUndo: stack.slice(0, -1),
+            tweakRedo: [b.tweaks, ...(b.tweakRedo ?? [])].slice(0, 40),
+          };
+        }),
+      }),
+    });
+    get().persist();
+  },
+
+  redoTweaks: (id) => {
+    const p = get().project;
+    if (!p) return;
+    const map = filesFromList(p.files);
+    set({
+      project: touch({
+        ...p,
+        artboards: p.artboards.map((b) => {
+          if (b.id !== id) return b;
+          const redo = b.tweakRedo ?? [];
+          const next = redo[0];
+          if (!next) return b;
+          const applied = withTweaks({ ...b, tweakRedo: [] }, next, map);
+          return { ...applied, tweakRedo: redo.slice(1) };
+        }),
+      }),
+    });
+    get().persist();
+  },
+
+  applyPalette: (id, lookId) => {
+    const p = get().project;
+    if (!p) return;
+    const board = p.artboards.find((b) => b.id === id);
+    if (!board) return;
+    const field = board.tweakSchema.look;
+    const next = applyLook(board.tweaks, lookId, field?.swatches);
+    get().setTweaks(id, next);
+  },
+
+  saveVariant: (id, label) => {
+    const p = get().project;
+    if (!p) return null;
+    const variant: TweakVariant = {
+      id: nanoid(8),
+      label,
+      tweaks: { ...(p.artboards.find((b) => b.id === id)?.tweaks ?? {}) },
+      createdAt: Date.now(),
+    };
+    set({
+      project: touch({
+        ...p,
+        artboards: p.artboards.map((b) =>
+          b.id === id ? { ...b, variants: [variant, ...(b.variants ?? [])].slice(0, 20) } : b,
+        ),
+      }),
+    });
+    get().persist();
+    return variant.id;
+  },
+
+  approveLook: (id) => {
+    const saved = get().saveVariant(id, "Approved");
+    const p = get().project;
+    if (!p || !saved) return null;
+    set({
+      project: touch({
+        ...p,
+        compareVariantId: null,
+        artboards: p.artboards.map((b) => (b.id === id ? { ...b, approvedVariantId: saved } : b)),
+      }),
+    });
+    get().persist();
+    return saved;
+  },
+
+  setCompare: (variantId) => {
+    const p = get().project;
+    if (!p) return;
+    set({ project: { ...p, compareVariantId: variantId } });
+  },
+
+  setPresenting: (on) => {
+    const p = get().project;
+    if (!p) return;
+    if (on && p.selectedArtboardId) {
+      const board = p.artboards.find((b) => b.id === p.selectedArtboardId);
+      if (board && !(board.variants ?? []).some((v) => v.label === "Before")) {
+        get().saveVariant(p.selectedArtboardId, "Before");
+      }
+    }
+    const next = get().project ?? p;
+    set({
+      project: {
+        ...next,
+        presenting: on,
+        mode: on ? "preview" : next.mode,
+        compareVariantId: on ? next.compareVariantId : null,
+      },
+    });
+  },
+
+  generateKnobs: (id) => {
+    const p = get().project;
+    if (!p) return;
+    set({
+      project: touch({
+        ...p,
+        artboards: p.artboards.map((b) => {
+          if (b.id !== id) return b;
+          const schema = enrichSchema(b.source);
           return {
             ...b,
-            tweaks,
-            source: applyTweaksToSource(b.source, tweaks, b.tweakSchema),
+            tweakSchema: { ...schema, ...b.tweakSchema },
+            tweaks: { ...schemaToMap(schema), ...b.tweaks },
           };
         }),
       }),
@@ -498,7 +673,7 @@ export const useStudio = create<StudioStore>((set, get) => ({
     );
     parsed.artboards.forEach((incoming, i) => {
       const existing = artboards.find((b) => b.title === incoming.title && (b.status === "streaming" || streaming));
-      const schema = parseTweaksSchema(incoming.source);
+      const schema = enrichSchema(incoming.source);
       if (existing) {
         artboards = artboards.map((b) =>
           b.id === existing.id

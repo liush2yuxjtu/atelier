@@ -119,4 +119,39 @@ test.describe("Atelier studio", () => {
     await expect(page.getByTestId("tab-tweaks")).toHaveText(/Props/i);
     await expect(page.getByTestId("dc-props-hint")).toContainText("PriceCard");
   });
+
+  test("present mode, moss palette, approve, undo", async ({ page }) => {
+    await openDemo(page);
+    await page.getByTestId("artboard-title-ab-landing").click();
+    await expect(page.getByTestId("palette-chips")).toBeVisible();
+    await expect(page.getByTestId("palette-moss")).toBeVisible();
+
+    await page.getByTestId("mode-present").click();
+    await expect(page.getByTestId("present-dock")).toBeVisible();
+    await expect(page.getByTestId("chat-panel")).toHaveCount(0);
+    await expect(page.getByTestId("right-rail")).toHaveCount(0);
+
+    await page.getByTestId("palette-moss").click();
+    await expect(page.getByTestId("palette-moss")).toHaveAttribute("data-active", "true");
+
+    await page.getByTestId("approve-look").click();
+    await expect(page.getByTestId("look-approved")).toBeVisible();
+    await expect(page.getByText(/^Approved$/).first()).toBeVisible();
+
+    await page.getByTestId("compare-look").click();
+    await expect(page.getByTestId("compare-split")).toBeVisible();
+    await page.getByTestId("compare-look").click();
+
+    await page.getByTestId("tweak-undo").click();
+    await expect(page.getByTestId("palette-ember")).toHaveAttribute("data-active", "true");
+    save(await page.screenshot({ fullPage: true }), "present-tweaks.png");
+  });
+
+  test("generate knobs infers a look on a board without a schema", async ({ page }) => {
+    await openDemo(page);
+    await page.getByTestId("artboard-title-ab-flow").click();
+    await page.getByTestId("generate-knobs").click();
+    await expect(page.getByTestId("palette-chips")).toBeVisible();
+    await expect(page.getByTestId("palette-night")).toBeVisible();
+  });
 });

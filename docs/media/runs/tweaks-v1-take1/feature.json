@@ -1,0 +1,26 @@
+{
+  "feature_id": "atelier-tweaks-live-demo-v1",
+  "story": "C-tweaks",
+  "user_outcome": "Accent hex changes live; landing CTA recolors; after line They nodded. No regenerate.",
+  "ui_language": "en",
+  "presentation": "user-story",
+  "textOverlays": true,
+  "clip_test_cutout": { "verdict": "n/a", "reason": "Product UI only." },
+  "gif": {
+    "width_px": 520,
+    "fps": 12,
+    "loop": 0,
+    "duration_s": 8,
+    "excerpt_start_s": 10.763,
+    "excerpt_end_s": 18.763,
+    "proof_interval_s": 6.547,
+    "gce_delay_cs_sum": 800,
+    "gce_frame_count": 96
+  },
+  "take_verification": {
+    "take": "tweaks-v1-take1",
+    "verdict": "keep",
+    "reason": "English UI; orange CTA then #2f6fed live; captions do not cover the well or CTA; GCE 96/800cs.",
+    "strip": "docs/media/runs/tweaks-v1-take1/edits/contact-gif-window.jpg"
+  }
+}

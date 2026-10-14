@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import type { Artboard } from "@/lib/types";
+import type { Artboard, TweakMap } from "@/lib/types";
 import { compileArtboard } from "@/lib/sandbox/compile";
 import {
   ATELIER_CHANNEL,
@@ -14,9 +14,11 @@ import { useStudio } from "@/lib/store";
 interface Props {
   board: Artboard;
   vendorBase: string;
+  tweaksOverride?: TweakMap;
+  frameKey?: string;
 }
 
-export function ArtboardFrame({ board, vendorBase }: Props) {
+export function ArtboardFrame({ board, vendorBase, tweaksOverride, frameKey }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const mode = useStudio((s) => s.project?.mode ?? "preview");
   const updateArtboard = useStudio((s) => s.updateArtboard);
@@ -25,8 +27,9 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
   const setTweaks = useStudio((s) => s.setTweaks);
   const selected = useStudio((s) => s.project?.selectedArtboardId === board.id);
   const selectArtboard = useStudio((s) => s.selectArtboard);
+  const liveTweaks = tweaksOverride ?? board.tweaks;
 
-  const nonce = `${board.id}:${board.version}`;
+  const nonce = frameKey ? `${board.id}:${board.version}:${frameKey}` : `${board.id}:${board.version}`;
 
   const files = useStudio((s) => s.project?.files ?? []);
 
@@ -37,7 +40,7 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
         source: board.source,
         nonce,
         vendorBase,
-        tweaks: board.tweaks,
+        tweaks: liveTweaks,
         tweakSchema: board.tweakSchema,
         files,
         dcPath: board.dcPath,
@@ -46,7 +49,7 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
     [
       board.kind,
       board.source,
-      board.tweaks,
+      liveTweaks,
       board.tweakSchema,
       board.dcPath,
       board.dcProps,
@@ -69,7 +72,7 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
         case "ready":
           post({ type: "init", vendorBase, nonce });
           post({ type: "set-mode", mode });
-          post({ type: "apply-tweaks", tweaks: board.tweaks });
+          post({ type: "apply-tweaks", tweaks: liveTweaks });
           if (
             msg.tweaks &&
             Object.keys(msg.tweaks).length > 0 &&
@@ -126,7 +129,7 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
       board.id,
       board.status,
       board.tweakSchema,
-      board.tweaks,
+      liveTweaks,
       mode,
       nonce,
       post,
@@ -151,8 +154,8 @@ export function ArtboardFrame({ board, vendorBase }: Props) {
   }, [mode, post]);
 
   useEffect(() => {
-    post({ type: "apply-tweaks", tweaks: board.tweaks });
-  }, [board.tweaks, post]);
+    post({ type: "apply-tweaks", tweaks: liveTweaks });
+  }, [liveTweaks, post]);
 
   useEffect(() => {
     const onExport = (e: Event) => {

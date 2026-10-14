@@ -16,6 +16,8 @@ export function StudioApp({ projectId }: { projectId: string }) {
   const hydrate = useStudio((s) => s.hydrate);
   const hydrated = useStudio((s) => s.hydrated);
   const persist = useStudio((s) => s.persist);
+  const presenting = useStudio((s) => Boolean(s.project?.presenting));
+  const setPresenting = useStudio((s) => s.setPresenting);
   const [exportOpen, setExportOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [extractOpen, setExtractOpen] = useState(false);
@@ -28,6 +30,14 @@ export function StudioApp({ projectId }: { projectId: string }) {
     const t = window.setInterval(() => persist(), 4000);
     return () => window.clearInterval(t);
   }, [persist]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && presenting) setPresenting(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [presenting, setPresenting]);
 
   if (!hydrated) {
     return (
@@ -46,10 +56,10 @@ export function StudioApp({ projectId }: { projectId: string }) {
           onExtract={() => setExtractOpen(true)}
         />
         <div className="flex min-h-0 flex-1">
-          <ChatPanel />
-          <LibraryPanel />
+          {!presenting && <ChatPanel />}
+          {!presenting && <LibraryPanel />}
           <CanvasView />
-          <RightRail />
+          {!presenting && <RightRail />}
         </div>
         <ExportDialog open={exportOpen} onOpenChange={setExportOpen} />
         <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />

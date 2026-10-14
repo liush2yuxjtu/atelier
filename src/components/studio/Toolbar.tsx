@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   Copy,
   LayoutGrid,
+  Maximize2,
   MessageSquare,
   MousePointer2,
   Plus,
@@ -38,8 +39,10 @@ export function Toolbar({ onExport, onSettings, onExtract }: Props) {
   const duplicateArtboard = useStudio((s) => s.duplicateArtboard);
   const removeArtboard = useStudio((s) => s.removeArtboard);
   const arrangeArtboards = useStudio((s) => s.arrangeArtboards);
+  const setPresenting = useStudio((s) => s.setPresenting);
 
   if (!project) return null;
+  const presenting = Boolean(project.presenting);
 
   return (
     <header className="flex h-12 shrink-0 items-center gap-2 border-b border-white/8 bg-[#120f18] px-3">
@@ -70,6 +73,16 @@ export function Toolbar({ onExport, onSettings, onExtract }: Props) {
         ))}
       </div>
       <div className="ml-auto flex items-center gap-1">
+        <Button
+          size="sm"
+          variant={presenting ? "default" : "secondary"}
+          data-testid="mode-present"
+          data-active={presenting ? "true" : "false"}
+          onClick={() => setPresenting(!presenting)}
+        >
+          <Maximize2 />
+          {presenting ? "Exit present" : "Present"}
+        </Button>
         <Button
           size="sm"
           variant="ghost"

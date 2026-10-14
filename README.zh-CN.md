@@ -1,8 +1,8 @@
 # Atelier
 
-![Maya 用对话在杯测前发出本周卡片 — 流式画板、Design Component props、导出 HTML](docs/media/feature-8s.gif)
+![Lena 在会议室当场签下 Northbound — Present、Moss 色板、Approved](docs/media/tweaks-v2.gif)
 
-**开源设计画布。** 左侧对话，右侧无限平移/缩放画板。生成 HTML、React、SVG、Markdown、Mermaid；现场调节颜色与圆角；在元素上钉评论；导出 HTML / ZIP / PDF / PNG / PPTX。
+**开源设计画布。** 左侧对话，右侧无限平移/缩放画板。生成 HTML、React、SVG、Markdown、Mermaid；预先生成 Tweaks 旋钮，客户演示时当场调到点头；在元素上钉评论；导出 HTML / ZIP / PDF / PNG / PPTX。
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
@@ -16,8 +16,8 @@ Atelier 是独立的 MIT 项目。它借鉴了 Claude Artifacts / Claude Design 
 - **流式渲染** — 模型还在写时，`<artboard>` 就会出现在画布上
 - **自检** — iframe 报错后自动发起一轮修复
 - **直接操作** — 编辑 / 检查 / 评论模式
-- **Tweaks** — 从声明的 JSON 或 Design Component prop schema 生成滑杆与色板，现场生效，不必再调模型
-- **Design Components** — `.dc.html` 类型化 props、插槽、`<dc-import>` 组合、循环检测、组件库拖到画布、`dc-write` / `dc-set-props`、导出时内联。协议：[docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)。用户故事 8 秒 GIF：[docs/media/feature-8s.gif](docs/media/feature-8s.gif)；直给演示：[docs/media/demo-straight-8s.gif](docs/media/demo-straight-8s.gif)
+- **Tweaks** — 设计的关键价值。代理（或「生成旋钮」）预先准备色板、取色、字号、密度、布局变体。**Present** 在画板上浮出调节条，现场改到客户点头。保存为 **Approved**，Compare A|B，撤销。不必再生成一轮。
+- **Design Components** — `.dc.html` 类型化 props、插槽、`<dc-import>` 组合、循环检测、组件库拖到画布、`dc-write` / `dc-set-props`、导出时内联。协议：[docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)。Tweaks 用户故事 8 秒 GIF：[docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif)；v1 缺口：[docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif)；故事：[docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md)
 - **钉选评论** — 进入下一轮上下文，模型按 id 标记已处理
 - **项目文件与历史** — 每次生成后快照
 - **可选设计体系提取** — 图片色板、URL CSS、GitHub 仓库

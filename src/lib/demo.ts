@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
-import { parseTweaksSchema, schemaToMap } from "./tweaks";
+import { schemaToMap } from "./tweaks";
+import { enrichSchema } from "./infer-tweaks";
 import { filesFromList, flattenAllSafe, schemaToTweakSchema, tweakMapFromSchema } from "./dc";
 import type { Artboard, PinComment, Project, ProjectFile, TweakMap, TweakSchema } from "./types";
 
@@ -13,33 +14,42 @@ const LANDING = `<!DOCTYPE html>
   :root {
     --tweak-accent: #c45c26;
     --tweak-radius: 16px;
-    --ink: #1a1612;
-    --paper: #f4efe6;
+    --tweak-paper: #f4efe6;
+    --tweak-ink: #1a1612;
+    --tweak-density: 1;
+    --tweak-type: 1;
     --mute: #6b6158;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: Outfit, system-ui, sans-serif; background: var(--paper); color: var(--ink); }
-  header { display: flex; justify-content: space-between; align-items: center; padding: 28px 64px; }
-  .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 22px; letter-spacing: -0.03em; }
+  body { margin: 0; font-family: Outfit, system-ui, sans-serif; background: var(--tweak-paper); color: var(--tweak-ink); }
+  header { display: flex; justify-content: space-between; align-items: center; padding: calc(28px * var(--tweak-density)) calc(64px * var(--tweak-density)); }
+  .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: calc(22px * var(--tweak-type)); letter-spacing: -0.03em; }
   nav { display: flex; gap: 28px; color: var(--mute); font-size: 14px; }
   .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font: 600 14px Outfit, sans-serif; cursor: pointer; }
-  .hero { padding: 48px 64px 80px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
-  h1 { font-family: Fraunces, Georgia, serif; font-size: 72px; line-height: 0.95; font-weight: 500; margin: 0 0 20px; letter-spacing: -0.04em; }
-  .lede { font-size: 18px; color: var(--mute); max-width: 440px; line-height: 1.55; }
+  .hero { padding: calc(48px * var(--tweak-density)) calc(64px * var(--tweak-density)) calc(80px * var(--tweak-density)); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  html[data-layout="stack"] .hero { grid-template-columns: 1fr; }
+  h1 { font-family: Fraunces, Georgia, serif; font-size: calc(72px * var(--tweak-type)); line-height: 0.95; font-weight: 500; margin: 0 0 20px; letter-spacing: -0.04em; }
+  .lede { font-size: calc(18px * var(--tweak-type)); color: var(--mute); max-width: 440px; line-height: 1.55; }
   .actions { display: flex; gap: 12px; margin-top: 28px; }
-  .ghost { background: transparent; border: 1px solid #d9d0c4; border-radius: 999px; padding: 10px 18px; font: 500 14px Outfit, sans-serif; }
-  .card { background: #fff; border-radius: var(--tweak-radius); padding: 28px; box-shadow: 0 24px 60px rgba(26,22,18,0.08); }
+  .ghost { background: transparent; border: 1px solid color-mix(in srgb, var(--tweak-ink) 18%, transparent); border-radius: 999px; padding: 10px 18px; font: 500 14px Outfit, sans-serif; color: var(--tweak-ink); }
+  .card { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border-radius: var(--tweak-radius); padding: 28px; box-shadow: 0 24px 60px rgba(26,22,18,0.08); }
   .bean { height: 220px; border-radius: calc(var(--tweak-radius) - 4px); background:
-    radial-gradient(circle at 30% 20%, #f0d3b8, transparent 40%),
-    linear-gradient(160deg, var(--tweak-accent), #3d2418); }
+    radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--tweak-accent) 35%, #fff), transparent 40%),
+    linear-gradient(160deg, var(--tweak-accent), color-mix(in srgb, var(--tweak-ink) 70%, #000)); }
   .meta { display: flex; justify-content: space-between; margin-top: 16px; font-size: 13px; color: var(--mute); }
-  footer { padding: 0 64px 40px; display: flex; gap: 40px; color: var(--mute); font-size: 13px; }
+  footer { padding: 0 calc(64px * var(--tweak-density)) calc(40px * var(--tweak-density)); display: flex; gap: 40px; color: var(--mute); font-size: 13px; }
 </style>
 <script type="application/atelier-tweaks">
 {
-  "accent": { "type": "color", "value": "#c45c26", "label": "Accent" },
-  "radius": { "type": "range", "value": 16, "min": 0, "max": 40, "unit": "px", "label": "Radius" },
-  "headline": { "type": "text", "value": "Coffee that tastes like the trail.", "label": "Headline" }
+  "look": { "type": "palette", "value": "ember", "label": "Look", "group": "color", "options": ["ember", "moss", "night", "signal"], "swatches": { "ember": { "accent": "#c45c26", "paper": "#f4efe6", "ink": "#1a1612" }, "moss": { "accent": "#3d6b4f", "paper": "#eef3ea", "ink": "#142018" }, "night": { "accent": "#d4a054", "paper": "#16141c", "ink": "#f4efe6" }, "signal": { "accent": "#2f6fed", "paper": "#f3f6fb", "ink": "#12141a" } } },
+  "accent": { "type": "color", "value": "#c45c26", "label": "Accent", "group": "color" },
+  "paper": { "type": "color", "value": "#f4efe6", "label": "Paper", "group": "color" },
+  "ink": { "type": "color", "value": "#1a1612", "label": "Ink", "group": "color" },
+  "radius": { "type": "range", "value": 16, "min": 0, "max": 40, "unit": "px", "label": "Radius", "group": "layout" },
+  "density": { "type": "range", "value": 1, "min": 0.75, "max": 1.35, "step": 0.05, "label": "Density", "group": "density" },
+  "type": { "type": "range", "value": 1, "min": 0.8, "max": 1.3, "step": 0.05, "label": "Type scale", "group": "type" },
+  "layout": { "type": "select", "value": "split", "options": ["split", "stack"], "label": "Layout", "group": "layout" },
+  "headline": { "type": "text", "value": "Coffee that tastes like the trail.", "label": "Headline", "group": "copy" }
 }
 </script>
 </head>
@@ -303,7 +313,7 @@ function board(
     tweakSchema?: TweakSchema;
   },
 ): Artboard {
-  const schema = partial.tweakSchema ?? parseTweaksSchema(partial.source);
+  const schema = partial.tweakSchema ?? enrichSchema(partial.source);
   return {
     ...partial,
     tweaks: partial.tweaks ?? schemaToMap(schema),
@@ -442,6 +452,8 @@ export function createDemoProject(id = "demo"): Project {
     selectedStyles: null,
     selectedText: null,
     mode: "preview",
+    presenting: false,
+    compareVariantId: null,
     designSystem: {
       name: "Northbound",
       source: "manual",
@@ -475,5 +487,7 @@ export function createBlankProject(name = "Untitled canvas"): Project {
     selectedStyles: null,
     selectedText: null,
     mode: "preview",
+    presenting: false,
+    compareVariantId: null,
   };
 }

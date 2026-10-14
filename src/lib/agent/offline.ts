@@ -17,7 +17,7 @@ function isDcPrompt(text: string): boolean {
 function offlineArtboard(userText: string): string {
   const title = guessTitle(userText);
   const html = template(userText, title);
-  return `Placed a new artboard called ${title}. Tweaks cover accent and radius. Add an API key in Settings for a live model.\n\n<artboard title="${escapeAttr(title)}" kind="html" width="1280" height="800">\n${html}\n</artboard>`;
+  return `Placed a new artboard called ${title}. Tweaks cover look, accent, paper, type scale, and density so you can adjust live in a client demo. Add an API key in Settings for a live model.\n\n<artboard title="${escapeAttr(title)}" kind="html" width="1280" height="800">\n${html}\n</artboard>`;
 }
 
 function offlineDcWrite(userText: string): string {
@@ -66,8 +66,8 @@ function template(prompt: string, title: string): string {
 <head>
 <meta charset="utf-8"/>
 <style>
-  :root { --tweak-accent: #c45c26; --tweak-radius: 20px; }
-  body { margin: 0; font-family: Georgia, serif; background: #f4efe6; color: #1a1612; }
+  :root { --tweak-accent: #c45c26; --tweak-radius: 20px; --tweak-paper: #f4efe6; --tweak-ink: #1a1612; --tweak-density: 1; --tweak-type: 1; }
+  body { margin: 0; font-family: Georgia, serif; background: var(--tweak-paper); color: var(--tweak-ink); }
   main { padding: 72px 64px; }
   .kicker { font-family: ui-sans-serif, system-ui; letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; color: var(--tweak-accent); }
   h1 { font-size: 56px; letter-spacing: -0.04em; line-height: 0.95; max-width: 16ch; }
@@ -75,7 +75,7 @@ function template(prompt: string, title: string): string {
   .panel { margin-top: 40px; background: #fff; border-radius: var(--tweak-radius); padding: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.06); }
 </style>
 <script type="application/atelier-tweaks">
-{ "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "radius": { "type": "range", "value": 20, "min": 0, "max": 48, "unit": "px", "label": "Radius" } }
+{ "look": { "type": "palette", "value": "ember", "label": "Look", "options": ["ember","moss","night","signal"] }, "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" }, "ink": { "type": "color", "value": "#1a1612", "label": "Ink" }, "radius": { "type": "range", "value": 20, "min": 0, "max": 48, "unit": "px", "label": "Radius" }, "density": { "type": "range", "value": 1, "min": 0.75, "max": 1.35, "step": 0.05, "label": "Density" }, "type": { "type": "range", "value": 1, "min": 0.8, "max": 1.3, "step": 0.05, "label": "Type scale" } }
 </script>
 </head>
 <body>

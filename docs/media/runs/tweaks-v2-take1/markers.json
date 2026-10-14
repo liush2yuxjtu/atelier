@@ -1,0 +1,59 @@
+{
+  "t0": 1791995594759,
+  "markers": [
+    {
+      "name": "landing",
+      "elapsed_ms": 1347
+    },
+    {
+      "name": "open_card",
+      "elapsed_ms": 1368
+    },
+    {
+      "name": "open_card_end",
+      "elapsed_ms": 4208
+    },
+    {
+      "name": "studio_ready",
+      "elapsed_ms": 6400
+    },
+    {
+      "name": "before_state",
+      "elapsed_ms": 7157
+    },
+    {
+      "name": "gif_window_start",
+      "elapsed_ms": 11001
+    },
+    {
+      "name": "beat_context_end",
+      "elapsed_ms": 12103
+    },
+    {
+      "name": "present_on",
+      "elapsed_ms": 12355
+    },
+    {
+      "name": "palette_set",
+      "elapsed_ms": 13152
+    },
+    {
+      "name": "approved",
+      "elapsed_ms": 14046
+    },
+    {
+      "name": "proof_hold_end",
+      "elapsed_ms": 17701
+    },
+    {
+      "name": "gif_window_end",
+      "elapsed_ms": 17701
+    },
+    {
+      "name": "walkthrough_hold_end",
+      "elapsed_ms": 29711
+    }
+  ],
+  "story": "C-tweaks",
+  "v2": true
+}

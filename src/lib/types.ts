@@ -2,7 +2,7 @@ export type ArtboardKind = "html" | "react" | "svg" | "markdown" | "mermaid" | "
 
 export type StudioMode = "preview" | "edit" | "comment" | "inspect";
 
-export type TweakType = "color" | "range" | "text" | "select" | "boolean";
+export type TweakType = "color" | "range" | "text" | "select" | "boolean" | "palette";
 
 export interface TweakField {
   type: TweakType;
@@ -13,10 +13,22 @@ export interface TweakField {
   step?: number;
   unit?: string;
   options?: string[];
+  /** Named color chips for a color field. */
+  presets?: { label: string; value: string }[];
+  /** Palette id → map of other tweak keys (accent, paper, ink…). */
+  swatches?: Record<string, Record<string, string>>;
+  group?: "color" | "type" | "density" | "layout" | "copy";
 }
 
 export type TweakSchema = Record<string, TweakField>;
 export type TweakMap = Record<string, string | number | boolean>;
+
+export interface TweakVariant {
+  id: string;
+  label: string;
+  tweaks: TweakMap;
+  createdAt: number;
+}
 
 export interface PinComment {
   id: string;
@@ -49,6 +61,10 @@ export interface Artboard {
   dcPath?: string;
   /** Instance-level prop overrides (live tweaks; does not rewrite the .dc.html file). */
   dcProps?: TweakMap;
+  tweakUndo?: TweakMap[];
+  tweakRedo?: TweakMap[];
+  variants?: TweakVariant[];
+  approvedVariantId?: string | null;
 }
 
 export interface ProjectFile {
@@ -107,6 +123,8 @@ export interface Project {
   selectedText: string | null;
   mode: StudioMode;
   designSystem?: DesignSystem;
+  presenting?: boolean;
+  compareVariantId?: string | null;
 }
 
 export interface ProviderSettings {

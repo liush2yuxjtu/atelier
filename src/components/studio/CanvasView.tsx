@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useStudio } from "@/lib/store";
 import { ArtboardFrame } from "./ArtboardFrame";
+import { PresentDock } from "./PresentDock";
 import { cn } from "@/lib/cn";
 import { DC_DRAG_MIME } from "@/lib/dc/types";
 
@@ -19,6 +20,8 @@ export function CanvasView() {
   const pan = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
 
   const vendorBase = typeof window !== "undefined" ? window.location.origin : "";
+  const presenting = Boolean(project?.presenting);
+  const selectedId = project?.selectedArtboardId ?? null;
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -38,8 +41,35 @@ export function CanvasView() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!presenting || !selectedId) return;
+    const p = useStudio.getState().project;
+    const board = p?.artboards.find((b) => b.id === selectedId);
+    const wrap = wrapRef.current;
+    if (!board || !wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    const padX = 40;
+    const padY = 110;
+    const zx = (rect.width - padX * 2) / board.width;
+    const zy = (rect.height - padY * 2) / board.height;
+    const zoom = Math.min(Math.max(0.12, Math.min(zx, zy)), 1.15);
+    setCanvas({
+      zoom,
+      panX: (rect.width - board.width * zoom) / 2 - board.x * zoom,
+      panY: 24 - board.y * zoom,
+    });
+  }, [presenting, selectedId, setCanvas]);
+
   if (!project) return null;
-  const { canvas, artboards, selectedArtboardId } = project;
+  const { canvas, selectedArtboardId } = project;
+  const visibleBoards = presenting
+    ? project.artboards.filter((b) => b.id === selectedArtboardId)
+    : project.artboards;
+  const compareVariant = presenting
+    ? project.artboards
+        .find((b) => b.id === selectedArtboardId)
+        ?.variants?.find((v) => v.id === project.compareVariantId)
+    : undefined;
 
   function onWheel(e: React.WheelEvent) {
     e.preventDefault();
@@ -152,8 +182,9 @@ export function CanvasView() {
           transform: `translate(${canvas.panX}px, ${canvas.panY}px) scale(${canvas.zoom})`,
         }}
       >
-        {artboards.map((board) => {
+        {visibleBoards.map((board) => {
           const active = board.id === selectedArtboardId;
+          const split = Boolean(compareVariant && board.id === selectedArtboardId);
           return (
             <div
               key={board.id}
@@ -164,6 +195,7 @@ export function CanvasView() {
               data-kind={board.kind}
               data-dc-path={board.dcPath ?? ""}
             >
+              {!presenting && (
               <div className="mb-2 flex items-center gap-2">
                 <button
                   type="button"
@@ -196,6 +228,7 @@ export function CanvasView() {
                   <span className="text-[10px] text-amber-300">streaming</span>
                 )}
               </div>
+              )}
               <div
                 className={cn(
                   "rounded-sm shadow-[0_24px_80px_rgba(0,0,0,0.45)] ring-1",
@@ -206,9 +239,37 @@ export function CanvasView() {
                   selectArtboard(board.id);
                 }}
               >
-                <ArtboardFrame board={board} vendorBase={vendorBase} />
+                {split && compareVariant ? (
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ width: board.width, height: board.height }}
+                    data-testid="compare-split"
+                  >
+                    <div className="absolute inset-0 overflow-hidden" style={{ clipPath: "inset(0 50% 0 0)" }}>
+                      <ArtboardFrame
+                        board={board}
+                        vendorBase={vendorBase}
+                        tweaksOverride={compareVariant.tweaks}
+                        frameKey="a"
+                      />
+                    </div>
+                    <div className="absolute inset-0 overflow-hidden" style={{ clipPath: "inset(0 0 0 50%)" }}>
+                      <ArtboardFrame board={board} vendorBase={vendorBase} frameKey="b" />
+                    </div>
+                    <div className="pointer-events-none absolute inset-y-0 left-1/2 z-10 w-px bg-white/80" />
+                    <span className="pointer-events-none absolute top-3 left-3 z-10 rounded bg-black/55 px-1.5 text-[10px] font-semibold text-white">
+                      A
+                    </span>
+                    <span className="pointer-events-none absolute top-3 right-3 z-10 rounded bg-black/55 px-1.5 text-[10px] font-semibold text-white">
+                      B
+                    </span>
+                  </div>
+                ) : (
+                  <ArtboardFrame board={board} vendorBase={vendorBase} />
+                )}
               </div>
-              {board.comments
+              {!presenting &&
+                board.comments
                 .filter((c) => !c.resolved)
                 .map((c) => (
                   <div
@@ -225,6 +286,7 @@ export function CanvasView() {
           );
         })}
       </div>
+      {!presenting && (
       <div className="absolute right-3 bottom-3 flex items-center gap-2 rounded-lg border border-white/10 bg-black/50 px-2 py-1 text-xs text-stone-300 backdrop-blur">
         <button
           type="button"
@@ -236,6 +298,7 @@ export function CanvasView() {
         <span data-testid="zoom-label">{Math.round(canvas.zoom * 100)}%</span>
         <button
           type="button"
+          data-testid="zoom-in"
           className="px-1 hover:text-white"
           onClick={() => setCanvas({ ...canvas, zoom: Math.min(2.4, canvas.zoom * 1.1) })}
         >
@@ -249,6 +312,8 @@ export function CanvasView() {
           fit
         </button>
       </div>
+      )}
+      <PresentDock />
     </div>
   );
 }

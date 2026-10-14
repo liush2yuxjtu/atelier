@@ -4,21 +4,24 @@ import { useState } from "react";
 import { useStudio } from "@/lib/store";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { encodeHost } from "@/lib/protocol";
+import { TweakControls } from "./TweakControls";
 
 export function RightRail() {
   const project = useStudio((s) => s.project);
-  const setTweaks = useStudio((s) => s.setTweaks);
   const resolveComment = useStudio((s) => s.resolveComment);
   const addComment = useStudio((s) => s.addComment);
   const restoreVersion = useStudio((s) => s.restoreVersion);
   const writeFile = useStudio((s) => s.writeFile);
+  const generateKnobs = useStudio((s) => s.generateKnobs);
+  const undoTweaks = useStudio((s) => s.undoTweaks);
+  const redoTweaks = useStudio((s) => s.redoTweaks);
+  const saveVariant = useStudio((s) => s.saveVariant);
+  const approveLook = useStudio((s) => s.approveLook);
   const [draft, setDraft] = useState("");
 
   if (!project) return null;
@@ -61,85 +64,64 @@ export function RightRail() {
                 <Empty>
                   {board.kind === "dc"
                     ? "This component has an empty prop schema."
-                    : "This board has no declared tweaks. Ask the agent to make it tweakable."}
+                    : "This board has no declared tweaks. Generate knobs from the markup, or ask the agent."}
                 </Empty>
               )}
-              {board &&
-                Object.entries(board.tweakSchema).map(([key, field]) => {
-                  const value = board.tweaks[key] ?? field.value;
-                  return (
-                    <div key={key} className="space-y-1.5">
-                      <Label>{field.label || key}</Label>
-                      {field.type === "color" && (
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="color"
-                            data-testid={`tweak-${key}`}
-                            className="h-8 w-8 cursor-pointer rounded border border-white/10 bg-transparent"
-                            value={String(value)}
-                            onChange={(e) =>
-                              setTweaks(board.id, { ...board.tweaks, [key]: e.target.value })
-                            }
-                          />
-                          <Input
-                            value={String(value)}
-                            onChange={(e) =>
-                              setTweaks(board.id, { ...board.tweaks, [key]: e.target.value })
-                            }
-                          />
-                        </div>
-                      )}
-                      {field.type === "range" && (
-                        <div className="flex items-center gap-2">
-                          <Slider
-                            min={field.min ?? 0}
-                            max={field.max ?? 100}
-                            step={field.step ?? 1}
-                            value={[Number(value)]}
-                            onValueChange={([v]) =>
-                              setTweaks(board.id, { ...board.tweaks, [key]: v ?? 0 })
-                            }
-                          />
-                          <span className="w-10 text-right text-xs text-stone-400">
-                            {value}
-                            {field.unit ?? ""}
-                          </span>
-                        </div>
-                      )}
-                      {field.type === "text" && (
-                        <Input
-                          data-testid={`tweak-${key}`}
-                          value={String(value)}
-                          onChange={(e) =>
-                            setTweaks(board.id, { ...board.tweaks, [key]: e.target.value })
-                          }
-                        />
-                      )}
-                      {field.type === "boolean" && (
-                        <Switch
-                          data-testid={`tweak-${key}`}
-                          checked={Boolean(value)}
-                          onCheckedChange={(v) =>
-                            setTweaks(board.id, { ...board.tweaks, [key]: v })
-                          }
-                        />
-                      )}
-                      {field.type === "select" && (
-                        <select
-                          className="h-8 w-full rounded-md border border-white/10 bg-black/30 px-2 text-sm"
-                          value={String(value)}
-                          onChange={(e) =>
-                            setTweaks(board.id, { ...board.tweaks, [key]: e.target.value })
-                          }
-                        >
-                          {(field.options ?? []).map((o) => (
-                            <option key={o}>{o}</option>
-                          ))}
-                        </select>
-                      )}
-                    </div>
-                  );
-                })}
+              {board && <TweakControls board={board} />}
+              {board && (
+                <div className="flex flex-wrap gap-1.5 border-t border-white/8 pt-3">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    data-testid="generate-knobs"
+                    onClick={() => generateKnobs(board.id)}
+                  >
+                    Generate knobs
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    data-testid="tweak-undo"
+                    disabled={(board.tweakUndo ?? []).length === 0}
+                    onClick={() => undoTweaks(board.id)}
+                  >
+                    Undo
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    data-testid="tweak-redo"
+                    disabled={(board.tweakRedo ?? []).length === 0}
+                    onClick={() => redoTweaks(board.id)}
+                  >
+                    Redo
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    data-testid="save-look"
+                    onClick={() => saveVariant(board.id, "Look")}
+                  >
+                    Save look
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="default"
+                    data-testid="approve-look"
+                    onClick={() => approveLook(board.id)}
+                  >
+                    Approved
+                  </Button>
+                  {board.approvedVariantId && (
+                    <span
+                      data-testid="look-approved"
+                      className="rounded-full bg-emerald-400/20 px-2 py-0.5 text-[11px] font-semibold text-emerald-200"
+                    >
+                      Approved
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           </ScrollArea>
         </TabsContent>

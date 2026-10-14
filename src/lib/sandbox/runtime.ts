@@ -120,6 +120,12 @@ export function buildRuntimeScript(nonce: string): string {
           n.textContent = String(tweaks[key]);
         }
       });
+      if (key === "paper") document.body.style.background = String(tweaks[key]);
+      if (key === "ink") document.body.style.color = String(tweaks[key]);
+      if (key === "layout") {
+        document.documentElement.setAttribute("data-layout", String(tweaks[key]));
+        document.body.setAttribute("data-layout", String(tweaks[key]));
+      }
     });
   }
 

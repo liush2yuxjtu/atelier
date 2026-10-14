@@ -1,0 +1,55 @@
+{
+  "t0": 1791994821403,
+  "markers": [
+    {
+      "name": "landing",
+      "elapsed_ms": 695
+    },
+    {
+      "name": "open_card",
+      "elapsed_ms": 721
+    },
+    {
+      "name": "open_card_end",
+      "elapsed_ms": 3565
+    },
+    {
+      "name": "studio_ready",
+      "elapsed_ms": 6098
+    },
+    {
+      "name": "before_state",
+      "elapsed_ms": 6908
+    },
+    {
+      "name": "gif_window_start",
+      "elapsed_ms": 10763
+    },
+    {
+      "name": "beat_context_end",
+      "elapsed_ms": 11865
+    },
+    {
+      "name": "accent_focus",
+      "elapsed_ms": 12152
+    },
+    {
+      "name": "accent_set",
+      "elapsed_ms": 12216
+    },
+    {
+      "name": "proof_hold_end",
+      "elapsed_ms": 16364
+    },
+    {
+      "name": "gif_window_end",
+      "elapsed_ms": 16364
+    },
+    {
+      "name": "walkthrough_hold_end",
+      "elapsed_ms": 28364
+    }
+  ],
+  "story": "C-tweaks",
+  "v2": false
+}

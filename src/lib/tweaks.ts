@@ -43,9 +43,32 @@ function normalizeField(value: unknown): TweakField | null {
     type !== "range" &&
     type !== "text" &&
     type !== "select" &&
-    type !== "boolean"
+    type !== "boolean" &&
+    type !== "palette"
   ) {
     return null;
+  }
+  const presets = Array.isArray(rec.presets)
+    ? rec.presets
+        .map((p) => {
+          if (!p || typeof p !== "object") return null;
+          const item = p as Record<string, unknown>;
+          if (typeof item.label !== "string" || typeof item.value !== "string") return null;
+          return { label: item.label, value: item.value };
+        })
+        .filter((p): p is { label: string; value: string } => Boolean(p))
+    : undefined;
+  let swatches: TweakField["swatches"];
+  if (rec.swatches && typeof rec.swatches === "object" && !Array.isArray(rec.swatches)) {
+    swatches = {};
+    for (const [id, pack] of Object.entries(rec.swatches as Record<string, unknown>)) {
+      if (!pack || typeof pack !== "object") continue;
+      const next: Record<string, string> = {};
+      for (const [k, v] of Object.entries(pack as Record<string, unknown>)) {
+        if (typeof v === "string") next[k] = v;
+      }
+      swatches[id] = next;
+    }
   }
   return {
     type,
@@ -58,6 +81,16 @@ function normalizeField(value: unknown): TweakField | null {
     options: Array.isArray(rec.options)
       ? rec.options.filter((o): o is string => typeof o === "string")
       : undefined,
+    presets,
+    swatches,
+    group:
+      rec.group === "color" ||
+      rec.group === "type" ||
+      rec.group === "density" ||
+      rec.group === "layout" ||
+      rec.group === "copy"
+        ? rec.group
+        : undefined,
   };
 }
 
@@ -69,9 +102,19 @@ function defaultFor(type: TweakField["type"]): TweakField["value"] {
       return 0;
     case "boolean":
       return false;
+    case "palette":
+      return "ember";
     default:
       return "";
   }
+}
+
+export function mapsEqual(a: TweakMap, b: TweakMap): boolean {
+  const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+  for (const k of keys) {
+    if (a[k] !== b[k]) return false;
+  }
+  return true;
 }
 
 export function schemaToMap(schema: TweakSchema): TweakMap {
