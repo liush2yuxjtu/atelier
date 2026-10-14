@@ -1,3 +1,17 @@
+# Tweaks v5 — one change, every page (current)
+
+Skill: record-production-feature (SKILL.md + references/story-research.md, cinematography.md, media-contract.md, recording-lock.md). Recorded on the Mac mini under `chatcut-rec-lock`, pure-screen, English UI.
+
+- Research: `research-tweaks-v5.md` · Story options A/B/C: `../runs/tweaks-v5-take1/story/story.md` (推荐 C, selected)
+- Story C: Lena is in a live review with the Northbound buyer, who says the site "feels a bit off — tweak the color". In Present mode she clicks ONE Look chip (Ember → Signal) on the Home dock; Home, Pricing and About recolor in the same frame (`linked in 3 boards`), then **Approved**.
+- Why it matters: Atelier tokens are project-level (`src/lib/theme.ts`, `store.ts`, e6ddfd1); Claude Design tweaks are single-file props with no cross-page linkage.
+- GIF `../tweaks-v5.gif` = raw 8.9–16.9 s (click 10.22 s, all 3 pages Signal from 10.3 s, Approved 13.07 s; result held 6.6 s). MP4 `../tweaks-v5.mp4` = full 21.2 s GT.
+- QA: `../runs/tweaks-v5-take1/edits/v1-manual/qa.json` (per-frame linkage, contact sheets). Status `blocked` only for the skill's 10 GiB disk preflight (Mac mini had ~5.3 GiB); encoding used the script's identical ffmpeg parameters.
+
+---
+
+# Archive (v1–v4)
+
 # Story C — Tweaks live client demo (selected)
 
 Skill: `liush2yuxjtu/my-release-skills` `skills/record-production-feature/SKILL.md` **§3**

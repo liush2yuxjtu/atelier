@@ -1,0 +1,84 @@
+{
+  "boxes": {
+    "artboard-ab-landing": {
+      "x": 32,
+      "y": 68,
+      "width": 386.589599609375,
+      "height": 254.62197875976562
+    },
+    "artboard-ab-pricing": {
+      "x": 446.7052001953125,
+      "y": 68,
+      "width": 386.589599609375,
+      "height": 254.62197875976562
+    },
+    "artboard-ab-about": {
+      "x": 861.410400390625,
+      "y": 68,
+      "width": 386.589599609375,
+      "height": 254.62197875976562
+    },
+    "present-dock": {
+      "x": 0,
+      "y": 604.5,
+      "width": 1280,
+      "height": 179.5
+    },
+    "palette-ember": {
+      "x": 85.40625,
+      "y": 617.5,
+      "width": 68.890625,
+      "height": 26.5
+    },
+    "palette-moss": {
+      "x": 160.296875,
+      "y": 617.5,
+      "width": 63.0625,
+      "height": 26.5
+    },
+    "palette-night": {
+      "x": 229.359375,
+      "y": 617.5,
+      "width": 63.171875,
+      "height": 26.5
+    },
+    "palette-signal": {
+      "x": 298.53125,
+      "y": 617.5,
+      "width": 67.453125,
+      "height": 26.5
+    },
+    "linked-count": {
+      "x": 1042.078125,
+      "y": 744.75,
+      "width": 105.3125,
+      "height": 24.5
+    },
+    "approve-look": {
+      "x": 962.21875,
+      "y": 743,
+      "width": 73.859375,
+      "height": 28
+    },
+    "tweak-accent": {
+      "x": 85.40625,
+      "y": 694,
+      "width": 32,
+      "height": 32
+    },
+    "compare-look": {
+      "x": 804.078125,
+      "y": 743,
+      "width": 71.03125,
+      "height": 28
+    },
+    "save-look": {
+      "x": 881.109375,
+      "y": 743,
+      "width": 75.109375,
+      "height": 28
+    }
+  },
+  "cjk": false,
+  "linkedText": "linked in 3 boards"
+}

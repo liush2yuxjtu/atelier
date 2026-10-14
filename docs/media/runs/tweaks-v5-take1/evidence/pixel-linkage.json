@@ -1,0 +1,32 @@
+{
+ "before-ember.png": {
+  "Home": "#c45c26",
+  "Pricing": "#f3ddd2",
+  "About": "#f9eee8",
+  "paper_samples": {
+   "Home": "#f4efe6",
+   "Pricing": "#f7f4ee",
+   "About": "#f4efe6"
+  }
+ },
+ "after-signal.png": {
+  "Home": "#2f6fed",
+  "Pricing": "#d4e1fb",
+  "About": "#e9f0fd",
+  "paper_samples": {
+   "Home": "#f3f6fb",
+   "Pricing": "#f7f9fc",
+   "About": "#f3f6fb"
+  }
+ },
+ "approved.png": {
+  "Home": "#2f6fed",
+  "Pricing": "#d4e1fb",
+  "About": "#e9f0fd",
+  "paper_samples": {
+   "Home": "#f3f6fb",
+   "Pricing": "#f7f9fc",
+   "About": "#f3f6fb"
+  }
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "cjk_ui": false,
+  "before": {
+    "landing": null,
+    "pricing": null,
+    "about": null
+  },
+  "after": {
+    "landing": null,
+    "pricing": null,
+    "about": null
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "feature_id": "tweaks-global-linked-look",
+  "feature_name": "Tweaks (Present dock Look, linked theme)",
+  "user_outcome": "One Look change in Tweaks recolors Home, Pricing and About at once during a live client review.",
+  "source": {
+    "environment": "production",
+    "verified": true,
+    "release_url": "https://github.com/liush2yuxjtu/atelier/commit/6c1a878ede37ac5ac00284728ca70dd9a932f649",
+    "production_tag": "6c1a878",
+    "observed_app_version": "6c1a878",
+    "commit": "6c1a878ede37ac5ac00284728ca70dd9a932f649",
+    "prs": [],
+    "note": "No GitHub Release exists; source = main HEAD built with next build/next start on the Mac mini. Feature commit e6ddfd1 (src/lib/theme.ts, src/lib/store.ts)."
+  },
+  "recording": {
+    "surface": "browser",
+    "raw": "raw/gt.webm",
+    "proof_interval_s": [
+      10.3,
+      16.9
+    ]
+  },
+  "evidence": {
+    "production": "evidence/production.json",
+    "discovery": "evidence/discovery.json",
+    "rehearsal": "evidence/rehearsal.json",
+    "markers": "evidence/markers.jsonl"
+  },
+  "gif": {
+    "start_s": 8.9,
+    "duration_s": 8,
+    "width": 520,
+    "max_bytes": 3145728
+  },
+  "presentation": {
+    "mode": "pure-screen",
+    "explanatory_captions": false,
+    "release_badge": false,
+    "decorative_callouts": false,
+    "pointer": "standard (injected SVG arrow; headless capture has no OS cursor)",
+    "preserve_native_text_and_captions": true,
+    "chapters": "metadata-only",
+    "narration": false,
+    "music": false,
+    "transitions": false
+  },
+  "zoom": {
+    "applied": false,
+    "reason": "Payoff is that three pages change at the same instant; any zoom on the dock would push Home/Pricing/About out of frame at the reveal. Fixed wide camera per story research pattern 3. Dock text is small in the 520px GIF; readable in the full MP4."
+  },
+  "speed_ramp": null,
+  "ui_language": {
+    "value": "en",
+    "preflight_evidence": "evidence/ui-language-preflight.png",
+    "preflight_json": "evidence/ui-language-preflight.json",
+    "postcheck_cjk_ui": false,
+    "postcheck_evidence": "evidence/postcheck.json + visual review of GIF frames"
+  },
+  "recording_lock": {
+    "owner": "gif-job",
+    "purpose": "atelier tweaks v5",
+    "ticket": "chatcut-rec-lock run (wrapper)",
+    "waited_s": 0.0,
+    "acquired_at": "2026-10-15T03:55:08+08:00",
+    "released_at": "2026-10-15T03:55:32+08:00"
+  },
+  "take_verification": {
+    "required_before_keep_or_discard": true,
+    "takes_log": "../takes.log",
+    "takes": [
+      {
+        "id": "tweaks-v5-take1",
+        "strip": "strip.png",
+        "timing_crosscheck": "click marker 10.223s; Ember still at 10.2s frame, Signal on all three boards at 10.3s frame; Approved click 13.065s, badge from 13.2s frame; GIF window 8.9-16.9s; raw 21.2s vs End marker 21.239s (video zero ~= t0); no zoom keyframes",
+        "verdict": "keep",
+        "reason": "Before state, single click, simultaneous recolor of 3 pages, Approved, result hold 6.6s inside GIF; English UI; no overlay",
+        "evidence": [
+          "strip.png",
+          "evidence/pixel-linkage.json",
+          "evidence/before-ember.png",
+          "evidence/after-signal.png",
+          "evidence/approved.png"
+        ]
+      }
+    ]
+  },
+  "clip_test_cutout": {
+    "required_before_clip_selection": true,
+    "verdict": "n/a",
+    "reasons": [
+      "Product UI only; no stock footage or B-roll used"
+    ]
+  },
+  "story": {
+    "research": "story/research.md",
+    "story": "story/story.md",
+    "selected": "C"
+  }
+}

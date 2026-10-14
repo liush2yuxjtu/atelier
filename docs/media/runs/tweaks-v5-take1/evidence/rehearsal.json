@@ -1,0 +1,1 @@
+{"status":"pass","semantics":true,"selectors":true,"state_transitions":true,"framing":true,"dependencies":true,"notes":"Rehearsal = /tmp/tw5/discover.mjs on same build: open-demo -> Present -> palette-signal; all three artboards recolored, linked-count 'linked in 3 boards', all selectors resolved, English UI, boxes in evidence/discovery.json"}

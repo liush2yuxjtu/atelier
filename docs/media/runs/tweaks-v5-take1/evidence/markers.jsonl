@@ -1,0 +1,11 @@
+{"elapsed_ms":1099,"label":"Landing"}
+{"elapsed_ms":4670,"label":"Northbound site: Home, Pricing, About"}
+{"elapsed_ms":7293,"label":"Present"}
+{"elapsed_ms":8927,"label":"gif_window_start: Ember on all pages","colors":{"landing":null,"pricing":null,"about":null}}
+{"elapsed_ms":10198,"label":"pointer on Signal"}
+{"elapsed_ms":10223,"label":"Look: Signal (one change)"}
+{"elapsed_ms":10693,"label":"All three pages Signal; linked in 3 boards","colors":{"landing":null,"pricing":null,"about":null},"linked":"linked in 3 boards"}
+{"elapsed_ms":13065,"label":"Approved"}
+{"elapsed_ms":17317,"label":"gif_window_end"}
+{"elapsed_ms":17734,"label":"Exit present: studio shows Signal on all pages"}
+{"elapsed_ms":21239,"label":"End"}
