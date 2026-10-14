@@ -4,8 +4,17 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import { PALETTE_LABELS } from "@/lib/palettes";
 import { useStudio } from "@/lib/store";
+import {
+  boardHasSection,
+  isSectionUnlinked,
+  isTokenUnlinked,
+  linkedBoardCount,
+  parseSectionKey,
+  sectionSchema,
+} from "@/lib/theme";
 import { cn } from "@/lib/cn";
 import type { Artboard, TweakField } from "@/lib/types";
 
@@ -17,9 +26,23 @@ interface Props {
 }
 
 export function TweakControls({ board, compact }: Props) {
+  const project = useStudio((s) => s.project);
   const setTweaks = useStudio((s) => s.setTweaks);
   const applyPalette = useStudio((s) => s.applyPalette);
-  const entries = Object.entries(board.tweakSchema).filter(([key]) =>
+  const unlinkTweak = useStudio((s) => s.unlinkTweak);
+  const pushOverride = useStudio((s) => s.pushOverride);
+  const structural = Object.fromEntries(
+    Object.entries(sectionSchema(project?.sections ?? {})).filter(([key]) => {
+      const sec = parseSectionKey(key);
+      return !sec || boardHasSection(board, sec.id);
+    }),
+  );
+  const schema = {
+    ...(project?.themeSchema ?? {}),
+    ...structural,
+    ...board.tweakSchema,
+  };
+  const entries = Object.entries(schema).filter(([key]) =>
     compact ? COMPACT_KEYS.has(key) : true,
   );
 
@@ -35,9 +58,24 @@ export function TweakControls({ board, compact }: Props) {
     <div className={cn("space-y-3", compact && "space-y-2")}>
       {entries.map(([key, field]) => {
         const value = board.tweaks[key] ?? field.value;
+        const linked = project ? linkedBoardCount(project, key) : 0;
+        const sec = parseSectionKey(key);
+        const detached = sec ? isSectionUnlinked(board, sec.id) : isTokenUnlinked(board, key);
         return (
           <div key={key} className="space-y-1.5">
-            {!compact && <Label>{field.label || key}</Label>}
+            {!compact && (
+              <div className="flex items-center justify-between gap-2">
+                <Label>{field.label || key}</Label>
+                {linked > 1 && (
+                  <span
+                    data-testid={`linked-${key}`}
+                    className="rounded-full bg-amber-300/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-100"
+                  >
+                    linked in {linked} boards
+                  </span>
+                )}
+              </div>
+            )}
             {compact && field.type !== "palette" && (
               <div className="text-[10px] tracking-wide text-stone-500 uppercase">
                 {field.label || key}
@@ -67,6 +105,11 @@ export function TweakControls({ board, compact }: Props) {
                     </button>
                   );
                 })}
+              </div>
+            )}
+            {compact && key === "look" && linked > 1 && (
+              <div className="text-[10px] font-medium tracking-wide text-amber-200/90">
+                linked in {linked} boards
               </div>
             )}
             {field.type === "color" && (
@@ -140,6 +183,26 @@ export function TweakControls({ board, compact }: Props) {
                   <option key={o}>{o}</option>
                 ))}
               </select>
+            )}
+            {!compact && linked > 1 && (
+              <div className="flex gap-1">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  data-testid={`unlink-${key}`}
+                  onClick={() => unlinkTweak(board.id, key)}
+                >
+                  {detached ? "Unlinked" : "Unlink"}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  data-testid={`push-${key}`}
+                  onClick={() => pushOverride(board.id, key)}
+                >
+                  Push to all
+                </Button>
+              </div>
             )}
           </div>
         );

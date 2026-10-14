@@ -127,6 +127,31 @@ export function buildRuntimeScript(nonce: string): string {
         document.body.setAttribute("data-layout", String(tweaks[key]));
       }
     });
+    applySections(tweaks);
+  }
+
+  function applySections(tweaks) {
+    const by = {};
+    Object.keys(tweaks).forEach((key) => {
+      const m = /^sec:([a-z0-9-]+):(layout|visible|order|variant)$/.exec(key);
+      if (!m) return;
+      const id = m[1], prop = m[2];
+      by[id] = by[id] || {};
+      by[id][prop] = tweaks[key];
+    });
+    document.querySelectorAll("[data-section]").forEach((el) => {
+      const id = el.getAttribute("data-section");
+      const s = by[id];
+      if (!s) return;
+      if (s.layout != null) el.setAttribute("data-layout", String(s.layout));
+      if (s.variant != null) el.setAttribute("data-variant", String(s.variant));
+      if (s.order != null) el.style.order = String(s.order);
+      if (s.visible != null) {
+        const on = s.visible === true || s.visible === 1 || s.visible === "1" || s.visible === "true";
+        el.hidden = !on;
+        el.style.display = on ? "" : "none";
+      }
+    });
   }
 
   function isChrome(el) {

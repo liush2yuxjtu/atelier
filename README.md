@@ -1,6 +1,6 @@
 # Atelier
 
-![Lena signs off Northbound in the room — Present, Moss palette, Approved](docs/media/tweaks-v2.gif)
+![Lena switches Moss on Home, Pricing, and About at once — linked Tweaks](docs/media/tweaks-v3.gif)
 
 **An open-source design canvas.** Chat on the left. An infinite pan/zoom board of sandboxed artboards on the right. Generate HTML, React, SVG, Markdown, and Mermaid; pre-generate tweak knobs; adjust live in a client demo; pin comments; export HTML / ZIP / PDF / PNG / PPTX.
 
@@ -16,7 +16,7 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 - **Streaming render** — `<artboard>` tags land on the canvas while the model is still writing
 - **Self-check** — iframe errors trigger one auto-fix turn
 - **Direct manipulation** — Edit / Inspect / Comment modes inside the frame
-- **Tweaks** — the review surface. The agent (or **Generate knobs**) pre-builds palette looks, color pickers, type scale, density, and layout variants. **Present** opens a floating dock over the board so you can adjust on the spot until the client nods. Save a look as **Approved**, Compare A|B, undo. No regenerate.
+- **Tweaks** — the review surface, and the thing Claude Design does not share across files. The agent (or **Generate knobs**) pre-builds palette looks, type scale, density, and **structural** knobs (section order, layout variant, show/hide). A project-level theme + shared sections bind **every** page: change Moss or move Pricing once and Home, Pricing, and About update together (`linked in N boards`). Unlink a board to override; **Push to all** writes it back. **Present** is a locked-camera dock over the site, Compare A|B, undo, **Approved**. No regenerate.
 - **Design Components** — `.dc.html` files with typed props, slots, `<dc-import>` composition, cycle detection, library + drag onto canvas, `dc-write` / `dc-set-props` agent tools, flatten on export. Spec: [docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)
 - **Pinned comments** — queued into the next turn; the agent resolves them by id
 - **Project files + history** — versions snapshot after each generation
@@ -35,7 +35,7 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 | --- | --- | --- |
 | ![](docs/screenshots/dc-library-panel.png) | ![](docs/screenshots/dc-composed.png) | ![](docs/screenshots/dc-props-tweak.png) |
 
-Hero user-story 8s GIF (520px / 12fps, Lena / live Tweaks demo): [docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif) · full walkthrough [docs/media/tweaks-v2.mp4](docs/media/tweaks-v2.mp4). v1 gap take (accent hex only, before Present/palettes): [docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif). Story: [docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md). Maya / Saturday cupping (archive): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · [docs/media/demo.mp4](docs/media/demo.mp4). Straight demo: [docs/media/demo-straight-8s.gif](docs/media/demo-straight-8s.gif). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm).
+Hero user-story 8s GIF (520px / 12fps, Lena / linked Tweaks on Home+Pricing+About): [docs/media/tweaks-v3.gif](docs/media/tweaks-v3.gif) · full walkthrough [docs/media/tweaks-v3.mp4](docs/media/tweaks-v3.mp4). v2 (Present + Moss, one board): [docs/media/tweaks-v2.gif](docs/media/tweaks-v2.gif). v1 gap take (accent hex only): [docs/media/tweaks-v1.gif](docs/media/tweaks-v1.gif). Story: [docs/media/story/story-tweaks.md](docs/media/story/story-tweaks.md). Maya / Saturday cupping (archive): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · [docs/media/demo.mp4](docs/media/demo.mp4). Straight demo: [docs/media/demo-straight-8s.gif](docs/media/demo-straight-8s.gif). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm).
 
 ## Quick start
 

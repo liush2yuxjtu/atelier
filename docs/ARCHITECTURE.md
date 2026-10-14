@@ -48,6 +48,8 @@ Original wire format (not Anthropic's `EDITMODE` block):
 
 or `<script type="application/atelier-tweaks">`. The right rail generates controls from the schema. Dragging a slider posts `apply-tweaks` into the iframe **and** rewrites the block in source so export is self-consistent.
 
+Project-level **theme** (`look`, `accent`, `paper`, `ink`, `radius`, `density`, `type`) and **shared sections** (`header`, `hero`, `pricing`, `cta` — layout / visible / order / variant) live on the `Project`. `resolveBoardTweaks` paints them onto every linked artboard. A board can unlink a token or section (`unlinked` / `unlinkedSections`) or push an override back to the layer. Present, Compare, and undo/redo read the same snapshot (`theme` + `sections` + per-board maps).
+
 ## Streaming
 
 `parseStreaming` in `src/lib/agent/parse.ts` incrementally reads `<artboard>` and `<dc-write>` tags, including an unclosed last tag, and lays new boards out to the right of existing ones. A load `error` from the iframe queues a single auto-fix turn.

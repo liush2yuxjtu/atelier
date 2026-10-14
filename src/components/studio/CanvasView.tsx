@@ -42,33 +42,41 @@ export function CanvasView() {
   }, []);
 
   useEffect(() => {
-    if (!presenting || !selectedId) return;
+    if (!presenting) return;
     const p = useStudio.getState().project;
-    const board = p?.artboards.find((b) => b.id === selectedId);
     const wrap = wrapRef.current;
-    if (!board || !wrap) return;
+    if (!p || !wrap) return;
+    const pages = p.artboards.filter((b) => b.page);
+    const targets = pages.length ? pages : p.artboards.filter((b) => b.id === selectedId);
+    if (!targets.length) return;
+    const minX = Math.min(...targets.map((b) => b.x));
+    const minY = Math.min(...targets.map((b) => b.y));
+    const maxX = Math.max(...targets.map((b) => b.x + b.width));
+    const maxY = Math.max(...targets.map((b) => b.y + b.height));
     const rect = wrap.getBoundingClientRect();
-    const padX = 40;
-    const padY = 110;
-    const zx = (rect.width - padX * 2) / board.width;
-    const zy = (rect.height - padY * 2) / board.height;
-    const zoom = Math.min(Math.max(0.12, Math.min(zx, zy)), 1.15);
+    const padX = 32;
+    const padY = 120;
+    const zx = (rect.width - padX * 2) / Math.max(1, maxX - minX);
+    const zy = (rect.height - padY * 2) / Math.max(1, maxY - minY);
+    const zoom = Math.min(Math.max(0.12, Math.min(zx, zy)), 1.05);
     setCanvas({
       zoom,
-      panX: (rect.width - board.width * zoom) / 2 - board.x * zoom,
-      panY: 24 - board.y * zoom,
+      panX: (rect.width - (maxX - minX) * zoom) / 2 - minX * zoom,
+      panY: 20 - minY * zoom,
     });
   }, [presenting, selectedId, setCanvas]);
 
   if (!project) return null;
   const { canvas, selectedArtboardId } = project;
+  const pages = project.artboards.filter((b) => b.page);
   const visibleBoards = presenting
-    ? project.artboards.filter((b) => b.id === selectedArtboardId)
+    ? pages.length
+      ? pages
+      : project.artboards.filter((b) => b.id === selectedArtboardId)
     : project.artboards;
-  const compareVariant = presenting
-    ? project.artboards
-        .find((b) => b.id === selectedArtboardId)
-        ?.variants?.find((v) => v.id === project.compareVariantId)
+  const selectedBoard = project.artboards.find((b) => b.id === selectedArtboardId);
+  const compareVariant = project.compareVariantId
+    ? selectedBoard?.variants?.find((v) => v.id === project.compareVariantId)
     : undefined;
 
   function onWheel(e: React.WheelEvent) {
@@ -184,7 +192,9 @@ export function CanvasView() {
       >
         {visibleBoards.map((board) => {
           const active = board.id === selectedArtboardId;
-          const split = Boolean(compareVariant && board.id === selectedArtboardId);
+          const split = Boolean(
+            compareVariant && (board.id === selectedArtboardId || (presenting && board.page)),
+          );
           return (
             <div
               key={board.id}
@@ -195,7 +205,6 @@ export function CanvasView() {
               data-kind={board.kind}
               data-dc-path={board.dcPath ?? ""}
             >
-              {!presenting && (
               <div className="mb-2 flex items-center gap-2">
                 <button
                   type="button"
@@ -228,7 +237,6 @@ export function CanvasView() {
                   <span className="text-[10px] text-amber-300">streaming</span>
                 )}
               </div>
-              )}
               <div
                 className={cn(
                   "rounded-sm shadow-[0_24px_80px_rgba(0,0,0,0.45)] ring-1",
@@ -249,7 +257,17 @@ export function CanvasView() {
                       <ArtboardFrame
                         board={board}
                         vendorBase={vendorBase}
-                        tweaksOverride={compareVariant.tweaks}
+                        tweaksOverride={{
+                          ...(compareVariant.theme ?? compareVariant.tweaks),
+                          ...Object.fromEntries(
+                            Object.entries(compareVariant.sections ?? {}).flatMap(([sid, s]) => [
+                              [`sec:${sid}:layout`, s.layout],
+                              [`sec:${sid}:visible`, s.visible],
+                              [`sec:${sid}:order`, s.order],
+                              [`sec:${sid}:variant`, s.variant],
+                            ]),
+                          ),
+                        }}
                         frameKey="a"
                       />
                     </div>

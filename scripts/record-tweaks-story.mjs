@@ -1,8 +1,8 @@
 /**
  * Story C (tweaks live client demo) GT.
  * record-production-feature SKILL.md §3 user-story + §5 讲解层.
- * TAKE_ID e.g. tweaks-v1-take1 / tweaks-v2-take1
- * PRESENT=1 uses Present mode + palette chips (v2).
+ * TAKE_ID e.g. tweaks-v3-take1
+ * PRESENT=1 uses Present dock + linked theme (v3).
  */
 import { chromium } from "@playwright/test";
 import fs from "node:fs";
@@ -10,12 +10,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const RUN_ID = process.env.TAKE_ID || "tweaks-v1-take1";
+const RUN_ID = process.env.TAKE_ID || "tweaks-v3-take1";
 const RUN = path.join(ROOT, "docs/media/runs", RUN_ID);
 const RAW = path.join(RUN, "raw");
 const EVIDENCE = path.join(RUN, "evidence");
 const BASE = process.env.ATELIER_URL || "http://127.0.0.1:43173";
-const V2 = process.env.PRESENT === "1";
+const V3 = process.env.PRESENT === "1" || process.env.V3 === "1";
 const W = 1280;
 const H = 800;
 
@@ -69,7 +69,7 @@ async function installStoryLayer(page) {
     layer.innerHTML = `
       <div id="__story_card" style="display:none;position:fixed;inset:0;z-index:2147483646;background:#120f18;color:#f4efe6;font-family:Georgia,ui-serif,serif;padding:72px 88px;pointer-events:none;">
         <div id="__story_kicker" style="font-family:ui-sans-serif,system-ui;letter-spacing:.18em;font-size:12px;color:#e8c39a;text-transform:uppercase;margin-bottom:18px;"></div>
-        <div id="__story_title" style="font-size:48px;line-height:1.08;letter-spacing:-.03em;max-width:18ch;"></div>
+        <div id="__story_title" style="font-size:40px;line-height:1.18;letter-spacing:-.03em;max-width:22ch;white-space:pre-line;"></div>
         <div id="__story_sub" style="font-family:ui-sans-serif,system-ui;margin-top:22px;font-size:18px;color:#c4b8a8;max-width:38ch;"></div>
       </div>
       <div id="__story_bar" style="display:none;position:fixed;left:0;right:0;top:48px;z-index:2147483646;height:44px;padding:0 22px;align-items:center;background:rgba(18,15,24,.92);color:#f4efe6;font:600 15px/1.2 ui-sans-serif,system-ui;letter-spacing:.015em;border-bottom:1px solid rgba(255,255,255,.1);pointer-events:none;"></div>
@@ -124,18 +124,6 @@ async function assertEnglish(page) {
   return { phrases, shot, cjk: false, ui_language: "en" };
 }
 
-async function zoomLanding(page) {
-  const plus = page.getByTestId("zoom-in");
-  if (await plus.count()) {
-    for (let i = 0; i < 6; i++) await plus.click();
-    return;
-  }
-  const zoomPlus = page.locator("[data-testid=canvas-view] button", { hasText: "+" });
-  for (let i = 0; i < 7; i++) {
-    if (await zoomPlus.count()) await zoomPlus.click();
-  }
-}
-
 const browser = await chromium.launch({
   headless: true,
   args: ["--disable-dev-shm-usage"],
@@ -162,13 +150,24 @@ try {
 
   await storyCard(
     page,
+    "How the tools split",
+    "Chat = structure\nTweaks = feel\nEdit = exact",
+    "Lena is live with the buyer. The site is already on the canvas.",
+  );
+  mark("thesis_card");
+  await page.screenshot({ path: path.join(EVIDENCE, "title-thesis.png") });
+  await page.waitForTimeout(2200);
+  mark("thesis_card_end");
+
+  await storyCard(
+    page,
     "Lena Park · Northbound pitch",
     "“Doesn’t feel right.”",
-    "Tweak the color. The old loop is another file next week.",
+    "Tweak the color. Move pricing up. The old loop is another file next week.",
   );
   mark("open_card");
   await page.screenshot({ path: path.join(EVIDENCE, "title-open.png") });
-  await page.waitForTimeout(2800);
+  await page.waitForTimeout(2200);
   await storyHide(page);
   mark("open_card_end");
 
@@ -176,7 +175,9 @@ try {
   await page.getByTestId("studio-app").waitFor({ state: "visible" });
   await page.getByTestId("canvas-view").waitFor({ state: "visible" });
   await page.getByTestId("artboard-ab-landing").waitFor({ state: "visible" });
-  await page.waitForTimeout(1600);
+  await page.getByTestId("artboard-ab-pricing").waitFor({ state: "visible" });
+  await page.getByTestId("artboard-ab-about").waitFor({ state: "visible" });
+  await page.waitForTimeout(1400);
   await installStoryLayer(page);
   await installCursor(page);
   const preflight = await assertEnglish(page);
@@ -184,52 +185,77 @@ try {
   mark("studio_ready");
 
   await page.getByTestId("artboard-title-ab-landing").click();
-  await zoomLanding(page);
-  await page.waitForTimeout(400);
-  mark("before_state");
-  await storyBar(page, "Doesn’t feel right. Tweak the color.");
-  await page.screenshot({ path: path.join(EVIDENCE, "before-state.png") });
-  await page.waitForTimeout(3800);
+  await page.waitForTimeout(300);
 
-  mark("gif_window_start");
-  await page.waitForTimeout(1100);
-  mark("beat_context_end");
-
-  if (V2) {
-    await storyBar(page, "The knobs were ready. She adjusts live.");
+  if (V3) {
+    await storyBar(page, "Finished site. Home, Pricing, About — one canvas.");
     const present = page.getByTestId("mode-present");
     await moveTo(page, present, 12);
     await present.click({ force: true });
     mark("present_on");
     await page.getByTestId("present-dock").waitFor({ state: "visible", timeout: 8_000 });
-    await page.waitForTimeout(550);
+    await expectVisible(page, "artboard-ab-landing");
+    await expectVisible(page, "artboard-ab-pricing");
+    await expectVisible(page, "artboard-ab-about");
+    await expectVisible(page, "linked-count");
+    await page.waitForTimeout(700);
+    await storyHide(page);
+    mark("before_state");
+    await page.screenshot({ path: path.join(EVIDENCE, "before-state.png") });
+
+    mark("gif_window_start");
+    await page.waitForTimeout(1100);
+    mark("beat_context_end");
+
+    const knobs = page.getByTestId("generate-knobs");
+    await moveTo(page, knobs, 12);
+    await knobs.click({ force: true });
+    mark("generate_knobs");
+    await page.waitForTimeout(450);
+
     const moss = page.getByTestId("palette-moss");
     await moveTo(page, moss, 14);
     await moss.click({ force: true });
     mark("palette_set");
+    await page.getByTestId("studio-app").waitFor({ state: "visible" });
+    await page.waitForTimeout(800);
+
+    const pricingUp = page.getByTestId("section-pricing-up");
+    await moveTo(page, pricingUp, 12);
+    await pricingUp.click({ force: true });
+    mark("pricing_up");
     await page.waitForTimeout(700);
+    await page.screenshot({ path: path.join(EVIDENCE, "proof-linked.png") });
+    await page.waitForTimeout(5200);
+    mark("proof_hold_end");
+    mark("gif_window_end");
+
+    await storyBar(page, "Compare the look they walked in on.");
+    const compare = page.getByTestId("compare-look");
+    await moveTo(page, compare, 12);
+    await compare.click({ force: true });
+    mark("compare_on");
+    await page.getByTestId("compare-split").first().waitFor({ state: "visible", timeout: 5_000 });
+    await page.screenshot({ path: path.join(EVIDENCE, "compare.png") });
+    await page.waitForTimeout(2200);
+
     const approve = page.getByTestId("approve-look");
     await moveTo(page, approve, 12);
     await approve.click({ force: true });
     mark("approved");
-    await page.getByText(/Approved/i).first().waitFor({ state: "visible", timeout: 5_000 });
-    await storyBar(page, "Signed off in the room.");
+    await page.getByTestId("look-approved").waitFor({ state: "visible", timeout: 5_000 });
+    await storyBar(page, "Signed off. One look, every page.");
     await page.screenshot({ path: path.join(EVIDENCE, "proof-done.png") });
-    await page.waitForTimeout(3600);
-    mark("proof_hold_end");
+    await page.waitForTimeout(4200);
+    mark("after_hold_end");
   } else {
-    await storyBar(page, "The knobs were ready. She adjusts live.");
+    await storyBar(page, "Doesn’t feel right. Tweak the color.");
     await page.getByTestId("tab-tweaks").click();
     await page.getByTestId("tweak-panel").waitFor({ state: "visible" });
     const accent = page.getByTestId("tweak-accent").first();
     await moveTo(page, accent, 14);
     mark("accent_focus");
     await accent.fill("#2f6fed");
-    const hex = page.locator("[data-testid=tweak-panel] input[type='text'], [data-testid=tweak-panel] input:not([type])").first();
-    if (await hex.count()) {
-      await hex.click({ force: true });
-      await hex.fill("#2f6fed");
-    }
     mark("accent_set");
     await page.waitForTimeout(500);
     await storyBar(page, "They nodded. No regenerate.");
@@ -237,8 +263,8 @@ try {
     await page.waitForTimeout(3600);
     mark("proof_hold_end");
   }
-  mark("gif_window_end");
-  await page.waitForTimeout(12000);
+
+  await page.waitForTimeout(4000);
   mark("walkthrough_hold_end");
 
   const postText = await page.locator("body").innerText();
@@ -247,9 +273,11 @@ try {
     JSON.stringify(
       {
         ui_language: "en",
-        v2: V2,
+        v3: V3,
         cjk_ui: /[\u3400-\u9fff]/.test(postText),
-        visible_tweaks: /accent|tweaks|approved|palette/i.test(postText),
+        visible_tweaks: /linked|approved|palette|moss|pricing/i.test(postText),
+        presenting: await page.getByTestId("present-dock").count(),
+        chat_in_present: await page.getByTestId("chat-panel").count(),
       },
       null,
       2,
@@ -257,7 +285,7 @@ try {
   );
   fs.writeFileSync(
     path.join(RUN, "markers.json"),
-    JSON.stringify({ t0, markers, story: "C-tweaks", v2: V2 }, null, 2),
+    JSON.stringify({ t0, markers, story: "C-tweaks-linked", v3: V3 }, null, 2),
   );
 } catch (err) {
   mark("error", { message: String(err) });
@@ -280,4 +308,8 @@ try {
       console.log("raw", dest, fs.statSync(dest).size);
     }
   }
+}
+
+async function expectVisible(page, testId) {
+  await page.getByTestId(testId).waitFor({ state: "visible", timeout: 8_000 });
 }

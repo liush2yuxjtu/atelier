@@ -17,6 +17,9 @@ export function StudioApp({ projectId }: { projectId: string }) {
   const hydrated = useStudio((s) => s.hydrated);
   const persist = useStudio((s) => s.persist);
   const presenting = useStudio((s) => Boolean(s.project?.presenting));
+  const themeLook = useStudio((s) => String(s.project?.theme?.look ?? ""));
+  const pricingOrder = useStudio((s) => s.project?.sections?.pricing?.order ?? 2);
+  const pricingLayout = useStudio((s) => s.project?.sections?.pricing?.layout ?? "split");
   const setPresenting = useStudio((s) => s.setPresenting);
   const [exportOpen, setExportOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -49,7 +52,14 @@ export function StudioApp({ projectId }: { projectId: string }) {
 
   return (
     <TooltipProvider>
-      <div className="flex h-dvh flex-col bg-[#120f18] text-stone-100" data-testid="studio-app">
+      <div
+        className="flex h-dvh flex-col bg-[#120f18] text-stone-100"
+        data-testid="studio-app"
+        data-theme-look={themeLook}
+        data-presenting={presenting ? "true" : "false"}
+        data-pricing-order={String(pricingOrder)}
+        data-pricing-layout={pricingLayout}
+      >
         <Toolbar
           onExport={() => setExportOpen(true)}
           onSettings={() => setSettingsOpen(true)}

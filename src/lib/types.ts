@@ -23,11 +23,29 @@ export interface TweakField {
 export type TweakSchema = Record<string, TweakField>;
 export type TweakMap = Record<string, string | number | boolean>;
 
+export interface SharedSection {
+  id: string;
+  label: string;
+  layout: string;
+  visible: boolean;
+  order: number;
+  variant: string;
+}
+
+export interface ThemeSnapshot {
+  theme: TweakMap;
+  sections: Record<string, SharedSection>;
+  componentTweaks: Record<string, TweakMap>;
+  boards: Record<string, TweakMap>;
+}
+
 export interface TweakVariant {
   id: string;
   label: string;
   tweaks: TweakMap;
   createdAt: number;
+  theme?: TweakMap;
+  sections?: Record<string, SharedSection>;
 }
 
 export interface PinComment {
@@ -65,6 +83,12 @@ export interface Artboard {
   tweakRedo?: TweakMap[];
   variants?: TweakVariant[];
   approvedVariantId?: string | null;
+  /** Theme keys detached on this board. */
+  unlinked?: string[];
+  /** Shared section ids detached on this board. */
+  unlinkedSections?: string[];
+  /** Site page — stays in Present's locked camera. */
+  page?: boolean;
 }
 
 export interface ProjectFile {
@@ -125,6 +149,15 @@ export interface Project {
   designSystem?: DesignSystem;
   presenting?: boolean;
   compareVariantId?: string | null;
+  /** Project-level tokens (look, accent, paper…) bound across linked boards. */
+  theme?: TweakMap;
+  themeSchema?: TweakSchema;
+  /** Shared sections (header, pricing, CTA…) — structural tweaks propagate. */
+  sections?: Record<string, SharedSection>;
+  /** Shared instance props for a Design Component path. */
+  componentTweaks?: Record<string, TweakMap>;
+  themeUndo?: ThemeSnapshot[];
+  themeRedo?: ThemeSnapshot[];
 }
 
 export interface ProviderSettings {

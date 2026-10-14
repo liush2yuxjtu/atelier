@@ -82,7 +82,7 @@ export function RightRail() {
                     size="sm"
                     variant="ghost"
                     data-testid="tweak-undo"
-                    disabled={(board.tweakUndo ?? []).length === 0}
+                    disabled={(project.themeUndo ?? []).length === 0 && (board.tweakUndo ?? []).length === 0}
                     onClick={() => undoTweaks(board.id)}
                   >
                     Undo
@@ -91,7 +91,7 @@ export function RightRail() {
                     size="sm"
                     variant="ghost"
                     data-testid="tweak-redo"
-                    disabled={(board.tweakRedo ?? []).length === 0}
+                    disabled={(project.themeRedo ?? []).length === 0 && (board.tweakRedo ?? []).length === 0}
                     onClick={() => redoTweaks(board.id)}
                   >
                     Redo

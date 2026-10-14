@@ -18,7 +18,7 @@ async function openDemo(page: import("@playwright/test").Page) {
   await expect(page.getByTestId("studio-app")).toBeVisible();
   await expect(page.getByTestId("canvas-view")).toBeVisible();
   await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
-  await expect(page.locator("[data-artboard=true]")).toHaveCount(6);
+  await expect(page.locator("[data-artboard=true]")).toHaveCount(7);
   await page.waitForTimeout(2200);
 }
 
@@ -32,9 +32,10 @@ test.describe("Atelier studio", () => {
     await expect(page.getByTestId("canvas-view")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-pricing")).toBeVisible();
+    await expect(page.getByTestId("artboard-ab-about")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-phone")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-dc-grid")).toBeVisible();
-    await expect(page.locator("[data-artboard=true]")).toHaveCount(6);
+    await expect(page.locator("[data-artboard=true]")).toHaveCount(7);
     await page.waitForTimeout(2500);
     save(await page.screenshot({ fullPage: true }), "canvas-multi-artboard.png");
   });
@@ -130,21 +131,52 @@ test.describe("Atelier studio", () => {
     await expect(page.getByTestId("present-dock")).toBeVisible();
     await expect(page.getByTestId("chat-panel")).toHaveCount(0);
     await expect(page.getByTestId("right-rail")).toHaveCount(0);
+    await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
+    await expect(page.getByTestId("artboard-ab-pricing")).toBeVisible();
+    await expect(page.getByTestId("artboard-ab-about")).toBeVisible();
+    await expect(page.getByTestId("linked-count")).toContainText(/linked in 3 boards/i);
 
+    await page.getByTestId("generate-knobs").click();
     await page.getByTestId("palette-moss").click();
     await expect(page.getByTestId("palette-moss")).toHaveAttribute("data-active", "true");
+    await expect(page.getByTestId("studio-app")).toHaveAttribute("data-theme-look", "moss");
+
+    await page.getByTestId("tweak-undo").click();
+    await expect(page.getByTestId("palette-ember")).toHaveAttribute("data-active", "true");
+    await page.getByTestId("tweak-redo").click();
+    await expect(page.getByTestId("palette-moss")).toHaveAttribute("data-active", "true");
+
+    await page.getByTestId("section-pricing-up").click();
+    await expect(page.getByTestId("studio-app")).toHaveAttribute("data-pricing-order", "1");
+    await page.getByTestId("section-pricing-stack").click();
+    await expect(page.getByTestId("studio-app")).toHaveAttribute("data-pricing-layout", "stack");
 
     await page.getByTestId("approve-look").click();
     await expect(page.getByTestId("look-approved")).toBeVisible();
     await expect(page.getByText(/^Approved$/).first()).toBeVisible();
 
     await page.getByTestId("compare-look").click();
-    await expect(page.getByTestId("compare-split")).toBeVisible();
+    await expect(page.getByTestId("compare-split").first()).toBeVisible();
     await page.getByTestId("compare-look").click();
-
-    await page.getByTestId("tweak-undo").click();
-    await expect(page.getByTestId("palette-ember")).toHaveAttribute("data-active", "true");
     save(await page.screenshot({ fullPage: true }), "present-tweaks.png");
+  });
+
+  test("unlink isolates a token; push override restores the link", async ({ page }) => {
+    await openDemo(page);
+    await page.getByTestId("artboard-title-ab-landing").click();
+    await page.getByTestId("tab-tweaks").click();
+    await expect(page.getByTestId("linked-look")).toContainText(/linked in 3 boards/i);
+    await page.getByTestId("unlink-accent").click();
+    await expect(page.getByTestId("unlink-accent")).toHaveText(/Unlinked/i);
+    const color = page.getByTestId("tweak-accent").first();
+    await color.fill("#2f6fed");
+    await page.getByTestId("artboard-title-ab-pricing").click();
+    await page.getByTestId("tab-tweaks").click();
+    await expect(page.getByTestId("tweak-accent").first()).toHaveValue("#c45c26");
+    await page.getByTestId("artboard-title-ab-landing").click();
+    await page.getByTestId("push-accent").click();
+    await page.getByTestId("artboard-title-ab-pricing").click();
+    await expect(page.getByTestId("tweak-accent").first()).toHaveValue("#2f6fed");
   });
 
   test("generate knobs infers a look on a board without a schema", async ({ page }) => {

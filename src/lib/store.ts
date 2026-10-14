@@ -9,15 +9,33 @@ import type {
   ProviderSettings,
   StudioMode,
   TweakMap,
+  TweakSchema,
   TweakVariant,
 } from "./types";
 import { DEFAULT_SETTINGS } from "./types";
 import { createBlankProject, createDemoProject } from "./demo";
 import { loadProject, saveProject } from "./storage";
 import { loadSettings, saveSettings } from "./providers";
-import { applyTweaksToSource, mapsEqual, parseTweaksSchema, schemaToMap } from "./tweaks";
+import { applyTweaksToSource, mapsEqual, schemaToMap } from "./tweaks";
 import { applyLook } from "./palettes";
 import { enrichSchema } from "./infer-tweaks";
+import {
+  applySectionPatch,
+  defaultSections,
+  defaultThemeSchema,
+  defaultThemeTweaks,
+  encodeSections,
+  isSectionUnlinked,
+  isThemeKey,
+  isTokenUnlinked,
+  moveSectionUp,
+  THEME_KEYS,
+  parseSectionKey,
+  resolveBoardTweaks,
+  sectionSchema,
+  snapshotTheme,
+} from "./theme";
+import type { SharedSection } from "./types";
 import { layoutNewArtboards, parseStreaming, type ParsedCommand } from "./agent/parse";
 import {
   dependentsOf,
@@ -54,6 +72,9 @@ interface StudioStore {
   setCompare: (variantId: string | null) => void;
   setPresenting: (on: boolean) => void;
   generateKnobs: (id: string) => void;
+  unlinkTweak: (id: string, key: string) => void;
+  pushOverride: (id: string, key: string) => void;
+  moveSharedSection: (id: string, sectionId: string) => void;
   addComment: (id: string, comment: Omit<PinComment, "id" | "createdAt">) => void;
   resolveComment: (artboardId: string, commentId: string) => void;
   applySelection: (
@@ -76,23 +97,33 @@ function touch(p: Project): Project {
 }
 
 function normalizeProject(p: Project): Project {
+  const theme = p.theme ?? defaultThemeTweaks();
+  const themeSchema = p.themeSchema ?? defaultThemeSchema();
+  const sections = p.sections ?? defaultSections();
   return {
     ...p,
     presenting: p.presenting ?? false,
     compareVariantId: p.compareVariantId ?? null,
+    theme,
+    themeSchema,
+    sections,
+    componentTweaks: p.componentTweaks ?? {},
+    themeUndo: p.themeUndo ?? [],
+    themeRedo: p.themeRedo ?? [],
     artboards: p.artboards.map((b) => ({
       ...b,
       tweakUndo: b.tweakUndo ?? [],
       tweakRedo: b.tweakRedo ?? [],
       variants: b.variants ?? [],
       approvedVariantId: b.approvedVariantId ?? null,
+      unlinked: b.unlinked ?? [],
+      unlinkedSections: b.unlinkedSections ?? [],
     })),
   };
 }
 
-function withTweaks(b: Artboard, tweaks: TweakMap, files: ReturnType<typeof filesFromList>): Artboard {
+function paintTweaks(b: Artboard, tweaks: TweakMap, files: ReturnType<typeof filesFromList>): Artboard {
   if (mapsEqual(b.tweaks, tweaks)) return b;
-  const undo = [...(b.tweakUndo ?? []), b.tweaks].slice(-40);
   if (b.kind === "dc" && b.dcPath) {
     const flat = flattenAllSafe(b.dcPath, files, tweaks);
     return {
@@ -102,17 +133,34 @@ function withTweaks(b: Artboard, tweaks: TweakMap, files: ReturnType<typeof file
       source: flat.html,
       version: b.version + 1,
       error: flat.error ?? null,
-      tweakUndo: undo,
-      tweakRedo: [],
     };
   }
   return {
     ...b,
     tweaks,
     source: applyTweaksToSource(b.source, tweaks, b.tweakSchema),
-    tweakUndo: undo,
+  };
+}
+
+function withTweaks(b: Artboard, tweaks: TweakMap, files: ReturnType<typeof filesFromList>): Artboard {
+  if (mapsEqual(b.tweaks, tweaks)) return b;
+  const painted = paintTweaks(b, tweaks, files);
+  return {
+    ...painted,
+    tweakUndo: [...(b.tweakUndo ?? []), b.tweaks].slice(-40),
     tweakRedo: [],
   };
+}
+
+function propagate(
+  project: Project,
+  files: ReturnType<typeof filesFromList>,
+  theme: TweakMap,
+  sections: Record<string, SharedSection>,
+  componentTweaks: Record<string, TweakMap>,
+): Artboard[] {
+  const layer = { theme, sections, componentTweaks };
+  return project.artboards.map((b) => paintTweaks(b, resolveBoardTweaks(layer, b), files));
 }
 
 export const useStudio = create<StudioStore>((set, get) => ({
@@ -138,7 +186,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
       await saveProject(project);
     } else if (id === "demo") {
       const landing = project.artboards.find((b) => b.id === "ab-landing");
-      if (!landing?.tweakSchema?.look) {
+      const about = project.artboards.find((b) => b.id === "ab-about");
+      if (!landing?.tweakSchema?.look || !about || !project.theme) {
         project = createDemoProject("demo");
         await saveProject(project);
       }
@@ -296,11 +345,59 @@ export const useStudio = create<StudioStore>((set, get) => ({
   setTweaks: (id, tweaks) => {
     const p = get().project;
     if (!p) return;
-    const map = filesFromList(p.files);
+    const board = p.artboards.find((b) => b.id === id);
+    if (!board) return;
+    const files = filesFromList(p.files);
+    const snap = snapshotTheme(p);
+    let theme = { ...(p.theme ?? defaultThemeTweaks()) };
+    let sections = { ...(p.sections ?? defaultSections()) };
+    let componentTweaks = { ...(p.componentTweaks ?? {}) };
+
+    for (const [key, value] of Object.entries(tweaks)) {
+      if (board.tweaks[key] === value) continue;
+      const sec = parseSectionKey(key);
+      if (sec) {
+        if (!isSectionUnlinked(board, sec.id)) {
+          sections = applySectionPatch(sections, sec.id, sec.prop, value);
+        }
+        continue;
+      }
+      if (board.kind === "dc" && board.dcPath && !isTokenUnlinked(board, "*component") && !isTokenUnlinked(board, key)) {
+        componentTweaks = {
+          ...componentTweaks,
+          [board.dcPath]: { ...(componentTweaks[board.dcPath] ?? {}), [key]: value },
+        };
+        continue;
+      }
+      if (isThemeKey(key, p.themeSchema) && !isTokenUnlinked(board, key)) {
+        theme = { ...theme, [key]: value };
+      }
+    }
+
+    const withLocal = p.artboards.map((b) =>
+      b.id === id ? { ...b, tweaks: { ...b.tweaks, ...tweaks } } : b,
+    );
+    const artboards = propagate(
+      { ...p, artboards: withLocal, theme, sections, componentTweaks },
+      files,
+      theme,
+      sections,
+      componentTweaks,
+    ).map((b) =>
+      b.id === id
+        ? { ...b, tweakUndo: [...(board.tweakUndo ?? []), board.tweaks].slice(-40), tweakRedo: [] }
+        : b,
+    );
+
     set({
       project: touch({
         ...p,
-        artboards: p.artboards.map((b) => (b.id === id ? withTweaks(b, tweaks, map) : b)),
+        theme,
+        sections,
+        componentTweaks,
+        artboards,
+        themeUndo: [...(p.themeUndo ?? []), snap].slice(-40),
+        themeRedo: [],
       }),
     });
     get().persist();
@@ -309,19 +406,40 @@ export const useStudio = create<StudioStore>((set, get) => ({
   undoTweaks: (id) => {
     const p = get().project;
     if (!p) return;
-    const map = filesFromList(p.files);
+    const files = filesFromList(p.files);
+    const stack = p.themeUndo ?? [];
+    if (stack.length > 0) {
+      const prev = stack[stack.length - 1]!;
+      const now = snapshotTheme(p);
+      const artboards = p.artboards.map((b) =>
+        paintTweaks(b, prev.boards[b.id] ?? resolveBoardTweaks(prev, b), files),
+      );
+      set({
+        project: touch({
+          ...p,
+          theme: prev.theme,
+          sections: prev.sections,
+          componentTweaks: prev.componentTweaks,
+          artboards,
+          themeUndo: stack.slice(0, -1),
+          themeRedo: [now, ...(p.themeRedo ?? [])].slice(0, 40),
+        }),
+      });
+      get().persist();
+      return;
+    }
     set({
       project: touch({
         ...p,
         artboards: p.artboards.map((b) => {
           if (b.id !== id) return b;
-          const stack = b.tweakUndo ?? [];
-          if (stack.length === 0) return b;
-          const prev = stack[stack.length - 1]!;
-          const patched = withTweaks(b, prev, map);
+          const local = b.tweakUndo ?? [];
+          if (local.length === 0) return b;
+          const prev = local[local.length - 1]!;
+          const patched = withTweaks(b, prev, files);
           return {
             ...patched,
-            tweakUndo: stack.slice(0, -1),
+            tweakUndo: local.slice(0, -1),
             tweakRedo: [b.tweaks, ...(b.tweakRedo ?? [])].slice(0, 40),
           };
         }),
@@ -333,17 +451,38 @@ export const useStudio = create<StudioStore>((set, get) => ({
   redoTweaks: (id) => {
     const p = get().project;
     if (!p) return;
-    const map = filesFromList(p.files);
+    const files = filesFromList(p.files);
+    const redo = p.themeRedo ?? [];
+    if (redo.length > 0) {
+      const next = redo[0]!;
+      const now = snapshotTheme(p);
+      const artboards = p.artboards.map((b) =>
+        paintTweaks(b, next.boards[b.id] ?? resolveBoardTweaks(next, b), files),
+      );
+      set({
+        project: touch({
+          ...p,
+          theme: next.theme,
+          sections: next.sections,
+          componentTweaks: next.componentTweaks,
+          artboards,
+          themeUndo: [...(p.themeUndo ?? []), now].slice(-40),
+          themeRedo: redo.slice(1),
+        }),
+      });
+      get().persist();
+      return;
+    }
     set({
       project: touch({
         ...p,
         artboards: p.artboards.map((b) => {
           if (b.id !== id) return b;
-          const redo = b.tweakRedo ?? [];
-          const next = redo[0];
+          const local = b.tweakRedo ?? [];
+          const next = local[0];
           if (!next) return b;
-          const applied = withTweaks({ ...b, tweakRedo: [] }, next, map);
-          return { ...applied, tweakRedo: redo.slice(1) };
+          const applied = withTweaks({ ...b, tweakRedo: [] }, next, files);
+          return { ...applied, tweakRedo: local.slice(1) };
         }),
       }),
     });
@@ -355,9 +494,9 @@ export const useStudio = create<StudioStore>((set, get) => ({
     if (!p) return;
     const board = p.artboards.find((b) => b.id === id);
     if (!board) return;
-    const field = board.tweakSchema.look;
-    const next = applyLook(board.tweaks, lookId, field?.swatches);
-    get().setTweaks(id, next);
+    const field = board.tweakSchema.look ?? p.themeSchema?.look;
+    const next = applyLook({ ...(p.theme ?? board.tweaks) }, lookId, field?.swatches);
+    get().setTweaks(id, { ...board.tweaks, ...next });
   },
 
   saveVariant: (id, label) => {
@@ -368,6 +507,8 @@ export const useStudio = create<StudioStore>((set, get) => ({
       label,
       tweaks: { ...(p.artboards.find((b) => b.id === id)?.tweaks ?? {}) },
       createdAt: Date.now(),
+      theme: { ...(p.theme ?? {}) },
+      sections: structuredClone(p.sections ?? {}),
     };
     set({
       project: touch({
@@ -425,18 +566,123 @@ export const useStudio = create<StudioStore>((set, get) => ({
   generateKnobs: (id) => {
     const p = get().project;
     if (!p) return;
+    const snap = snapshotTheme(p);
+    const themeSchema = { ...defaultThemeSchema(), ...(p.themeSchema ?? {}) };
+    let theme = { ...defaultThemeTweaks(), ...(p.theme ?? {}) };
+    const files = filesFromList(p.files);
+    const sections = p.sections ?? defaultSections();
+    const structural = sectionSchema(sections);
+    const artboards = p.artboards.map((b) => {
+      const schema = enrichSchema(b.source);
+      const extra =
+        b.id === id || b.page
+          ? { ...pickThemeFields(schema), ...(b.page ? structural : {}) }
+          : {};
+      const mergedSchema = { ...b.tweakSchema, ...extra };
+      const nextBoard = { ...b, tweakSchema: mergedSchema, tweaks: { ...b.tweaks, ...schemaToMap(extra) } };
+      return paintTweaks(nextBoard, resolveBoardTweaks({ theme, sections, componentTweaks: p.componentTweaks ?? {} }, nextBoard), files);
+    });
+    const source = artboards.find((b) => b.id === id);
+    if (source) {
+      theme = { ...theme, ...pickThemeValues(source.tweaks) };
+    }
+    set({
+      project: touch({
+        ...p,
+        theme,
+        themeSchema,
+        sections: p.sections ?? defaultSections(),
+        artboards,
+        themeUndo: [...(p.themeUndo ?? []), snap].slice(-40),
+        themeRedo: [],
+      }),
+    });
+    get().persist();
+  },
+
+  unlinkTweak: (id, key) => {
+    const p = get().project;
+    if (!p) return;
     set({
       project: touch({
         ...p,
         artboards: p.artboards.map((b) => {
           if (b.id !== id) return b;
-          const schema = enrichSchema(b.source);
-          return {
-            ...b,
-            tweakSchema: { ...schema, ...b.tweakSchema },
-            tweaks: { ...schemaToMap(schema), ...b.tweaks },
-          };
+          const sec = parseSectionKey(key);
+          if (sec) {
+            return { ...b, unlinkedSections: [...new Set([...(b.unlinkedSections ?? []), sec.id])] };
+          }
+          return { ...b, unlinked: [...new Set([...(b.unlinked ?? []), key])] };
         }),
+      }),
+    });
+    get().persist();
+  },
+
+  pushOverride: (id, key) => {
+    const p = get().project;
+    if (!p) return;
+    const board = p.artboards.find((b) => b.id === id);
+    if (!board) return;
+    const files = filesFromList(p.files);
+    const snap = snapshotTheme(p);
+    const sec = parseSectionKey(key);
+    let theme = { ...(p.theme ?? {}) };
+    let sections = { ...(p.sections ?? {}) };
+    let componentTweaks = { ...(p.componentTweaks ?? {}) };
+    let artboards = p.artboards;
+    if (sec) {
+      const value = board.tweaks[key];
+      if (value !== undefined) sections = applySectionPatch(sections, sec.id, sec.prop, value);
+      artboards = artboards.map((b) => ({
+        ...b,
+        unlinkedSections: (b.unlinkedSections ?? []).filter((s) => s !== sec.id),
+      }));
+    } else if (board.kind === "dc" && board.dcPath) {
+      componentTweaks = { ...componentTweaks, [board.dcPath]: { ...board.tweaks } };
+      artboards = artboards.map((b) => ({
+        ...b,
+        unlinked: (b.unlinked ?? []).filter((k) => k !== key && k !== "*component"),
+      }));
+    } else {
+      theme = { ...theme, [key]: board.tweaks[key] };
+      artboards = artboards.map((b) => ({
+        ...b,
+        unlinked: (b.unlinked ?? []).filter((k) => k !== key),
+      }));
+    }
+    const painted = propagate({ ...p, artboards, theme, sections, componentTweaks }, files, theme, sections, componentTweaks);
+    set({
+      project: touch({
+        ...p,
+        theme,
+        sections,
+        componentTweaks,
+        artboards: painted,
+        themeUndo: [...(p.themeUndo ?? []), snap].slice(-40),
+        themeRedo: [],
+      }),
+    });
+    get().persist();
+  },
+
+  moveSharedSection: (id, sectionId) => {
+    const p = get().project;
+    if (!p) return;
+    const board = p.artboards.find((b) => b.id === id);
+    if (!board || isSectionUnlinked(board, sectionId)) return;
+    const snap = snapshotTheme(p);
+    const sections = moveSectionUp(p.sections ?? defaultSections(), sectionId);
+    const files = filesFromList(p.files);
+    const theme = p.theme ?? defaultThemeTweaks();
+    const componentTweaks = p.componentTweaks ?? {};
+    set({
+      project: touch({
+        ...p,
+        sections,
+        artboards: propagate(p, files, theme, sections, componentTweaks),
+        themeUndo: [...(p.themeUndo ?? []), snap].slice(-40),
+        themeRedo: [],
       }),
     });
     get().persist();
@@ -830,6 +1076,22 @@ function recompileDcArtboards(
       status: b.status === "streaming" ? "streaming" : flat.error ? "error" : "ready",
     };
   });
+}
+
+function pickThemeFields(schema: TweakSchema): TweakSchema {
+  const out: TweakSchema = {};
+  for (const k of THEME_KEYS) {
+    if (schema[k]) out[k] = schema[k]!;
+  }
+  return out;
+}
+
+function pickThemeValues(tweaks: TweakMap): TweakMap {
+  const out: TweakMap = {};
+  for (const k of THEME_KEYS) {
+    if (tweaks[k] !== undefined) out[k] = tweaks[k]!;
+  }
+  return out;
 }
 
 export function queuedCommentsPrompt(project: Project): string {

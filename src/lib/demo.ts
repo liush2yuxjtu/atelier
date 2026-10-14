@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
-import { schemaToMap } from "./tweaks";
-import { enrichSchema } from "./infer-tweaks";
+import { parseTweaksSchema, schemaToMap } from "./tweaks";
+import { boardHasSection, defaultSections, defaultThemeSchema, defaultThemeTweaks, encodeSections, parseSectionKey, sectionSchema } from "./theme";
 import { filesFromList, flattenAllSafe, schemaToTweakSchema, tweakMapFromSchema } from "./dc";
 import type { Artboard, PinComment, Project, ProjectFile, TweakMap, TweakSchema } from "./types";
 
@@ -22,7 +22,12 @@ const LANDING = `<!DOCTYPE html>
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: Outfit, system-ui, sans-serif; background: var(--tweak-paper); color: var(--tweak-ink); }
-  header { display: flex; justify-content: space-between; align-items: center; padding: calc(28px * var(--tweak-density)) calc(64px * var(--tweak-density)); }
+  body.page { display: flex; flex-direction: column; min-height: 100vh; }
+  [data-section] { }
+  [data-section="header"][data-layout="compact"] nav { display: none; }
+  [data-section="pricing"][data-layout="stack"] .pgrid, [data-section="pricing"][data-layout="stack"] .grid { grid-template-columns: 1fr; gap: 8px; }
+  [data-section="pricing"][data-layout="stack"] .ptier { padding: 10px 14px; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: calc(28px * var(--tweak-density)) calc(48px * var(--tweak-density)); }
   .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: calc(22px * var(--tweak-type)); letter-spacing: -0.03em; }
   nav { display: flex; gap: 28px; color: var(--mute); font-size: 14px; }
   .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font: 600 14px Outfit, sans-serif; cursor: pointer; }
@@ -37,7 +42,12 @@ const LANDING = `<!DOCTYPE html>
     radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--tweak-accent) 35%, #fff), transparent 40%),
     linear-gradient(160deg, var(--tweak-accent), color-mix(in srgb, var(--tweak-ink) 70%, #000)); }
   .meta { display: flex; justify-content: space-between; margin-top: 16px; font-size: 13px; color: var(--mute); }
-  footer { padding: 0 calc(64px * var(--tweak-density)) calc(40px * var(--tweak-density)); display: flex; gap: 40px; color: var(--mute); font-size: 13px; }
+  footer { padding: 0 calc(48px * var(--tweak-density)) calc(32px * var(--tweak-density)); display: flex; gap: 40px; color: var(--mute); font-size: 13px; }
+  .plans { padding: 8px 48px 40px; }
+  .plans h2 { font-family: Fraunces, Georgia, serif; font-size: calc(28px * var(--tweak-type)); margin: 0 0 16px; }
+  .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ptier { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border-radius: var(--tweak-radius); padding: 16px 18px; border: 1px solid color-mix(in srgb, var(--tweak-ink) 10%, transparent); }
+  .ptier.featured { border-color: var(--tweak-accent); color: var(--tweak-accent); font-weight: 600; }
 </style>
 <script type="application/atelier-tweaks">
 {
@@ -53,13 +63,13 @@ const LANDING = `<!DOCTYPE html>
 }
 </script>
 </head>
-<body>
-  <header>
+<body class="page">
+  <header data-section="header">
     <div class="mark">Northbound</div>
-    <nav><span>Roastery</span><span>Subscriptions</span><span>Cafés</span></nav>
+    <nav><span>Home</span><span>Pricing</span><span>About</span></nav>
     <button class="cta">Get a bag</button>
   </header>
-  <section class="hero">
+  <section class="hero" data-section="hero">
     <div>
       <h1 data-tweak="headline">Coffee that tastes like the trail.</h1>
       <p class="lede">Small-lot roast from high-elevation lots in Huila and Yirgacheffe. Shipped the week it leaves the drum — never a warehouse blend.</p>
@@ -70,10 +80,18 @@ const LANDING = `<!DOCTYPE html>
     </div>
     <div class="card">
       <div class="bean"></div>
-      <div class="meta"><strong style="color:var(--ink)">Huila washed · 250g</strong><span>$22</span></div>
+      <div class="meta"><strong style="color:var(--tweak-ink)">Huila washed · 250g</strong><span>$22</span></div>
     </div>
   </section>
-  <footer>
+  <section class="plans" data-section="pricing">
+    <h2>This week’s cadence</h2>
+    <div class="pgrid">
+      <div class="ptier">Trail · $18</div>
+      <div class="ptier featured">Summit · $32</div>
+      <div class="ptier">Camp · $64</div>
+    </div>
+  </section>
+  <footer data-section="cta">
     <div>Roasted in Portland</div>
     <div>Carbon-neutral freight</div>
     <div>Pause or skip anytime</div>
@@ -87,27 +105,40 @@ const PRICING = `<!DOCTYPE html>
 <meta charset="utf-8"/>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Outfit:wght@400;500;600&display=swap');
-  :root { --tweak-accent: #c45c26; --tweak-radius: 18px; }
-  body { margin: 0; background: #1a1612; color: #f4efe6; font-family: Outfit, sans-serif; }
-  .wrap { padding: 56px 48px; }
-  h2 { font-family: Fraunces, Georgia, serif; font-size: 40px; margin: 0 0 8px; }
-  .sub { color: #b7aa9c; margin: 0 0 36px; }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .tier { background: #241f1a; border: 1px solid #3a322b; border-radius: var(--tweak-radius); padding: 28px; min-height: 420px; display: flex; flex-direction: column; }
-  .tier.featured { background: #2c2118; border-color: var(--tweak-accent); }
-  .name { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #b7aa9c; }
-  .price { font-family: Fraunces, Georgia, serif; font-size: 48px; margin: 12px 0; }
-  .price span { font-size: 16px; color: #b7aa9c; }
-  ul { padding: 0; margin: 0 0 24px; list-style: none; color: #d8cfc4; line-height: 2; flex: 1; font-size: 15px; }
-  button { border: 0; border-radius: 999px; padding: 12px; font: 600 14px Outfit, sans-serif; cursor: pointer; background: var(--tweak-accent); color: #fff; }
-  .tier:not(.featured) button { background: transparent; color: #f4efe6; border: 1px solid #5a4e43; }
+  :root { --tweak-accent: #c45c26; --tweak-radius: 18px; --tweak-paper: #f4efe6; --tweak-ink: #1a1612; --tweak-density: 1; --tweak-type: 1; }
+  body { margin: 0; background: var(--tweak-paper); color: var(--tweak-ink); font-family: Outfit, sans-serif; }
+  body.page { display: flex; flex-direction: column; min-height: 100vh; }
+  [data-section="pricing"][data-layout="stack"] .grid { grid-template-columns: 1fr; gap: 8px; }
+  [data-section="pricing"][data-layout="stack"] .tier { min-height: 0; padding: 12px 16px; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 22px 40px; }
+  .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 20px; }
+  nav { display: flex; gap: 22px; color: #6b6158; font-size: 14px; }
+  .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; font: 600 13px Outfit, sans-serif; }
+  .wrap { padding: 36px 40px 28px; }
+  h2 { font-family: Fraunces, Georgia, serif; font-size: calc(36px * var(--tweak-type)); margin: 0 0 8px; }
+  .sub { color: #6b6158; margin: 0 0 24px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tier { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border: 1px solid color-mix(in srgb, var(--tweak-ink) 12%, transparent); border-radius: var(--tweak-radius); padding: 22px; min-height: 340px; display: flex; flex-direction: column; }
+  .tier.featured { border-color: var(--tweak-accent); }
+  .name { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; }
+  .price { font-family: Fraunces, Georgia, serif; font-size: 40px; margin: 10px 0; }
+  .price span { font-size: 14px; color: #6b6158; }
+  ul { padding: 0; margin: 0 0 18px; list-style: none; color: var(--tweak-ink); line-height: 1.9; flex: 1; font-size: 14px; }
+  .tier button { border: 0; border-radius: 999px; padding: 10px; font: 600 13px Outfit, sans-serif; cursor: pointer; background: var(--tweak-accent); color: #fff; }
+  .tier:not(.featured) button { background: transparent; color: var(--tweak-ink); border: 1px solid color-mix(in srgb, var(--tweak-ink) 22%, transparent); }
+  footer { padding: 0 40px 28px; display: flex; gap: 28px; color: #6b6158; font-size: 13px; }
 </style>
 <script type="application/atelier-tweaks">
-{ "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "radius": { "type": "range", "value": 18, "min": 0, "max": 40, "unit": "px", "label": "Radius" } }
+{ "look": { "type": "palette", "value": "ember", "label": "Look" }, "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" }, "ink": { "type": "color", "value": "#1a1612", "label": "Ink" }, "radius": { "type": "range", "value": 18, "min": 0, "max": 40, "unit": "px", "label": "Radius" } }
 </script>
 </head>
-<body>
-  <div class="wrap">
+<body class="page">
+  <header data-section="header">
+    <div class="mark">Northbound</div>
+    <nav><span>Home</span><span>Pricing</span><span>About</span></nav>
+    <button class="cta">Get a bag</button>
+  </header>
+  <section class="wrap" data-section="pricing">
     <h2>Choose a roast cadence</h2>
     <p class="sub">Pause, skip, or gift a bag. Every plan ships the week of roast.</p>
     <div class="grid">
@@ -115,7 +146,12 @@ const PRICING = `<!DOCTYPE html>
       <div class="tier featured"><div class="name">Summit</div><div class="price">$32 <span>/ month</span></div><ul><li>2 bags / month</li><li>Filter + espresso pair</li><li>Early access lots</li><li>Free freight</li></ul><button>Start Summit</button></div>
       <div class="tier"><div class="name">Camp</div><div class="price">$64 <span>/ month</span></div><ul><li>Office / café kit</li><li>5 kg equivalent</li><li>Quarterly cupping call</li></ul><button>Talk to us</button></div>
     </div>
-  </div>
+  </section>
+  <footer data-section="cta">
+    <div>Roasted in Portland</div>
+    <div>Carbon-neutral freight</div>
+    <div>Pause or skip anytime</div>
+  </footer>
 </body>
 </html>`;
 
@@ -158,6 +194,47 @@ const PHONE = `<!DOCTYPE html>
       <button>Pay with Apple Pay</button>
     </div>
   </div>
+</body>
+</html>`;
+
+const ABOUT = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>About · Northbound</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600&display=swap");
+  :root { --tweak-accent: #c45c26; --tweak-radius: 16px; --tweak-paper: #f4efe6; --tweak-ink: #1a1612; --tweak-density: 1; --tweak-type: 1; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Outfit, system-ui, sans-serif; background: var(--tweak-paper); color: var(--tweak-ink); }
+  body.page { display: flex; flex-direction: column; min-height: 100vh; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 22px 48px; }
+  .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 20px; }
+  nav { display: flex; gap: 22px; color: #6b6158; font-size: 14px; }
+  .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; font: 600 13px Outfit, sans-serif; }
+  .story { padding: 48px 64px; max-width: 720px; }
+  h1 { font-family: Fraunces, Georgia, serif; font-size: calc(48px * var(--tweak-type)); line-height: 1.05; margin: 0 0 18px; }
+  p { color: #6b6158; line-height: 1.6; font-size: calc(17px * var(--tweak-type)); }
+  footer { padding: 0 48px 32px; display: flex; gap: 28px; color: #6b6158; font-size: 13px; }
+</style>
+<script type="application/atelier-tweaks">
+{ "look": { "type": "palette", "value": "ember", "label": "Look" }, "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" }, "ink": { "type": "color", "value": "#1a1612", "label": "Ink" } }
+</script>
+</head>
+<body class="page">
+  <header data-section="header">
+    <div class="mark">Northbound</div>
+    <nav><span>Home</span><span>Pricing</span><span>About</span></nav>
+    <button class="cta">Get a bag</button>
+  </header>
+  <section class="story" data-section="story">
+    <h1>A roast calendar, not a café interior.</h1>
+    <p>We buy high-elevation lots, roast the week they land, and ship before the flavor fades. The site is the product: cadence, origin, and a bag that still tastes like the trail.</p>
+  </section>
+  <footer data-section="cta">
+    <div>Portland roastery</div>
+    <div>Talk to a buyer</div>
+  </footer>
 </body>
 </html>`;
 
@@ -311,18 +388,31 @@ function board(
     comments?: PinComment[];
     tweaks?: TweakMap;
     tweakSchema?: TweakSchema;
+    page?: boolean;
   },
 ): Artboard {
-  const schema = partial.tweakSchema ?? enrichSchema(partial.source);
+  const schema = partial.tweakSchema ?? parseTweaksSchema(partial.source);
+  const theme = defaultThemeTweaks();
+  const sections = defaultSections();
+  const structural = partial.page
+    ? Object.fromEntries(
+        Object.entries(sectionSchema(sections)).filter(([key]) => {
+          const sec = parseSectionKey(key);
+          return !sec || boardHasSection({ source: partial.source }, sec.id);
+        }),
+      )
+    : {};
   return {
     ...partial,
-    tweaks: partial.tweaks ?? schemaToMap(schema),
-    tweakSchema: schema,
+    tweaks: { ...theme, ...encodeSections(sections), ...schemaToMap(schema), ...partial.tweaks },
+    tweakSchema: { ...structural, ...schema },
     comments: partial.comments ?? [],
     error: null,
     status: "ready",
     autoFixed: false,
     version: 1,
+    unlinked: [],
+    unlinkedSections: [],
   };
 }
 
@@ -341,13 +431,14 @@ export function createDemoProject(id = "demo"): Project {
   const artboards: Artboard[] = [
     board({
       id: "ab-landing",
-      title: "Landing",
+      title: "Home",
       kind: "html",
       source: LANDING,
       x: 80,
       y: 80,
-      width: 1440,
-      height: 820,
+      width: 1100,
+      height: 700,
+      page: true,
       comments: [comment],
     }),
     board({
@@ -355,10 +446,22 @@ export function createDemoProject(id = "demo"): Project {
       title: "Pricing",
       kind: "html",
       source: PRICING,
-      x: 1600,
+      x: 1260,
       y: 80,
-      width: 1280,
-      height: 720,
+      width: 1100,
+      height: 700,
+      page: true,
+    }),
+    board({
+      id: "ab-about",
+      title: "About",
+      kind: "html",
+      source: ABOUT,
+      x: 2440,
+      y: 80,
+      width: 1100,
+      height: 700,
+      page: true,
     }),
     board({
       id: "ab-phone",
@@ -442,11 +545,11 @@ export function createDemoProject(id = "demo"): Project {
         id: nanoid(8),
         role: "assistant",
         content:
-          "Placed six artboards for Northbound: landing, pricing, mobile checkout, architecture diagram, the brand brief, and a composed RoastGrid Design Component (Badge → PriceCard → grid). Instance props live in Tweaks; the library lists every .dc.html file.",
+          "Placed the Northbound site on the canvas: Home, Pricing, and About share one theme and the same header / pricing / CTA sections. Tweaks are linked — change a look or move pricing once and every page updates. Checkout, the brief, and a RoastGrid Design Component sit beside them.",
         createdAt: now,
       },
     ],
-    canvas: { panX: 28, panY: 24, zoom: 0.24 },
+    canvas: { panX: 20, panY: 36, zoom: 0.34 },
     selectedArtboardId: "ab-landing",
     selectedSelector: null,
     selectedStyles: null,
@@ -454,6 +557,10 @@ export function createDemoProject(id = "demo"): Project {
     mode: "preview",
     presenting: false,
     compareVariantId: null,
+    theme: defaultThemeTweaks(),
+    themeSchema: defaultThemeSchema(),
+    sections: defaultSections(),
+    componentTweaks: {},
     designSystem: {
       name: "Northbound",
       source: "manual",
@@ -489,5 +596,9 @@ export function createBlankProject(name = "Untitled canvas"): Project {
     mode: "preview",
     presenting: false,
     compareVariantId: null,
+    theme: defaultThemeTweaks(),
+    themeSchema: defaultThemeSchema(),
+    sections: defaultSections(),
+    componentTweaks: {},
   };
 }

@@ -1,0 +1,24 @@
+{
+  "metadata_pass": true,
+  "visual_review": "pass — no chat; 3 pages; Moss on all; linked in 3; Pricing up on Home; thesis card in walkthrough",
+  "raw_sha256": "83aaf0b65f1e9d466584d39a749ecd9f352e40ac7910c36f72874e24081d5dbe",
+  "gif_sha256": "061d1d7761e3974134ee14a213407dacdfc332ebfa27d2faa8a8091424077a65",
+  "demo_mp4_sha256": "762091df82bd64f3299bd64c015709b3e03d051778a27a7983baf5140d904007",
+  "gif_bytes": 1903885,
+  "gif_width": 520,
+  "fps_requested": 12,
+  "fps_used": 12,
+  "gce_delay_cs_sum": 800,
+  "gce_frame_count": 96,
+  "loop": 0,
+  "excerpt_start_s": 9.428,
+  "excerpt_end_s": 17.428,
+  "proof_interval_s": 4.960000000000001,
+  "raw_duration_s": 29.44,
+  "raw_size": [
+    1280,
+    800
+  ],
+  "budget_ok": true,
+  "gce_ok": true
+}

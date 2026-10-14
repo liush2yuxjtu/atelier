@@ -1,0 +1,29 @@
+{
+  "feature_id": "atelier-tweaks-linked-v3",
+  "story": "C-tweaks-linked",
+  "user_outcome": "Present locked camera on Home+Pricing+About. Generate knobs. Moss retints every page. linked in 3 boards. Pricing up moves the shared section on Home. Compare A|B. Approved.",
+  "ui_language": "en",
+  "presentation": "user-story",
+  "textOverlays": true,
+  "clip_test_cutout": {
+    "verdict": "n/a",
+    "reason": "Product UI only."
+  },
+  "gif": {
+    "width_px": 520,
+    "fps": 12,
+    "loop": 0,
+    "duration_s": 8,
+    "excerpt_start_s": 9.428,
+    "excerpt_end_s": 17.428,
+    "proof_interval_s": 4.96,
+    "gce_delay_cs_sum": 800,
+    "gce_frame_count": 96
+  },
+  "take_verification": {
+    "take": "tweaks-v3-take1",
+    "verdict": "keep",
+    "reason": "English UI; no chat in 8s frame; locked camera on three pages; Generate knobs then Moss (all pages, linked in 3); Pricing up on Home; captions not over dock; 2s thesis card in walkthrough; GCE 96/800cs.",
+    "strip": "docs/media/runs/tweaks-v3-take1/edits/contact-gif-window.jpg"
+  }
+}

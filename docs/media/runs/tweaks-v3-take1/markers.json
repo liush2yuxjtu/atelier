@@ -1,0 +1,83 @@
+{
+  "t0": 1792003312399,
+  "markers": [
+    {
+      "name": "landing",
+      "elapsed_ms": 1278
+    },
+    {
+      "name": "thesis_card",
+      "elapsed_ms": 1297
+    },
+    {
+      "name": "thesis_card_end",
+      "elapsed_ms": 3544
+    },
+    {
+      "name": "open_card",
+      "elapsed_ms": 3545
+    },
+    {
+      "name": "open_card_end",
+      "elapsed_ms": 5772
+    },
+    {
+      "name": "studio_ready",
+      "elapsed_ms": 8077
+    },
+    {
+      "name": "present_on",
+      "elapsed_ms": 8673
+    },
+    {
+      "name": "before_state",
+      "elapsed_ms": 9385
+    },
+    {
+      "name": "gif_window_start",
+      "elapsed_ms": 9428
+    },
+    {
+      "name": "beat_context_end",
+      "elapsed_ms": 10529
+    },
+    {
+      "name": "generate_knobs",
+      "elapsed_ms": 10742
+    },
+    {
+      "name": "palette_set",
+      "elapsed_ms": 11437
+    },
+    {
+      "name": "pricing_up",
+      "elapsed_ms": 12468
+    },
+    {
+      "name": "proof_hold_end",
+      "elapsed_ms": 18425
+    },
+    {
+      "name": "gif_window_end",
+      "elapsed_ms": 18426
+    },
+    {
+      "name": "compare_on",
+      "elapsed_ms": 18724
+    },
+    {
+      "name": "approved",
+      "elapsed_ms": 21288
+    },
+    {
+      "name": "after_hold_end",
+      "elapsed_ms": 25580
+    },
+    {
+      "name": "walkthrough_hold_end",
+      "elapsed_ms": 29582
+    }
+  ],
+  "story": "C-tweaks-linked",
+  "v3": true
+}
