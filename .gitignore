@@ -59,6 +59,12 @@ docs/media/runs/**/edits/frames.txt
 docs/media/runs/B-take1-*/
 docs/media/runs/B-take2-*/
 docs/media/runs/B-take3-*/
+docs/media/runs/C-take1-*/
+docs/media/runs/C-take2-*/
+docs/media/runs/C-take3-*/
+docs/media/runs/**/edits/qframes/
+docs/media/runs/**/edits/feature-8s.lossy*.gif
+docs/media/runs/**/edits/feature-8s.pre-gifsicle.gif
 docs/media/runs/**/demo.mp4
 docs/media/runs/**/feature-8s.gif
 docs/media/runs/**/edits/full.mp4

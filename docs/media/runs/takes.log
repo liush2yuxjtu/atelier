@@ -3,3 +3,7 @@
 2026-10-14T15:26:36Z B-take3 discard a11y-hidden-offcanvas-title evidence=docs/media/runs/B-take3
 2026-10-14T15:27:14Z B-take4 discard raced-old-script
 2026-10-14T15:29:00Z B-take4 keep stream+dc-props+export-done evidence=docs/media/runs/B-take4/edits/contact-gif-window.jpg gif=docs/media/feature-8s.gif 1455905B 8.00s 520px 12fps
+2026-10-14T15:42:02Z C-take1 discard caption-bar-blocked-Send
+2026-10-14T15:43:08Z C-take2 discard caption-still-blocked-Send
+2026-10-14T15:48:00Z C-take3 discard gif-window-missed-1s-context gce_frames=89 expected=96 walkthrough=16.6s evidence=docs/media/runs/C-take3-short-gce89/edits/contact-gif-window.jpg
+2026-10-14T15:53:00Z C-take4 keep user-story 1s-problem+stream+dc-props+Done proof=3.76s gce=96/800cs walkthrough=31.84s gif=docs/media/feature-8s.gif 1800947B evidence=docs/media/runs/C-take4/edits/contact-gif-window.jpg

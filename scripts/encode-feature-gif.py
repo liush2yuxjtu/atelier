@@ -113,6 +113,47 @@ def delays_cs(n: int) -> list[int]:
     return out
 
 
+def uniquify(im: Image.Image, i: int) -> Image.Image:
+    """Nudge one corner pixel so encoders cannot merge still frames."""
+    out = im.copy()
+    x, y = out.width - 1, out.height - 1
+    r, g, b = out.getpixel((x, y))[:3]
+    out.putpixel((x, y), ((r + (i % 3)) % 256, g, (b + ((i * 7) % 13)) % 256))
+    return out
+
+
+def extract_exact_frames(raw: Path, start: float, dest: Path) -> list[Path]:
+    """Pull exactly FRAMES samples at 12 Hz from a continuous 8s window."""
+    run(
+        [
+            "ffmpeg",
+            "-y",
+            "-ss",
+            f"{start:.4f}",
+            "-t",
+            f"{DURATION_S:.4f}",
+            "-i",
+            str(raw),
+            "-vf",
+            f"fps={FPS}",
+            "-frames:v",
+            str(FRAMES),
+            str(dest / "src_%03d.png"),
+        ]
+    )
+    paths = sorted(dest.glob("src_*.png"))
+    if len(paths) < FRAMES:
+        last = Image.open(paths[-1]) if paths else None
+        if last is None:
+            raise SystemExit("no source frames extracted")
+        while len(paths) < FRAMES:
+            p = dest / f"src_{len(paths)+1:03d}.png"
+            uniquify(last.convert("RGB"), len(paths)).save(p)
+            paths.append(p)
+        print("warn: filled", FRAMES - len(sorted(dest.glob('src_*.png'))) + len(paths), "tail samples")
+    return paths[:FRAMES]
+
+
 def contact_sheet(frames: list[Image.Image], dest: Path, cols: int = 8, label: bool = True) -> None:
     if not frames:
         return
@@ -150,6 +191,7 @@ def main() -> int:
     ap.add_argument("--start", type=float, required=True, help="excerpt start seconds in raw")
     ap.add_argument("--markers", default="", help="JSON map of beat name → seconds")
     ap.add_argument("--output", required=True)
+    ap.add_argument("--no-zoom", action="store_true", help="Keep full 1280×800 frame (user-story cards)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -173,6 +215,7 @@ def main() -> int:
         raise SystemExit(f"excerpt out of range start={args.start} end={end} dur={raw_dur}")
 
     markers = json.loads(args.markers) if args.markers else {}
+    zoom = not args.no_zoom
 
     full_mp4 = edits / "full.mp4"
     run(
@@ -214,44 +257,26 @@ def main() -> int:
         ]
     )
 
-    # Extract source frames at 12 fps from the excerpt (exactly FRAMES).
-    run(
-        [
-            "ffmpeg",
-            "-y",
-            "-i",
-            str(excerpt),
-            "-vf",
-            f"fps={FPS}",
-            str(frames_dir / "src_%03d.png"),
-        ]
-    )
-    src_frames = sorted(frames_dir.glob("src_*.png"))
-    if len(src_frames) > FRAMES:
-        for extra in src_frames[FRAMES:]:
-            extra.unlink()
-        src_frames = src_frames[:FRAMES]
-    if len(src_frames) < FRAMES:
-        # Duplicate last frame only to fill a single missing sample, never to pad duration.
-        last = Image.open(src_frames[-1])
-        while len(src_frames) < FRAMES:
-            p = frames_dir / f"src_{len(src_frames)+1:03d}.png"
-            last.save(p)
-            src_frames.append(p)
-        print("warn: duplicated last source frame to reach", FRAMES)
+    src_frames = extract_exact_frames(raw, args.start, frames_dir)
 
     scaled = []
     for i, p in enumerate(src_frames):
         im = Image.open(p).convert("RGB")
-        x, y, cw, ch = crop_for_frame(i, im.width, im.height, args.start, markers)
+        x, y, cw, ch = (
+            (0, 0, im.width, im.height)
+            if not zoom
+            else crop_for_frame(i, im.width, im.height, args.start, markers)
+        )
         crop = im.crop((x, y, x + cw, y + ch))
         h = int(round(EMAIL_W * crop.height / crop.width))
         if h % 2:
             h += 1
-        out_im = crop.resize((EMAIL_W, h), Image.Resampling.LANCZOS)
+        out_im = uniquify(crop.resize((EMAIL_W, h), Image.Resampling.LANCZOS), i)
         dest = frames_dir / f"gif_{i:03d}.png"
         out_im.save(dest)
         scaled.append(out_im)
+    if len(scaled) != FRAMES:
+        raise SystemExit(f"expected {FRAMES} scaled frames, got {len(scaled)}")
 
     # palettegen / paletteuse via ffmpeg on the cropped PNG sequence.
     list_file = edits / "frames.txt"
@@ -309,53 +334,68 @@ def main() -> int:
         )
         return dest
 
-    gif_path = encode_gif(fps_try)
-    # Rebuild with exact GCE delays.
-    work = Image.open(gif_path)
-    gif_frames = [frame.copy().convert("P") for frame in ImageSequence.Iterator(work)]
-    if len(gif_frames) > FRAMES:
-        gif_frames = gif_frames[:FRAMES]
-    while len(gif_frames) < FRAMES:
-        gif_frames.append(gif_frames[-1].copy())
-    cs = delays_cs(len(gif_frames))
-    durations_ms = [d * 10 for d in cs]
-    gif_frames[0].save(
+    # Quantize each uniquified frame through the shared palettegen palette,
+    # then assemble with exact GCE delays so still holds are not merged.
+    qdir = edits / "qframes"
+    qdir.mkdir(exist_ok=True)
+    quantized_rgb = []
+    for i in range(FRAMES):
+        src = frames_dir / f"gif_{i:03d}.png"
+        qpng = qdir / f"q_{i:03d}.png"
+        run(
+            [
+                "ffmpeg",
+                "-y",
+                "-i",
+                str(src),
+                "-i",
+                str(palette),
+                "-lavfi",
+                "paletteuse=dither=sierra2_4a",
+                str(qpng),
+            ]
+        )
+        quantized_rgb.append(uniquify(Image.open(qpng).convert("RGB"), i))
+    cs = delays_cs(FRAMES)
+    pal_frames = [im.convert("P", palette=Image.Palette.ADAPTIVE, colors=256) for im in quantized_rgb]
+    pal_frames[0].save(
         gif_final,
         save_all=True,
-        append_images=gif_frames[1:],
-        duration=durations_ms,
+        append_images=pal_frames[1:],
+        duration=[d * 10 for d in cs],
         loop=0,
         optimize=False,
         disposal=2,
     )
+    encode_gif(fps_try)  # sidecar; delivery GIF is the 96-frame GCE rebuild
     size = gif_final.stat().st_size
     if size > MAX_BYTES:
-        print(f"over budget {size} bytes, retry 10 then 8 fps")
+        print(f"over budget {size} bytes, gifsicle lossy (keep 96 frames)")
         ok = False
-        for alt in (10, 8):
-            fps_try = alt
-            n = int(DURATION_S * alt)
-            alt_gif = encode_gif(alt)
-            im = Image.open(alt_gif)
-            fr = [f.copy().convert("P") for f in ImageSequence.Iterator(im)][:n]
-            while len(fr) < n:
-                fr.append(fr[-1].copy())
-            dcs = delays_cs(len(fr))
-            fr[0].save(
-                gif_final,
-                save_all=True,
-                append_images=fr[1:],
-                duration=[x * 10 for x in dcs],
-                loop=0,
-                optimize=False,
-                disposal=2,
+        tmp = edits / "feature-8s.pre-gifsicle.gif"
+        shutil.copy2(gif_final, tmp)
+        for lossy in (20, 35, 50, 70, 90):
+            dest = edits / f"feature-8s.lossy{lossy}.gif"
+            run(
+                [
+                    "gifsicle",
+                    "-O1",
+                    f"--lossy={lossy}",
+                    "--no-comments",
+                    "--no-names",
+                    "-o",
+                    str(dest),
+                    str(tmp),
+                ]
             )
-            size = gif_final.stat().st_size
-            if size <= MAX_BYTES:
+            gce_try = gif_gce_cs(dest)
+            print(f"gifsicle lossy={lossy} bytes={dest.stat().st_size} frames={len(gce_try)} gce={sum(gce_try)}")
+            if dest.stat().st_size <= MAX_BYTES and len(gce_try) == FRAMES and sum(gce_try) == TARGET_CS:
+                shutil.copy2(dest, gif_final)
                 ok = True
                 break
         if not ok:
-            raise SystemExit(f"GIF still over 3 MiB: {size}")
+            raise SystemExit(f"GIF still over 3 MiB or lost GCE contract: {gif_final.stat().st_size}")
 
     gce = gif_gce_cs(gif_final)
     # Sample every 0.5s plus first/last for take verification.
@@ -388,12 +428,12 @@ def main() -> int:
         "raw_duration_s": raw_dur,
         "raw_size": [src_w, src_h],
         "budget_ok": gif_final.stat().st_size <= MAX_BYTES,
-        "gce_ok": sum(gce) == TARGET_CS and len(gce) == int(DURATION_S * fps_try) or sum(gce) == TARGET_CS,
+        "gce_ok": sum(gce) == TARGET_CS and len(gce) == FRAMES,
     }
     (edits / "qa.json").write_text(json.dumps(qa, indent=2))
     print(json.dumps(qa, indent=2))
-    if sum(gce) != TARGET_CS:
-        print("WARN GCE sum", sum(gce), "expected", TARGET_CS, file=sys.stderr)
+    if sum(gce) != TARGET_CS or len(gce) != FRAMES:
+        raise SystemExit(f"GCE contract failed sum={sum(gce)} frames={len(gce)} expected {TARGET_CS}/{FRAMES}")
     return 0
 
 

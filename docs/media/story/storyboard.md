@@ -1,19 +1,24 @@
-# Storyboard — Atelier email 8s GIF
+# Storyboard — Story C user-story email 8s + full walkthrough
 
-Skill: `liush2yuxjtu/my-release-skills` `skills/record-production-feature/SKILL.md` §3 + §6 (email 520px / 12fps).
-Adapter: `skills/create-gif-assets/SKILL.md`. Walkthrough excerpt rules: `skills/record-full-walkthrough/SKILL.md` §5.
-Private `liush2yuxjtu/chatcut-release-skills` was **403** — not read.
+Canonical: `liush2yuxjtu/my-release-skills` `skills/record-production-feature/SKILL.md`
+§3 (user-story after A/B/C), §5 (讲解层 on; must not cover action/result), §6 (520px / 12fps).
+Adapter: `skills/create-gif-assets/SKILL.md`.
+Walkthrough length + GCE: `skills/record-full-walkthrough/SKILL.md` §4–§5
+(full MP4 30–90s; GIF excerpt 8s, 800cs, frames = 8×fps).
+`preview-gif-tweaks`: `email_8s` must be 8s; labels are a separate overlay.
 
-Presentation: **pure-screen**. No burnt-in captions, badges, callouts, narration, music.
-Capture: **1280×800**. Pointer visible (overlay). UI language **en**.
+Capture 1280×800, English UI, visible pointer. Presentation: **user-story**
+(title cards + lower-thirds). Not pure-screen.
 
-| Beat | t (raw, approx) | Entry frame | Pointer | Action | Visible result | Dwell |
+| Beat | t (walkthrough) | Entry | Pointer | Action | Result | Caption |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 setup | pre | Landing | Open the Northbound demo | Studio hydrates | Chat / Components / Export / Preview | — |
-| 1 context | gif 0.0–1.0 | Studio, several artboards | Idle near Send | None | English chrome readable | 1.0s |
-| 2 stream | gif 1.0–2.6 | Chat composer has “Cupping poster” | Click **Send** | Offline draft streams `<artboard>` | New board titled Cupping poster; “Writing to the canvas…” then placed | ~1.6s |
-| 3 props | gif 2.6–5.0 | Roast grid · DC | Click board, click Headline, type | Instance props, no model call | Headline on the composed DC updates | ~2.4s |
-| 4 export | gif 5.0–5.2 | Toolbar | Click **Export**, click **HTML** | Download HTML | Dialog status **Done.** | ~0.2s |
-| 5 proof | gif 5.2–8.0 | Export dialog | Still | None | **Done.** readable ≥3s | ≥2.8s |
+| 0 | 0.0–2.8 | Black/studio wash | None | Title card | Persona + problem readable | Full open card |
+| 1 | 2.8–8.0 | Landing → studio | Open demo | Hydrate Northbound | Last week’s boards; no this-week card | — |
+| 2 | 8.0–16.0 | Studio | Type prompt | Hold before + type | English chrome; “Cupping poster” | Saturday cupping. The roast card is still in Figma. |
+| 3 | 16.0–17.1 | Chat | Idle → Send | 1s GIF context | Problem bar still up | *(hooks GIF)* same problem line |
+| 4 | 17.1–21.0 | Chat / canvas | Send → Roast grid | Stream + headline | New board; “This week's roast” | She asks Atelier… / Change the component. No regenerate. |
+| 5 | 21.0–21.4 | Toolbar | Export → HTML | Download | Dialog **Done.** | — |
+| 6 | 21.4–36.0 | Export dialog | Still | Hold ≥3s then linger | **Done.** readable | This week's card. Shipped. No Figma. |
 
-Markers recorded at runtime in `runs/<take>/markers.json` (`elapsed_ms` from recording start). The GIF excerpt is chosen from those markers — not the first 8 seconds of raw.
+GIF excerpt is cut from runtime markers (not the first 8s of raw):
+`gif_window_start` … `gif_window_start+8`, with `export_done` at least 3s before the end.

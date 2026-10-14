@@ -1,0 +1,78 @@
+{
+  "t0": 1791992961883,
+  "markers": [
+    {
+      "name": "landing",
+      "elapsed_ms": 667
+    },
+    {
+      "name": "open_card",
+      "elapsed_ms": 689
+    },
+    {
+      "name": "open_card_end",
+      "elapsed_ms": 3532
+    },
+    {
+      "name": "studio_ready",
+      "elapsed_ms": 5890
+    },
+    {
+      "name": "before_state",
+      "elapsed_ms": 6097
+    },
+    {
+      "name": "prompt_typed",
+      "elapsed_ms": 11240
+    },
+    {
+      "name": "gif_window_start",
+      "elapsed_ms": 12042
+    },
+    {
+      "name": "beat_context_end",
+      "elapsed_ms": 13142
+    },
+    {
+      "name": "send_clicked",
+      "elapsed_ms": 13389
+    },
+    {
+      "name": "artboard_streamed",
+      "elapsed_ms": 13803
+    },
+    {
+      "name": "streamed_board_in_view",
+      "elapsed_ms": 14727
+    },
+    {
+      "name": "dc_selected",
+      "elapsed_ms": 15095
+    },
+    {
+      "name": "headline_set",
+      "elapsed_ms": 15712
+    },
+    {
+      "name": "export_open",
+      "elapsed_ms": 16022
+    },
+    {
+      "name": "export_done",
+      "elapsed_ms": 16280
+    },
+    {
+      "name": "proof_hold_end",
+      "elapsed_ms": 19964
+    },
+    {
+      "name": "gif_window_end",
+      "elapsed_ms": 19964
+    },
+    {
+      "name": "walkthrough_hold_end",
+      "elapsed_ms": 31974
+    }
+  ],
+  "story": "C"
+}

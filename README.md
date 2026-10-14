@@ -1,6 +1,6 @@
 # Atelier
 
-![Stream an artboard, tweak Design Component props, export HTML](docs/media/feature-8s.gif)
+![Maya ships Saturday’s cupping card from chat — stream, Design Component props, export HTML](docs/media/feature-8s.gif)
 
 **An open-source design canvas.** Chat on the left. An infinite pan/zoom board of sandboxed artboards on the right. Generate HTML, React, SVG, Markdown, and Mermaid; tweak colors live; pin comments; export HTML / ZIP / PDF / PNG / PPTX.
 
@@ -35,7 +35,7 @@ Atelier is a standalone MIT-licensed product inspired by the *shape* of Claude A
 | --- | --- | --- |
 | ![](docs/screenshots/dc-library-panel.png) | ![](docs/screenshots/dc-composed.png) | ![](docs/screenshots/dc-props-tweak.png) |
 
-Email 8s GIF (520px / 12fps): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · full take [docs/media/demo.mp4](docs/media/demo.mp4). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm).
+User-story 8s GIF (520px / 12fps, Maya / Saturday cupping): [docs/media/feature-8s.gif](docs/media/feature-8s.gif) · full walkthrough [docs/media/demo.mp4](docs/media/demo.mp4). Straight demo (no title cards): [docs/media/demo-straight-8s.gif](docs/media/demo-straight-8s.gif) · [docs/media/demo-straight.mp4](docs/media/demo-straight.mp4). Longer DC walkthrough: [docs/media/dc-demo.webm](docs/media/dc-demo.webm). Storyboard: [docs/media/story/storyboard.md](docs/media/story/storyboard.md).
 
 ## Quick start
 

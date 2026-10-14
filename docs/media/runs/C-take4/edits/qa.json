@@ -1,0 +1,39 @@
+{
+  "metadata_pass": true,
+  "visual_review": {
+    "result": "pass",
+    "reviewer": "atelier-cloud-agent",
+    "reviewed_at": "2026-10-14T15:53:00Z",
+    "checked": [
+      "docs/media/runs/C-take4/edits/poster.png",
+      "docs/media/runs/C-take4/edits/contact-gif-window.jpg",
+      "docs/media/runs/C-take4/edits/contact-gif-all.jpg",
+      "docs/media/runs/C-take4/edits/frames/gif_000.png",
+      "docs/media/runs/C-take4/edits/frames/gif_016.png",
+      "docs/media/runs/C-take4/edits/frames/gif_036.png",
+      "docs/media/runs/C-take4/edits/frames/gif_054.png",
+      "docs/media/runs/C-take4/edits/frames/gif_095.png",
+      "docs/media/runs/C-take4/evidence/title-open.png",
+      "docs/media/runs/C-take4/evidence/before-state.png",
+      "docs/media/runs/C-take4/evidence/proof-done.png"
+    ],
+    "notes": "First GIF frame is the problem bar + typed Cupping poster (not a black card). Send streams a board. RoastGrid headline types This week's roast. Export dialog shows Done. After bar sits under the toolbar and does not cover Done. English chrome only. Pointer visible. Captions match story.md."
+  },
+  "raw_sha256": "e12bc6379f5bef6220053cdf76e6702f9e93ad687a595b16f5c688dc70626035",
+  "gif_sha256": "999c4abdece407587006483f5b47b9d8ee82d8bbe7580db8c75fcd4468faa871",
+  "demo_mp4_sha256": "e31f6771d0d6e077575b6a1a02f180899bba194a5556b5a1c9e54823f679454d",
+  "gif_bytes": 1800947,
+  "gif_width": 520,
+  "fps_requested": 12,
+  "fps_used": 12,
+  "gce_delay_cs_sum": 800,
+  "gce_frame_count": 96,
+  "loop": 0,
+  "excerpt_start_s": 12.042,
+  "excerpt_end_s": 20.042,
+  "proof_interval_s": 3.762,
+  "raw_duration_s": 31.84,
+  "raw_size": [1280, 800],
+  "budget_ok": true,
+  "gce_ok": true
+}

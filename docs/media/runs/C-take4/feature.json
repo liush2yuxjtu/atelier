@@ -1,0 +1,55 @@
+{
+  "feature_id": "atelier-core-flow-user-story",
+  "story": "C",
+  "user_outcome": "Last readable frames show Export Done. plus the after card “This week's card. Shipped. No Figma.” Maya never opened Figma.",
+  "ui_language": "en",
+  "presentation": "user-story",
+  "textOverlays": true,
+  "overlays_note": "Title card + lower-thirds on because the user asked for the 讲解层. pointer-events:none; bar at top:48px so it does not cover Send / Export / Done.",
+  "clip_test_cutout": {
+    "verdict": "n/a",
+    "reason": "No stock footage. Product UI only."
+  },
+  "recording_lock": {
+    "owner": "atelier-cloud-agent",
+    "note": "Mac mini chatcut-rec-lock N/A; Playwright Chromium on this VM."
+  },
+  "capture": { "width": 1280, "height": 800, "host": "playwright-chromium" },
+  "gif": {
+    "width_px": 520,
+    "fps": 12,
+    "loop": 0,
+    "duration_s": 8,
+    "budget_bytes": 3145728,
+    "excerpt_start_s": 12.042,
+    "excerpt_end_s": 20.042,
+    "proof_interval_s": 3.762,
+    "gce_delay_cs_sum": 800,
+    "gce_frame_count": 96
+  },
+  "markers_s": {
+    "open_card": 0.689,
+    "before_state": 6.097,
+    "gif_window_start": 12.042,
+    "send_clicked": 13.389,
+    "artboard_streamed": 13.803,
+    "streamed_board_in_view": 14.727,
+    "dc_selected": 15.095,
+    "headline_set": 15.712,
+    "export_open": 16.022,
+    "export_done": 16.28,
+    "proof_hold_end": 19.964,
+    "walkthrough_hold_end": 31.974
+  },
+  "take_verification": {
+    "take": "C-take4",
+    "verdict": "keep",
+    "reason": "English UI preflight+postcheck; 1.35s problem bar before Send; stream + RoastGrid headline + Export Done visible; after caption does not cover Done.; proof 3.76s; GCE 96/800cs; walkthrough 31.84s; no CJK UI.",
+    "strip": "docs/media/runs/C-take4/edits/contact-gif-window.jpg",
+    "contact_all": "docs/media/runs/C-take4/edits/contact-gif-all.jpg",
+    "preflight": "docs/media/runs/C-take4/evidence/preflight-en.png",
+    "title": "docs/media/runs/C-take4/evidence/title-open.png",
+    "before": "docs/media/runs/C-take4/evidence/before-state.png",
+    "proof": "docs/media/runs/C-take4/evidence/proof-done.png"
+  }
+}
