@@ -98,8 +98,8 @@ export function buildRuntimeScript(nonce: string): string {
     let raw = script ? script.textContent : null;
     if (!raw) {
       const html = document.documentElement.innerHTML;
-      const start = html.indexOf("/*@atelier-tweaks");
-      const end = html.indexOf("@atelier-tweaks*/");
+      const start = html.indexOf("/*@" + "atelier-tweaks");
+      const end = html.indexOf("@atelier-tweaks" + "*/");
       if (start !== -1 && end !== -1) raw = html.slice(start + 17, end);
     }
     if (!raw) return {};
@@ -128,6 +128,7 @@ export function buildRuntimeScript(nonce: string): string {
       }
     });
     applySections(tweaks);
+    try { window.dispatchEvent(new CustomEvent("atelier:tweaks", { detail: tweaks })); } catch (e) {}
   }
 
   function applySections(tweaks) {

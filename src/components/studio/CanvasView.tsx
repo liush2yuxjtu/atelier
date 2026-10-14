@@ -21,6 +21,33 @@ export function CanvasView() {
 
   const vendorBase = typeof window !== "undefined" ? window.location.origin : "";
   const presenting = Boolean(project?.presenting);
+  const hasProject = Boolean(project);
+
+  // Native non-passive wheel listener: React's onWheel is passive, so its
+  // preventDefault() logged an error and let ctrl+wheel zoom the whole page.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const canvas = useStudio.getState().project?.canvas;
+      if (!canvas) return;
+      if (e.ctrlKey || e.metaKey) {
+        const delta = -e.deltaY * 0.0015;
+        const next = Math.min(2.4, Math.max(0.12, canvas.zoom * (1 + delta)));
+        const rect = el.getBoundingClientRect();
+        const cx = e.clientX - rect.left;
+        const cy = e.clientY - rect.top;
+        const wx = (cx - canvas.panX) / canvas.zoom;
+        const wy = (cy - canvas.panY) / canvas.zoom;
+        setCanvas({ zoom: next, panX: cx - wx * next, panY: cy - wy * next });
+      } else {
+        setCanvas({ ...canvas, panX: canvas.panX - e.deltaX, panY: canvas.panY - e.deltaY });
+      }
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [hasProject, setCanvas]);
   const selectedId = project?.selectedArtboardId ?? null;
 
   useEffect(() => {
@@ -79,31 +106,6 @@ export function CanvasView() {
     ? selectedBoard?.variants?.find((v) => v.id === project.compareVariantId)
     : undefined;
 
-  function onWheel(e: React.WheelEvent) {
-    e.preventDefault();
-    if (e.ctrlKey || e.metaKey) {
-      const delta = -e.deltaY * 0.0015;
-      const next = Math.min(2.4, Math.max(0.12, canvas.zoom * (1 + delta)));
-      const rect = wrapRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      const cx = e.clientX - rect.left;
-      const cy = e.clientY - rect.top;
-      const wx = (cx - canvas.panX) / canvas.zoom;
-      const wy = (cy - canvas.panY) / canvas.zoom;
-      setCanvas({
-        zoom: next,
-        panX: cx - wx * next,
-        panY: cy - wy * next,
-      });
-    } else {
-      setCanvas({
-        ...canvas,
-        panX: canvas.panX - e.deltaX,
-        panY: canvas.panY - e.deltaY,
-      });
-    }
-  }
-
   function onPointerDown(e: React.PointerEvent) {
     if (space || e.button === 1 || e.altKey) {
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -143,7 +145,6 @@ export function CanvasView() {
         space || panning ? "cursor-grab" : "cursor-default",
       )}
       data-testid="canvas-view"
-      onWheel={onWheel}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}

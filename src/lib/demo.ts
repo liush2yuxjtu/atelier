@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { parseTweaksSchema, schemaToMap } from "./tweaks";
 import { boardHasSection, defaultSections, defaultThemeSchema, defaultThemeTweaks, encodeSections, parseSectionKey, sectionSchema } from "./theme";
+import { fxSchema, withFxHero } from "./fxhero";
 import { filesFromList, flattenAllSafe, schemaToTweakSchema, tweakMapFromSchema } from "./dc";
 import type { Artboard, PinComment, Project, ProjectFile, TweakMap, TweakSchema } from "./types";
 
@@ -31,7 +32,7 @@ const LANDING = `<!DOCTYPE html>
   .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: calc(22px * var(--tweak-type)); letter-spacing: -0.03em; }
   nav { display: flex; gap: 28px; color: var(--mute); font-size: 14px; }
   .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font: 600 14px Outfit, sans-serif; cursor: pointer; }
-  .hero { padding: calc(48px * var(--tweak-density)) calc(64px * var(--tweak-density)) calc(80px * var(--tweak-density)); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .hero { padding: calc(36px * var(--tweak-density)) calc(64px * var(--tweak-density)) calc(44px * var(--tweak-density)); }
   html[data-layout="stack"] .hero { grid-template-columns: 1fr; }
   h1 { font-family: Fraunces, Georgia, serif; font-size: calc(72px * var(--tweak-type)); line-height: 0.95; font-weight: 500; margin: 0 0 20px; letter-spacing: -0.04em; }
   .lede { font-size: calc(18px * var(--tweak-type)); color: var(--mute); max-width: 440px; line-height: 1.55; }
@@ -51,7 +52,7 @@ const LANDING = `<!DOCTYPE html>
 </style>
 <script type="application/atelier-tweaks">
 {
-  "look": { "type": "palette", "value": "ember", "label": "Look", "group": "color", "options": ["ember", "moss", "night", "signal"], "swatches": { "ember": { "accent": "#c45c26", "paper": "#f4efe6", "ink": "#1a1612" }, "moss": { "accent": "#3d6b4f", "paper": "#eef3ea", "ink": "#142018" }, "night": { "accent": "#d4a054", "paper": "#16141c", "ink": "#f4efe6" }, "signal": { "accent": "#2f6fed", "paper": "#f3f6fb", "ink": "#12141a" } } },
+  "look": { "type": "palette", "value": "ember", "label": "Look", "group": "color", "options": ["ember", "moss", "night", "signal", "aurora"], "swatches": { "ember": { "accent": "#c45c26", "paper": "#f4efe6", "ink": "#1a1612", "fxAccent2": "#e58a3a" }, "moss": { "accent": "#3d6b4f", "paper": "#eef3ea", "ink": "#142018", "fxAccent2": "#6fae7e" }, "night": { "accent": "#d4a054", "paper": "#16141c", "ink": "#f4efe6", "fxAccent2": "#ffe2a8" }, "signal": { "accent": "#2f6fed", "paper": "#f3f6fb", "ink": "#12141a", "fxAccent2": "#18b7e8" }, "aurora": { "accent": "#8b7bff", "paper": "#0b0a14", "ink": "#f1efff", "fxAccent2": "#4de2ff" } } },
   "accent": { "type": "color", "value": "#c45c26", "label": "Accent", "group": "color" },
   "paper": { "type": "color", "value": "#f4efe6", "label": "Paper", "group": "color" },
   "ink": { "type": "color", "value": "#1a1612", "label": "Ink", "group": "color" },
@@ -69,8 +70,8 @@ const LANDING = `<!DOCTYPE html>
     <nav><span>Home</span><span>Pricing</span><span>About</span></nav>
     <button class="cta">Get a bag</button>
   </header>
-  <section class="hero" data-section="hero">
-    <div>
+  <section class="hero fxhero" data-section="hero">
+    <div class="fxcopy">
       <h1 data-tweak="headline">Coffee that tastes like the trail.</h1>
       <p class="lede">Small-lot roast from high-elevation lots in Huila and Yirgacheffe. Shipped the week it leaves the drum — never a warehouse blend.</p>
       <div class="actions">
@@ -78,10 +79,7 @@ const LANDING = `<!DOCTYPE html>
         <button class="ghost">See this week’s lots</button>
       </div>
     </div>
-    <div class="card">
-      <div class="bean"></div>
-      <div class="meta"><strong style="color:var(--tweak-ink)">Huila washed · 250g</strong><span>$22</span></div>
-    </div>
+    <div class="fxstage" aria-label="Northbound Atlas — live roast routes"></div>
   </section>
   <section class="plans" data-section="pricing">
     <h2>This week’s cadence</h2>
@@ -114,11 +112,11 @@ const PRICING = `<!DOCTYPE html>
   .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 20px; }
   nav { display: flex; gap: 22px; color: #6b6158; font-size: 14px; }
   .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; font: 600 13px Outfit, sans-serif; }
-  .wrap { padding: 36px 40px 28px; }
+  .wrap { padding: 18px 40px 24px; }
   h2 { font-family: Fraunces, Georgia, serif; font-size: calc(36px * var(--tweak-type)); margin: 0 0 8px; }
   .sub { color: #6b6158; margin: 0 0 24px; }
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .tier { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border: 1px solid color-mix(in srgb, var(--tweak-ink) 12%, transparent); border-radius: var(--tweak-radius); padding: 22px; min-height: 340px; display: flex; flex-direction: column; }
+  .tier { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border: 1px solid color-mix(in srgb, var(--tweak-ink) 12%, transparent); border-radius: var(--tweak-radius); padding: 22px; min-height: 250px; display: flex; flex-direction: column; }
   .tier.featured { border-color: var(--tweak-accent); }
   .name { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; }
   .price { font-family: Fraunces, Georgia, serif; font-size: 40px; margin: 10px 0; }
@@ -138,9 +136,14 @@ const PRICING = `<!DOCTYPE html>
     <nav><span>Home</span><span>Pricing</span><span>About</span></nav>
     <button class="cta">Get a bag</button>
   </header>
+  <section class="fxhero fxband" data-section="hero" style="padding: 12px 40px 4px;">
+    <div class="fxcopy">
+      <h2>Choose a roast cadence</h2>
+      <p class="sub">Pause, skip, or gift a bag. Every plan ships the week of roast.</p>
+    </div>
+    <div class="fxstage" aria-label="Northbound Atlas"></div>
+  </section>
   <section class="wrap" data-section="pricing">
-    <h2>Choose a roast cadence</h2>
-    <p class="sub">Pause, skip, or gift a bag. Every plan ships the week of roast.</p>
     <div class="grid">
       <div class="tier"><div class="name">Trail</div><div class="price">$18 <span>/ bag</span></div><ul><li>1 bag / month</li><li>Rotating origin</li><li>Postcard tasting notes</li></ul><button>Start Trail</button></div>
       <div class="tier featured"><div class="name">Summit</div><div class="price">$32 <span>/ month</span></div><ul><li>2 bags / month</li><li>Filter + espresso pair</li><li>Early access lots</li><li>Free freight</li></ul><button>Start Summit</button></div>
@@ -212,7 +215,7 @@ const ABOUT = `<!DOCTYPE html>
   .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 20px; }
   nav { display: flex; gap: 22px; color: #6b6158; font-size: 14px; }
   .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; font: 600 13px Outfit, sans-serif; }
-  .story { padding: 48px 64px; max-width: 720px; }
+  .story { padding: 40px 64px; }
   h1 { font-family: Fraunces, Georgia, serif; font-size: calc(48px * var(--tweak-type)); line-height: 1.05; margin: 0 0 18px; }
   p { color: #6b6158; line-height: 1.6; font-size: calc(17px * var(--tweak-type)); }
   footer { padding: 0 48px 32px; display: flex; gap: 28px; color: #6b6158; font-size: 13px; }
@@ -227,9 +230,12 @@ const ABOUT = `<!DOCTYPE html>
     <nav><span>Home</span><span>Pricing</span><span>About</span></nav>
     <button class="cta">Get a bag</button>
   </header>
-  <section class="story" data-section="story">
-    <h1>A roast calendar, not a café interior.</h1>
-    <p>We buy high-elevation lots, roast the week they land, and ship before the flavor fades. The site is the product: cadence, origin, and a bag that still tastes like the trail.</p>
+  <section class="story fxhero" data-section="story">
+    <div class="fxcopy">
+      <h1>A roast calendar, not a café interior.</h1>
+      <p>We buy high-elevation lots, roast the week they land, and ship before the flavor fades. The site is the product: cadence, origin, and a bag that still tastes like the trail.</p>
+    </div>
+    <div class="fxstage" aria-label="Northbound Atlas"></div>
   </section>
   <footer data-section="cta">
     <div>Portland roastery</div>
@@ -383,6 +389,11 @@ const GRID_DC = `<!DOCTYPE html>
 </body>
 </html>`;
 
+function pickPageTheme(): TweakSchema {
+  const t = defaultThemeSchema();
+  return { density: t.density!, type: t.type!, radius: t.radius! };
+}
+
 function board(
   partial: Omit<Artboard, "tweaks" | "tweakSchema" | "comments" | "error" | "status" | "autoFixed" | "version"> & {
     comments?: PinComment[];
@@ -391,7 +402,9 @@ function board(
     page?: boolean;
   },
 ): Artboard {
-  const schema = partial.tweakSchema ?? parseTweaksSchema(partial.source);
+  const baseSchema = partial.tweakSchema ?? parseTweaksSchema(partial.source);
+  const pageSchema = partial.page ? { ...pickPageTheme(), ...fxSchema() } : {};
+  const schema = { ...pageSchema, ...baseSchema, ...(partial.page ? fxSchema() : {}) };
   const theme = defaultThemeTweaks();
   const sections = defaultSections();
   const structural = partial.page
@@ -433,7 +446,7 @@ export function createDemoProject(id = "demo"): Project {
       id: "ab-landing",
       title: "Home",
       kind: "html",
-      source: LANDING,
+      source: withFxHero(LANDING),
       x: 80,
       y: 80,
       width: 1100,
@@ -445,7 +458,7 @@ export function createDemoProject(id = "demo"): Project {
       id: "ab-pricing",
       title: "Pricing",
       kind: "html",
-      source: PRICING,
+      source: withFxHero(PRICING),
       x: 1260,
       y: 80,
       width: 1100,
@@ -456,7 +469,7 @@ export function createDemoProject(id = "demo"): Project {
       id: "ab-about",
       title: "About",
       kind: "html",
-      source: ABOUT,
+      source: withFxHero(ABOUT),
       x: 2440,
       y: 80,
       width: 1100,

@@ -17,7 +17,7 @@ export interface TweakField {
   presets?: { label: string; value: string }[];
   /** Palette id → map of other tweak keys (accent, paper, ink…). */
   swatches?: Record<string, Record<string, string>>;
-  group?: "color" | "type" | "density" | "layout" | "copy";
+  group?: "color" | "type" | "density" | "layout" | "copy" | "look" | "motion" | "geometry" | "visibility";
 }
 
 export type TweakSchema = Record<string, TweakField>;

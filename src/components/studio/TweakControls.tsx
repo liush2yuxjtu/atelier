@@ -20,6 +20,26 @@ import type { Artboard, TweakField } from "@/lib/types";
 
 const COMPACT_KEYS = new Set(["look", "accent", "density"]);
 
+const GROUPS = ["look", "motion", "geometry", "visibility", "layout", "type", "copy", "other"];
+const GROUP_LABELS: Record<string, string> = {
+  look: "Look",
+  motion: "Motion",
+  geometry: "Geometry",
+  visibility: "Visibility",
+  layout: "Layout",
+  type: "Type",
+  copy: "Copy",
+  other: "Other",
+};
+
+function groupOf(key: string, field: TweakField): string {
+  if (parseSectionKey(key)) return "layout";
+  const g = field.group ?? "";
+  if (g === "color" || g === "look") return "look";
+  if (g === "density") return "layout";
+  return GROUPS.includes(g) ? g : "other";
+}
+
 interface Props {
   board: Artboard;
   compact?: boolean;
@@ -42,9 +62,11 @@ export function TweakControls({ board, compact }: Props) {
     ...structural,
     ...board.tweakSchema,
   };
-  const entries = Object.entries(schema).filter(([key]) =>
-    compact ? COMPACT_KEYS.has(key) : true,
-  );
+  const entries = Object.entries(schema)
+    .filter(([key]) => (compact ? COMPACT_KEYS.has(key) : true))
+    .map(([key, field], i) => ({ key, field, i, g: groupOf(key, field) }))
+    .sort((a, b) => GROUPS.indexOf(a.g) - GROUPS.indexOf(b.g) || a.i - b.i)
+    .map(({ key, field, g }) => [key, field, g] as [string, TweakField, string]);
 
   function setField(key: string, field: TweakField, value: string | number | boolean) {
     if (field.type === "palette" || key === "look") {
@@ -56,13 +78,22 @@ export function TweakControls({ board, compact }: Props) {
 
   return (
     <div className={cn("space-y-3", compact && "space-y-2")}>
-      {entries.map(([key, field]) => {
+      {entries.map(([key, field, group], idx) => {
+        const header = !compact && (idx === 0 || entries[idx - 1]![2] !== group);
         const value = board.tweaks[key] ?? field.value;
         const linked = project ? linkedBoardCount(project, key) : 0;
         const sec = parseSectionKey(key);
         const detached = sec ? isSectionUnlinked(board, sec.id) : isTokenUnlinked(board, key);
         return (
           <div key={key} className="space-y-1.5">
+            {header && (
+              <div
+                data-testid={`tweak-group-${group}`}
+                className="border-t border-white/8 pt-3 text-[10px] font-semibold tracking-[0.16em] text-amber-200/70 uppercase first:border-t-0 first:pt-0"
+              >
+                {GROUP_LABELS[group] ?? group}
+              </div>
+            )}
             {!compact && (
               <div className="flex items-center justify-between gap-2">
                 <Label>{field.label || key}</Label>
@@ -144,7 +175,7 @@ export function TweakControls({ board, compact }: Props) {
               </div>
             )}
             {field.type === "range" && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" data-testid={`tweak-${key}`}>
                 <Slider
                   min={field.min ?? 0}
                   max={field.max ?? 100}

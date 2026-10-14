@@ -20,7 +20,7 @@ describe("infer review knobs", () => {
   it("infers look, accent, paper, ink, density, type, layout, headline", () => {
     const schema = inferTweaksSchema(MARKUP);
     expect(schema.look?.type).toBe("palette");
-    expect(schema.look?.options).toEqual(["ember", "moss", "night", "signal"]);
+    expect(schema.look?.options).toEqual(["ember", "moss", "night", "signal", "aurora"]);
     expect(schema.accent?.type).toBe("color");
     expect(String(schema.accent?.value).toLowerCase()).toBe("#c45c26");
     expect(schema.paper?.type).toBe("color");

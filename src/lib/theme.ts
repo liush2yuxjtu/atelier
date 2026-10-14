@@ -1,7 +1,8 @@
 import { applyLook, lookField, REVIEW_PALETTES } from "./palettes";
+import { FX_KEYS, fxDefaults, fxSchema } from "./fxhero";
 import type { Artboard, Project, SharedSection, ThemeSnapshot, TweakMap, TweakSchema } from "./types";
 
-export const THEME_KEYS = ["look", "accent", "paper", "ink", "radius", "density", "type"] as const;
+export const THEME_KEYS = ["look", "accent", "paper", "ink", "radius", "density", "type", ...FX_KEYS] as const;
 
 export function defaultThemeSchema(): TweakSchema {
   return {
@@ -17,11 +18,13 @@ export function defaultThemeSchema(): TweakSchema {
     radius: { type: "range", value: 16, min: 0, max: 48, unit: "px", label: "Radius", group: "layout" },
     density: { type: "range", value: 1, min: 0.75, max: 1.35, step: 0.05, label: "Density", group: "density" },
     type: { type: "range", value: 1, min: 0.8, max: 1.3, step: 0.05, label: "Type scale", group: "type" },
+    ...fxSchema(),
   };
 }
 
 export function defaultThemeTweaks(): TweakMap {
   return {
+    ...fxDefaults(),
     look: "ember",
     ...REVIEW_PALETTES.ember,
     radius: 16,
