@@ -1,0 +1,46 @@
+[
+  {
+    "label": "Landing",
+    "time_s": 1.099
+  },
+  {
+    "label": "Northbound site: Home, Pricing, About",
+    "time_s": 4.67
+  },
+  {
+    "label": "Present",
+    "time_s": 7.293
+  },
+  {
+    "label": "gif_window_start: Ember on all pages",
+    "time_s": 8.927
+  },
+  {
+    "label": "pointer on Signal",
+    "time_s": 10.198
+  },
+  {
+    "label": "Look: Signal (one change)",
+    "time_s": 10.223
+  },
+  {
+    "label": "All three pages Signal; linked in 3 boards",
+    "time_s": 10.693
+  },
+  {
+    "label": "Approved",
+    "time_s": 13.065
+  },
+  {
+    "label": "gif_window_end",
+    "time_s": 17.317
+  },
+  {
+    "label": "Exit present: studio shows Signal on all pages",
+    "time_s": 17.734
+  },
+  {
+    "label": "End",
+    "time_s": 21.239
+  }
+]

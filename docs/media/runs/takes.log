@@ -10,3 +10,4 @@
 2026-10-14T16:20:00Z tweaks-v1-take1 keep live-accent-recolor proof=6.5s gce=96/800cs walkthrough=29.56s gif=docs/media/tweaks-v1.gif 2139188B
 2026-10-14T16:40:00Z tweaks-v2-take1 keep present+moss+approved proof=4.96s gce=96/800cs walkthrough=29.68s gif=docs/media/tweaks-v2.gif 1968642B evidence=docs/media/runs/tweaks-v2-take1/edits/contact-gif-window.jpg
 2026-10-14T19:56:30Z tweaks-v5-take1 keep one-look-change-recolors-3-pages click=10.223s visible=10.3s gif=8.9-16.9s proof=10.3-16.9s approved=13.065s evidence=runs/tweaks-v5-take1/strip.png,evidence/pixel-linkage.json
+2026-10-14T20:45:00Z tweaks-v5-take1 rebuild official build_feature_media.py edits/v2-official status=ready byte-identical-to-v1-manual

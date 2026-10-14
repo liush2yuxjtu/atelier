@@ -1,0 +1,156 @@
+{
+  "status": "ready",
+  "metadata_pass": true,
+  "feature_id": "tweaks-global-linked-look",
+  "raw_sha256": "088ad92b9c131c1e389bf6971d6071765b9d45b41d945edf67604193a913549a",
+  "raw_duration_s": 21.2,
+  "gif_source_window_s": [
+    8.9,
+    16.9
+  ],
+  "proof_interval_s": [
+    10.3,
+    16.9
+  ],
+  "crop": null,
+  "outputs": {
+    "mp4": {
+      "path": "/Users/liushiyu/tw5x/runs/tweaks-v5-take1/edits/v2-official/demo.mp4",
+      "bytes": 1094080,
+      "sha256": "cfb55cb68ac15a6683bc12b569d6514afb3fb17bc822d947f11b4867f2f06e9d",
+      "probe": {
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "mime_codec_string": "avc1.640020",
+            "width": 1280,
+            "height": 800,
+            "coded_width": 1280,
+            "coded_height": 800,
+            "has_b_frames": 2,
+            "sample_aspect_ratio": "1:1",
+            "display_aspect_ratio": "8:5",
+            "pix_fmt": "yuv420p",
+            "level": 32,
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "25/1",
+            "avg_frame_rate": "25/1",
+            "time_base": "1/12800",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 271360,
+            "duration": "21.200000",
+            "bit_rate": "410131",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "530",
+            "extradata_size": 47,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "language": "eng",
+              "handler_name": "VideoHandler",
+              "encoder": "Lavc63.1.102 libx264"
+            }
+          }
+        ],
+        "format": {
+          "filename": "/Users/liushiyu/tw5x/runs/tweaks-v5-take1/edits/v2-official/demo.mp4",
+          "nb_streams": 1,
+          "nb_programs": 0,
+          "nb_stream_groups": 0,
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "format_long_name": "QuickTime / MOV",
+          "start_time": "0.000000",
+          "duration": "21.200000",
+          "size": "1094080",
+          "bit_rate": "412860",
+          "probe_score": 100,
+          "tags": {
+            "major_brand": "isom",
+            "minor_version": "512",
+            "compatible_brands": "isomiso2avc1mp41",
+            "encoder": "Lavf63.1.102"
+          }
+        }
+      }
+    },
+    "gif": {
+      "path": "/Users/liushiyu/tw5x/runs/tweaks-v5-take1/edits/v2-official/feature-8s.gif",
+      "bytes": 861848,
+      "sha256": "71356935b65ebc33e42042a7e75907ab0a91eb175a70c41fd083be94ad80ba0b",
+      "width": 520,
+      "height": 326,
+      "frames": 96,
+      "animated": true,
+      "duration_s": 8.0,
+      "zero_delay_frames": 0,
+      "loop": 0,
+      "average_fps": 12.0
+    }
+  },
+  "visual_review": {
+    "reviewer": "Grok Bot (executor)",
+    "at": "2026-10-15T04:45+08:00",
+    "images": [
+      "gif-every4.png",
+      "gif-all-96-frames.png",
+      "gif-contact-sheet.png",
+      "full-contact-sheet.png",
+      "poster.png",
+      "per-frame-linkage.json",
+      "../../strip.png",
+      "../../evidence/pixel-linkage.json"
+    ],
+    "result": "pass",
+    "checks": {
+      "english_ui_no_cjk": "pass (96/96 frames)",
+      "first_frame_context": "pass",
+      "pointer_before_click": "pass (10.198s on Signal, click 10.223s)",
+      "one_change_all_pages": "pass: frames 1-15 Ember on all 3, 17-96 Signal on all 3",
+      "approved_badge": "pass from ~13.2s",
+      "result_hold_ge_3s": "pass (proof 10.3-16.9s = 6.6s)",
+      "no_overlay_or_leak": "pass"
+    },
+    "known_issues": [
+      "Frame 16 (~83ms): all three artboards flash white while re-rendering together (genuine app behaviour)",
+      "Dock text small at 520px (no zoom by design)",
+      "Pointer is injected SVG arrow (headless capture)"
+    ],
+    "vs_manual_encode": "v1-manual and v2-official outputs are byte-identical (sha256 equal for gif, mp4, poster, both contact sheets; all 96 extracted GIF frames identical)"
+  },
+  "publish_ready": false,
+  "access_check": {
+    "persistent_save": "github liush2yuxjtu/atelier main docs/media/tweaks-v5.{gif,mp4}",
+    "anonymous_get": "raw.githubusercontent.com 200, content-length 861848 / 1094080, same sha256 as outputs"
+  },
+  "production_note": "No GitHub Release; production = main 6c1a878 built with next build/start on Mac mini"
+}

@@ -6,7 +6,7 @@ Skill: record-production-feature (SKILL.md + references/story-research.md, cinem
 - Story C: Lena is in a live review with the Northbound buyer, who says the site "feels a bit off — tweak the color". In Present mode she clicks ONE Look chip (Ember → Signal) on the Home dock; Home, Pricing and About recolor in the same frame (`linked in 3 boards`), then **Approved**.
 - Why it matters: Atelier tokens are project-level (`src/lib/theme.ts`, `store.ts`, e6ddfd1); Claude Design tweaks are single-file props with no cross-page linkage.
 - GIF `../tweaks-v5.gif` = raw 8.9–16.9 s (click 10.22 s, all 3 pages Signal from 10.3 s, Approved 13.07 s; result held 6.6 s). MP4 `../tweaks-v5.mp4` = full 21.2 s GT.
-- QA: `../runs/tweaks-v5-take1/edits/v1-manual/qa.json` (per-frame linkage, contact sheets). Status `blocked` only for the skill's 10 GiB disk preflight (Mac mini had ~5.3 GiB); encoding used the script's identical ffmpeg parameters.
+- QA: `../runs/tweaks-v5-take1/edits/v2-official/qa.json` — status **ready**; official build_feature_media.py rerun (22 GiB free), outputs byte-identical to the earlier v1-manual encode.
 
 ---
 
