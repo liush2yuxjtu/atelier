@@ -92,6 +92,8 @@ interface StudioStore {
   setBusy: (busy: boolean) => void;
 }
 
+const LOOK_PACK_KEYS = ["accent", "paper", "ink", "fxAccent2"];
+
 function touch(p: Project): Project {
   return { ...p, updatedAt: Date.now() };
 }
@@ -612,7 +614,10 @@ export const useStudio = create<StudioStore>((set, get) => ({
           if (sec) {
             return { ...b, unlinkedSections: [...new Set([...(b.unlinkedSections ?? []), sec.id])] };
           }
-          return { ...b, unlinked: [...new Set([...(b.unlinked ?? []), key])] };
+          // A Look is a pack (accent, paper, ink, glow): unlinking it detaches the
+          // whole pack so "keep this page different" really keeps it different.
+          const keys = key === "look" ? [key, ...LOOK_PACK_KEYS] : [key];
+          return { ...b, unlinked: [...new Set([...(b.unlinked ?? []), ...keys])] };
         }),
       }),
     });
@@ -645,10 +650,13 @@ export const useStudio = create<StudioStore>((set, get) => ({
         unlinked: (b.unlinked ?? []).filter((k) => k !== key && k !== "*component"),
       }));
     } else {
-      theme = { ...theme, [key]: board.tweaks[key] };
+      const keys = key === "look" ? [key, ...LOOK_PACK_KEYS] : [key];
+      for (const k of keys) {
+        if (board.tweaks[k] !== undefined) theme = { ...theme, [k]: board.tweaks[k] };
+      }
       artboards = artboards.map((b) => ({
         ...b,
-        unlinked: (b.unlinked ?? []).filter((k) => k !== key),
+        unlinked: (b.unlinked ?? []).filter((k) => !keys.includes(k)),
       }));
     }
     const painted = propagate({ ...p, artboards, theme, sections, componentTweaks }, files, theme, sections, componentTweaks);

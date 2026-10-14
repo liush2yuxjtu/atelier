@@ -6,6 +6,26 @@ import { ArtboardFrame } from "./ArtboardFrame";
 import { PresentDock } from "./PresentDock";
 import { cn } from "@/lib/cn";
 import { DC_DRAG_MIME } from "@/lib/dc/types";
+import type { Artboard } from "@/lib/types";
+
+type Slot = { x: number; y: number; s: number; w: number; h: number };
+const TITLE_H = 30;
+
+/** Present "stage": hero page large on the left, the other two stacked right. */
+function presentSlots(pages: Artboard[]): Record<string, Slot> | null {
+  if (pages.length !== 3) return null;
+  const [a, b, c] = pages as [Artboard, Artboard, Artboard];
+  const gap = 56;
+  const small = (bd: Artboard) => bd.height + TITLE_H;
+  const right = Math.max(b.width, c.width);
+  const colH = small(b) + gap + small(c);
+  const s = (colH - TITLE_H * 2) / a.height;
+  return {
+    [a.id]: { x: 0, y: 0, s, w: a.width * s, h: colH },
+    [b.id]: { x: a.width * s + gap, y: 0, s: 1, w: right, h: small(b) },
+    [c.id]: { x: a.width * s + gap, y: small(b) + gap, s: 1, w: right, h: small(c) },
+  };
+}
 
 export function CanvasView() {
   const project = useStudio((s) => s.project);
@@ -74,15 +94,19 @@ export function CanvasView() {
     const wrap = wrapRef.current;
     if (!p || !wrap) return;
     const pages = p.artboards.filter((b) => b.page);
+    const slots = presentSlots(pages);
     const targets = pages.length ? pages : p.artboards.filter((b) => b.id === selectedId);
     if (!targets.length) return;
-    const minX = Math.min(...targets.map((b) => b.x));
-    const minY = Math.min(...targets.map((b) => b.y));
-    const maxX = Math.max(...targets.map((b) => b.x + b.width));
-    const maxY = Math.max(...targets.map((b) => b.y + b.height));
+    const rects = targets.map((b) =>
+      slots?.[b.id] ?? { x: b.x, y: b.y, w: b.width, h: b.height, s: 1 },
+    );
+    const minX = Math.min(...rects.map((r) => r.x));
+    const minY = Math.min(...rects.map((r) => r.y));
+    const maxX = Math.max(...rects.map((r) => r.x + r.w));
+    const maxY = Math.max(...rects.map((r) => r.y + r.h));
     const rect = wrap.getBoundingClientRect();
     const padX = 32;
-    const padY = 120;
+    const padY = slots ? 96 : 120;
     const zx = (rect.width - padX * 2) / Math.max(1, maxX - minX);
     const zy = (rect.height - padY * 2) / Math.max(1, maxY - minY);
     const zoom = Math.min(Math.max(0.12, Math.min(zx, zy)), 1.05);
@@ -101,6 +125,7 @@ export function CanvasView() {
       ? pages
       : project.artboards.filter((b) => b.id === selectedArtboardId)
     : project.artboards;
+  const slots = presenting ? presentSlots(pages) : null;
   const selectedBoard = project.artboards.find((b) => b.id === selectedArtboardId);
   const compareVariant = project.compareVariantId
     ? selectedBoard?.variants?.find((v) => v.id === project.compareVariantId)
@@ -200,7 +225,16 @@ export function CanvasView() {
             <div
               key={board.id}
               className="absolute"
-              style={{ left: board.x, top: board.y }}
+              style={
+                slots?.[board.id]
+                  ? {
+                      left: slots[board.id]!.x,
+                      top: slots[board.id]!.y,
+                      transform: `scale(${slots[board.id]!.s})`,
+                      transformOrigin: "top left",
+                    }
+                  : { left: board.x, top: board.y }
+              }
               data-testid={`artboard-${board.id}`}
               data-artboard="true"
               data-kind={board.kind}

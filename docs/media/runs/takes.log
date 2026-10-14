@@ -1,13 +1,1 @@
-2026-10-14T15:24:30Z B-take1 discard new-artboard-off-canvas evidence=docs/media/runs/B-take1-offcanvas/evidence
-2026-10-14T15:25:28Z B-take2 discard streamed-board-locator evidence=docs/media/runs/B-take2-locator
-2026-10-14T15:26:36Z B-take3 discard a11y-hidden-offcanvas-title evidence=docs/media/runs/B-take3
-2026-10-14T15:27:14Z B-take4 discard raced-old-script
-2026-10-14T15:29:00Z B-take4 keep stream+dc-props+export-done evidence=docs/media/runs/B-take4/edits/contact-gif-window.jpg gif=docs/media/feature-8s.gif 1455905B 8.00s 520px 12fps
-2026-10-14T15:42:02Z C-take1 discard caption-bar-blocked-Send
-2026-10-14T15:43:08Z C-take2 discard caption-still-blocked-Send
-2026-10-14T15:48:00Z C-take3 discard gif-window-missed-1s-context gce_frames=89 expected=96 walkthrough=16.6s evidence=docs/media/runs/C-take3-short-gce89/edits/contact-gif-window.jpg
-2026-10-14T15:53:00Z C-take4 keep user-story 1s-problem+stream+dc-props+Done proof=3.76s gce=96/800cs walkthrough=31.84s gif=docs/media/feature-8s.gif 1800947B evidence=docs/media/runs/C-take4/edits/contact-gif-window.jpg
-2026-10-14T16:20:00Z tweaks-v1-take1 keep live-accent-recolor proof=6.5s gce=96/800cs walkthrough=29.56s gif=docs/media/tweaks-v1.gif 2139188B
-2026-10-14T16:40:00Z tweaks-v2-take1 keep present+moss+approved proof=4.96s gce=96/800cs walkthrough=29.68s gif=docs/media/tweaks-v2.gif 1968642B evidence=docs/media/runs/tweaks-v2-take1/edits/contact-gif-window.jpg
-2026-10-14T19:56:30Z tweaks-v5-take1 keep one-look-change-recolors-3-pages click=10.223s visible=10.3s gif=8.9-16.9s proof=10.3-16.9s approved=13.065s evidence=runs/tweaks-v5-take1/strip.png,evidence/pixel-linkage.json
-2026-10-14T20:45:00Z tweaks-v5-take1 rebuild official build_feature_media.py edits/v2-official status=ready byte-identical-to-v1-manual
+2026-10-14T22:23:00Z fancy-v6-take1 keep deterministic-30fps zoom-master gif=13.6-21.6 proof=15.8-21.6 evidence=strip.jpg,evidence/dup-check.json

@@ -139,16 +139,24 @@ export const FX_SCRIPT = String.raw`
     if(P.arcs)for(r=0;r<=rows;r+=2){var u=(ptime*.25+r*.137)%1,q=pr(u,r/rows),rr=(3+3*P.glow)*d,gl=g.createRadialGradient(q[0],q[1],0,q[0],q[1],rr*3);gl.addColorStop(0,css([255,255,255],.9));gl.addColorStop(.3,css(B,.7));gl.addColorStop(1,css(B,0));g.fillStyle=gl;g.beginPath();g.arc(q[0],q[1],rr*3,0,7);g.fill();}
     g.globalCompositeOperation="source-over";
   }
-  function frame(now){
-    var dt=last?Math.min(.05,(now-last)/1000):0;last=now;phase+=dt*P.speed*.35;ptime+=dt*P.pulse;
+  var manual=false;
+  function render(dt){
+    phase+=dt*P.speed*.35;ptime+=dt*P.pulse;
     var A=rgb(P.accent)||[196,92,38],B=rgb(P.accent2)||[255,179,107],pp=rgb(P.paper)||[244,239,230],dark=(pp[0]*.3+pp[1]*.59+pp[2]*.11)<110;
     for(var i=0;i<stages.length;i++){var s=stages[i];size(s);var g=s.ctx;
       if(P.mode==="flow"){g.globalCompositeOperation="destination-out";g.fillStyle="rgba(0,0,0,.12)";g.fillRect(0,0,s.c.width,s.c.height);g.globalCompositeOperation="source-over";}
       else g.clearRect(0,0,s.c.width,s.c.height);
       try{if(P.mode==="flow")flowScene(s,g,A,B,dark);else if(P.mode==="mesh")mesh(s,g,A,B,dark);else globe(s,g,A,B,dark);}catch(e){}
     }
+  }
+  function frame(now){
+    if(manual)return;
+    var dt=last?Math.min(.05,(now-last)/1000):0;last=now;render(dt);
     requestAnimationFrame(frame);
   }
+  // Deterministic capture hook: a recorder may call __fxStep(dt) per output
+  // frame; the scene then advances exactly dt seconds per frame (no rAF).
+  window.__fxStep=function(dt){manual=true;render(clamp(+dt||0,0,.1));return true;};
   function boot(){mount();readVars();requestAnimationFrame(frame);}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
 })();

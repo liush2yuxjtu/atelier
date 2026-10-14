@@ -18,7 +18,7 @@ import {
 import { cn } from "@/lib/cn";
 import type { Artboard, TweakField } from "@/lib/types";
 
-const COMPACT_KEYS = new Set(["look", "accent", "density"]);
+const COMPACT_KEYS = new Set(["look", "fxSpeed", "fxGlow", "heroLayout"]);
 
 const GROUPS = ["look", "motion", "geometry", "visibility", "layout", "type", "copy", "other"];
 const GROUP_LABELS: Record<string, string> = {
@@ -77,7 +77,7 @@ export function TweakControls({ board, compact }: Props) {
   }
 
   return (
-    <div className={cn("space-y-3", compact && "space-y-2")}>
+    <div className={cn(compact ? "flex flex-wrap items-end gap-x-5 gap-y-2" : "space-y-3")}>
       {entries.map(([key, field, group], idx) => {
         const header = !compact && (idx === 0 || entries[idx - 1]![2] !== group);
         const value = board.tweaks[key] ?? field.value;
@@ -85,7 +85,10 @@ export function TweakControls({ board, compact }: Props) {
         const sec = parseSectionKey(key);
         const detached = sec ? isSectionUnlinked(board, sec.id) : isTokenUnlinked(board, key);
         return (
-          <div key={key} className="space-y-1.5">
+          <div
+            key={key}
+            className={cn("space-y-1.5", compact && field.type !== "palette" && "w-[150px]")}
+          >
             {header && (
               <div
                 data-testid={`tweak-group-${group}`}

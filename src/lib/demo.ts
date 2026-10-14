@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import { parseTweaksSchema, schemaToMap } from "./tweaks";
 import { boardHasSection, defaultSections, defaultThemeSchema, defaultThemeTweaks, encodeSections, parseSectionKey, sectionSchema } from "./theme";
 import { fxSchema, withFxHero } from "./fxhero";
+import { lookField } from "./palettes";
 import { filesFromList, flattenAllSafe, schemaToTweakSchema, tweakMapFromSchema } from "./dc";
 import type { Artboard, PinComment, Project, ProjectFile, TweakMap, TweakSchema } from "./types";
 
@@ -404,7 +405,11 @@ function board(
 ): Artboard {
   const baseSchema = partial.tweakSchema ?? parseTweaksSchema(partial.source);
   const pageSchema = partial.page ? { ...pickPageTheme(), ...fxSchema() } : {};
-  const schema = { ...pageSchema, ...baseSchema, ...(partial.page ? fxSchema() : {}) };
+  const schema = {
+    ...pageSchema,
+    ...baseSchema,
+    ...(partial.page ? { ...fxSchema(), look: lookField(String(baseSchema.look?.value ?? "ember")) } : {}),
+  };
   const theme = defaultThemeTweaks();
   const sections = defaultSections();
   const structural = partial.page
