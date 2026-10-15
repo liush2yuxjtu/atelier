@@ -1,0 +1,15 @@
+{
+ "metadata_pass": true,
+ "visual_review": {
+  "reviewer": "Grok Bot",
+  "time": "2026-10-15 18:55 UTC+8",
+  "images": [
+   "edits/v2/gif-all-96-frames.jpg",
+   "edits/v2/full-contact-sheet.png"
+  ],
+  "result": "pass",
+  "notes": "Ember wide 0-0.7s; sweep; linked in 3 boards readable at 2x; Glow wide; Compare A|B sweep; wide hold ~1.3s then loop"
+ },
+ "dup_frames": 0,
+ "gif_bytes": 2674066
+}

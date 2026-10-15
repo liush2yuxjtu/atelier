@@ -1,0 +1,11 @@
+{"elapsed_ms":0,"frame":0,"label":"start: Home/Pricing/About all Ember, heroes running"}
+{"elapsed_ms":2200,"frame":66,"label":"pointer on Palette"}
+{"elapsed_ms":2800,"frame":84,"label":"gif_window_start"}
+{"elapsed_ms":4000,"frame":120,"label":"pointer on Aurora"}
+{"elapsed_ms":4067,"frame":122,"label":"click Aurora: all 3 boards flip","linked":"linked in 3 boards"}
+{"elapsed_ms":6533,"frame":196,"label":"pointer on Glow"}
+{"elapsed_ms":7200,"frame":216,"label":"Glow raised: 3 heroes brighten"}
+{"elapsed_ms":8033,"frame":241,"label":"Compare on: A (Before, Ember) | B (now)"}
+{"elapsed_ms":11433,"frame":343,"label":"gif_window_end"}
+{"elapsed_ms":12100,"frame":363,"label":"Save look"}
+{"elapsed_ms":16800,"frame":504,"label":"end"}
