@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "description": "Open-source design canvas: chat, infinite artboards, live tweaks, export.",
+  "description": "Open-source Claude Design / Artifacts alternative: AI chat, infinite multi-artboard canvas, linked Tweaks, .dc.html design components, BYOK.",
   "scripts": {
     "dev": "next dev --port 43173 --hostname 127.0.0.1",
     "build": "next build",
