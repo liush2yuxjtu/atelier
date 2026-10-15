@@ -17,18 +17,15 @@ h1 { font-size: 72px; }
 </body></html>`;
 
 describe("infer review knobs", () => {
-  it("infers look, accent, paper, ink, density, type, layout, headline", () => {
+  it("infers look and headline without turning Tweaks into a CSS inspector", () => {
     const schema = inferTweaksSchema(MARKUP);
     expect(schema.look?.type).toBe("palette");
     expect(schema.look?.options).toEqual(["ember", "moss", "night", "signal", "aurora"]);
     expect(schema.accent?.type).toBe("color");
     expect(String(schema.accent?.value).toLowerCase()).toBe("#c45c26");
-    expect(schema.paper?.type).toBe("color");
-    expect(schema.ink?.type).toBe("color");
-    expect(schema.density?.type).toBe("range");
-    expect(schema.type?.type).toBe("range");
-    expect(schema.layout?.options).toContain("stack");
     expect(schema.headline?.type).toBe("text");
+    expect(schema.radius).toBeUndefined();
+    expect(schema.density).toBeUndefined();
   });
 
   it("lets a declared schema win over inference", () => {
@@ -36,7 +33,7 @@ describe("infer review knobs", () => {
     const schema = inferTweaksSchema(html);
     expect(schema.accent?.value).toBe("#2f6fed");
     expect(schema.look?.value).toBe("signal");
-    expect(schema.density?.type).toBe("range");
+    expect(schema.mood).toBeUndefined();
   });
 
   it("enrichSchema matches infer", () => {

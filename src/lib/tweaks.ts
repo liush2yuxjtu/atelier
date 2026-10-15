@@ -83,15 +83,34 @@ function normalizeField(value: unknown): TweakField | null {
       : undefined,
     presets,
     swatches,
+    optionLabels: parseOptionLabels(rec.optionLabels),
+    control:
+      rec.control === "radio" || rec.control === "select" || rec.control === "chips"
+        ? rec.control
+        : undefined,
+    structural: rec.structural === true ? true : undefined,
     group:
       rec.group === "color" ||
       rec.group === "type" ||
       rec.group === "density" ||
       rec.group === "layout" ||
-      rec.group === "copy"
+      rec.group === "copy" ||
+      rec.group === "look" ||
+      rec.group === "motion" ||
+      rec.group === "geometry" ||
+      rec.group === "visibility"
         ? rec.group
         : undefined,
   };
+}
+
+function parseOptionLabels(raw: unknown): TweakField["optionLabels"] {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return undefined;
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (typeof v === "string") out[k] = v;
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 function defaultFor(type: TweakField["type"]): TweakField["value"] {

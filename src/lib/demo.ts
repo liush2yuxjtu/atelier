@@ -4,6 +4,7 @@ import { boardHasSection, defaultSections, defaultThemeSchema, defaultThemeTweak
 import { fxSchema, withFxHero } from "./fxhero";
 import { lookField } from "./palettes";
 import { filesFromList, flattenAllSafe, schemaToTweakSchema, tweakMapFromSchema } from "./dc";
+import { DEFAULT_CANVAS_PREFS } from "./types";
 import type { Artboard, PinComment, Project, ProjectFile, TweakMap, TweakSchema } from "./types";
 
 const LANDING = `<!DOCTYPE html>
@@ -20,6 +21,7 @@ const LANDING = `<!DOCTYPE html>
     --tweak-ink: #1a1612;
     --tweak-density: 1;
     --tweak-type: 1;
+    --tweak-spacing: 1;
     --mute: #6b6158;
   }
   * { box-sizing: border-box; }
@@ -33,7 +35,24 @@ const LANDING = `<!DOCTYPE html>
   .mark { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: calc(22px * var(--tweak-type)); letter-spacing: -0.03em; }
   nav { display: flex; gap: 28px; color: var(--mute); font-size: 14px; }
   .cta { background: var(--tweak-accent); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font: 600 14px Outfit, sans-serif; cursor: pointer; }
-  .hero { padding: calc(36px * var(--tweak-density)) calc(64px * var(--tweak-density)) calc(44px * var(--tweak-density)); }
+  .hero { padding: calc(36px * var(--tweak-spacing, 1) * var(--tweak-density)) calc(64px * var(--tweak-spacing, 1) * var(--tweak-density)) calc(44px * var(--tweak-spacing, 1) * var(--tweak-density)); }
+  .hero-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tweak-accent); margin-bottom: 10px; }
+  html[data-mood="editorial"] h1 { font-family: Fraunces, Georgia, serif; font-size: calc(64px * var(--tweak-type)); max-width: 14ch; }
+  html[data-mood="editorial"] .hero { max-width: 720px; }
+  html[data-mood="saas"] .hero-kicker { display: inline-block; background: var(--tweak-accent); color: #fff; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.08em; }
+  html[data-mood="playful"] h1 { transform: rotate(-1.2deg); transform-origin: left center; }
+  html[data-mood="playful"] .cta { border-radius: 14px; }
+  html[data-cta-weight="bold"] .cta {
+    padding: 12px 22px; font-size: 15px; letter-spacing: 0.02em;
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--tweak-accent) 55%, #000);
+  }
+  .social-proof { display: flex; align-items: center; gap: 10px; margin-top: 22px; font-size: 13px; color: var(--mute); }
+  .avatars { display: flex; }
+  .avatars span { width: 22px; height: 22px; border-radius: 50%; margin-left: -8px; border: 2px solid var(--tweak-paper); background: var(--tweak-accent); opacity: 0.85; }
+  .avatars span:first-child { margin-left: 0; }
+  .avatars span:nth-child(2) { opacity: 0.65; }
+  .avatars span:nth-child(3) { opacity: 0.45; }
+  html[data-social-proof="off"] .social-proof { display: none !important; }
   html[data-layout="stack"] .hero { grid-template-columns: 1fr; }
   h1 { font-family: Fraunces, Georgia, serif; font-size: calc(72px * var(--tweak-type)); line-height: 0.95; font-weight: 500; margin: 0 0 20px; letter-spacing: -0.04em; }
   .lede { font-size: calc(18px * var(--tweak-type)); color: var(--mute); max-width: 440px; line-height: 1.55; }
@@ -57,11 +76,10 @@ const LANDING = `<!DOCTYPE html>
   "accent": { "type": "color", "value": "#c45c26", "label": "Accent", "group": "color" },
   "paper": { "type": "color", "value": "#f4efe6", "label": "Paper", "group": "color" },
   "ink": { "type": "color", "value": "#1a1612", "label": "Ink", "group": "color" },
-  "radius": { "type": "range", "value": 16, "min": 0, "max": 40, "unit": "px", "label": "Radius", "group": "layout" },
-  "density": { "type": "range", "value": 1, "min": 0.75, "max": 1.35, "step": 0.05, "label": "Density", "group": "density" },
-  "type": { "type": "range", "value": 1, "min": 0.8, "max": 1.3, "step": 0.05, "label": "Type scale", "group": "type" },
-  "layout": { "type": "select", "value": "split", "options": ["split", "stack"], "label": "Layout", "group": "layout" },
-  "headline": { "type": "text", "value": "Coffee that tastes like the trail.", "label": "Headline", "group": "copy" }
+  "mood": { "type": "select", "control": "radio", "value": "saas", "options": ["editorial", "saas", "playful"], "optionLabels": { "editorial": "Editorial", "saas": "SaaS", "playful": "Playful" }, "label": "Mood", "group": "layout", "structural": true },
+  "spacing": { "type": "range", "value": 1, "min": 0.75, "max": 1.35, "step": 0.05, "label": "Spacing intensity", "group": "density", "structural": true },
+  "ctaWeight": { "type": "select", "control": "radio", "value": "bold", "options": ["regular", "bold"], "optionLabels": { "regular": "Regular", "bold": "Bold" }, "label": "CTA weight", "group": "layout", "structural": true },
+  "socialProof": { "type": "boolean", "value": true, "label": "Show social proof", "group": "visibility", "structural": true }
 }
 </script>
 </head>
@@ -73,11 +91,16 @@ const LANDING = `<!DOCTYPE html>
   </header>
   <section class="hero fxhero" data-section="hero">
     <div class="fxcopy">
-      <h1 data-tweak="headline">Coffee that tastes like the trail.</h1>
-      <p class="lede">Small-lot roast from high-elevation lots in Huila and Yirgacheffe. Shipped the week it leaves the drum — never a warehouse blend.</p>
+      <div class="hero-kicker" data-copy-for="mood" data-copy-editorial="Essay · Origin" data-copy-saas="Ship on cadence" data-copy-playful="Hey friend ✨">Ship on cadence</div>
+      <h1 data-copy-for="mood" data-copy-editorial="Checkout, written like a magazine" data-copy-saas="Coffee that tastes like the trail." data-copy-playful="Bags without the boredom">Coffee that tastes like the trail.</h1>
+      <p class="lede" data-copy-for="mood" data-copy-editorial="Quiet type, long lead, one decisive bag from a named lot." data-copy-saas="Small-lot roast from high-elevation lots in Huila and Yirgacheffe. Shipped the week it leaves the drum — never a warehouse blend." data-copy-playful="A brighter path from drum to doorstep. Confetti optional.">Small-lot roast from high-elevation lots in Huila and Yirgacheffe. Shipped the week it leaves the drum — never a warehouse blend.</p>
       <div class="actions">
-        <button class="cta">Start a subscription</button>
-        <button class="ghost">See this week’s lots</button>
+        <button class="cta" data-copy-for="mood" data-copy-editorial="Read the lot notes" data-copy-saas="Start a subscription" data-copy-playful="Let’s roast">Start a subscription</button>
+        <button class="ghost" data-copy-for="mood" data-copy-editorial="Archive" data-copy-saas="See this week’s lots" data-copy-playful="Maybe later">See this week’s lots</button>
+      </div>
+      <div class="social-proof" data-tweak-show="socialProof">
+        <div class="avatars" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span>2.4k teams switched this month</span>
       </div>
     </div>
     <div class="fxstage" aria-label="Northbound Atlas — live roast routes"></div>
@@ -116,9 +139,15 @@ const PRICING = `<!DOCTYPE html>
   .wrap { padding: 18px 40px 24px; }
   h2 { font-family: Fraunces, Georgia, serif; font-size: calc(36px * var(--tweak-type)); margin: 0 0 8px; }
   .sub { color: #6b6158; margin: 0 0 24px; }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .tier { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border: 1px solid color-mix(in srgb, var(--tweak-ink) 12%, transparent); border-radius: var(--tweak-radius); padding: 22px; min-height: 250px; display: flex; flex-direction: column; }
+  .grid { display: grid; grid-template-columns: repeat(var(--tweak-planCount, 3), 1fr); gap: 14px; }
+  html[data-plan-count="2"] .grid { grid-template-columns: 1fr 1fr; }
+  html[data-plan-count="4"] .grid { grid-template-columns: repeat(4, 1fr); }
+  .tier { background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); border: 1px solid color-mix(in srgb, var(--tweak-ink) 12%, transparent); border-radius: var(--tweak-radius); padding: 22px; min-height: 250px; display: flex; flex-direction: column; position: relative; }
   .tier.featured { border-color: var(--tweak-accent); }
+  .plan-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--tweak-accent); color: #fff; white-space: nowrap; }
+  html[data-highlight="off"] .tier.featured { border-color: color-mix(in srgb, var(--tweak-ink) 12%, transparent); }
+  html[data-highlight="off"] .plan-badge { display: none; }
+  .billing-pill { font-size: 11px; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--tweak-accent) 18%, var(--tweak-paper)); color: var(--tweak-accent); font-weight: 600; }
   .name { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; }
   .price { font-family: Fraunces, Georgia, serif; font-size: 40px; margin: 10px 0; }
   .price span { font-size: 14px; color: #6b6158; }
@@ -128,7 +157,7 @@ const PRICING = `<!DOCTYPE html>
   footer { padding: 0 40px 28px; display: flex; gap: 28px; color: #6b6158; font-size: 13px; }
 </style>
 <script type="application/atelier-tweaks">
-{ "look": { "type": "palette", "value": "ember", "label": "Look" }, "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" }, "ink": { "type": "color", "value": "#1a1612", "label": "Ink" }, "radius": { "type": "range", "value": 18, "min": 0, "max": 40, "unit": "px", "label": "Radius" } }
+{ "look": { "type": "palette", "value": "ember", "label": "Look" }, "accent": { "type": "color", "value": "#c45c26", "label": "Accent" }, "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" }, "ink": { "type": "color", "value": "#1a1612", "label": "Ink" }, "planCount": { "type": "select", "control": "radio", "value": 3, "options": ["2", "3", "4"], "optionLabels": { "2": "2 plans", "3": "3 plans", "4": "4 plans" }, "label": "Plan count", "group": "layout", "structural": true }, "highlight": { "type": "boolean", "value": true, "label": "Highlight recommended", "group": "visibility", "structural": true }, "billing": { "type": "select", "control": "radio", "value": "monthly", "options": ["monthly", "yearly"], "optionLabels": { "monthly": "Monthly", "yearly": "Yearly" }, "label": "Billing", "group": "layout", "structural": true } }
 </script>
 </head>
 <body class="page">
@@ -141,14 +170,16 @@ const PRICING = `<!DOCTYPE html>
     <div class="fxcopy">
       <h2>Choose a roast cadence</h2>
       <p class="sub">Pause, skip, or gift a bag. Every plan ships the week of roast.</p>
+      <span class="billing-pill" data-copy-for="billing" data-copy-monthly="Billed monthly" data-copy-yearly="Billed yearly">Billed monthly</span>
     </div>
     <div class="fxstage" aria-label="Northbound Atlas"></div>
   </section>
   <section class="wrap" data-section="pricing">
-    <div class="grid">
-      <div class="tier"><div class="name">Trail</div><div class="price">$18 <span>/ bag</span></div><ul><li>1 bag / month</li><li>Rotating origin</li><li>Postcard tasting notes</li></ul><button>Start Trail</button></div>
-      <div class="tier featured"><div class="name">Summit</div><div class="price">$32 <span>/ month</span></div><ul><li>2 bags / month</li><li>Filter + espresso pair</li><li>Early access lots</li><li>Free freight</li></ul><button>Start Summit</button></div>
-      <div class="tier"><div class="name">Camp</div><div class="price">$64 <span>/ month</span></div><ul><li>Office / café kit</li><li>5 kg equivalent</li><li>Quarterly cupping call</li></ul><button>Talk to us</button></div>
+    <div class="grid" data-tweak-count="planCount">
+      <div class="tier"><div class="name">Trail</div><div class="price" data-price-monthly="$18" data-price-yearly="$15"><span class="price-amount">$18</span> <span class="price-unit" data-copy-for="billing" data-copy-monthly="/ bag" data-copy-yearly="/mo yr">/ bag</span></div><ul><li>1 bag / month</li><li>Rotating origin</li><li>Postcard tasting notes</li></ul><button>Start Trail</button></div>
+      <div class="tier featured"><div class="plan-badge">Recommended</div><div class="name">Summit</div><div class="price" data-price-monthly="$32" data-price-yearly="$26"><span class="price-amount">$32</span> <span class="price-unit" data-copy-for="billing" data-copy-monthly="/ month" data-copy-yearly="/mo yr">/ month</span></div><ul><li>2 bags / month</li><li>Filter + espresso pair</li><li>Early access lots</li><li>Free freight</li></ul><button>Start Summit</button></div>
+      <div class="tier"><div class="name">Camp</div><div class="price" data-price-monthly="$64" data-price-yearly="$52"><span class="price-amount">$64</span> <span class="price-unit" data-copy-for="billing" data-copy-monthly="/ month" data-copy-yearly="/mo yr">/ month</span></div><ul><li>Office / café kit</li><li>5 kg equivalent</li><li>Quarterly cupping call</li></ul><button>Talk to us</button></div>
+      <div class="tier"><div class="name">Reserve</div><div class="price" data-price-monthly="$96" data-price-yearly="$80"><span class="price-amount">$96</span> <span class="price-unit" data-copy-for="billing" data-copy-monthly="/ month" data-copy-yearly="/mo yr">/ month</span></div><ul><li>Named lots only</li><li>Buyer notes weekly</li><li>Cupping with the team</li></ul><button>Join Reserve</button></div>
     </div>
   </section>
   <footer data-section="cta">
@@ -242,6 +273,59 @@ const ABOUT = `<!DOCTYPE html>
     <div>Portland roastery</div>
     <div>Talk to a buyer</div>
   </footer>
+</body>
+</html>`;
+
+const DASHBOARD = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Ops Pulse · Northbound</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Outfit:wght@400;500;600&display=swap");
+  :root { --tweak-accent: #c45c26; --tweak-paper: #f4efe6; --tweak-ink: #1a1612; --tweak-radius: 16px; --tweak-density: 1; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Outfit, system-ui, sans-serif; background: var(--tweak-paper); color: var(--tweak-ink); }
+  .dash { border: 1px solid color-mix(in srgb, var(--tweak-ink) 10%, transparent); border-radius: calc(var(--tweak-radius) + 4px); margin: 28px 32px; overflow: hidden; background: color-mix(in srgb, var(--tweak-paper) 70%, #fff); }
+  .dash-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid color-mix(in srgb, var(--tweak-ink) 8%, transparent); font-weight: 600; }
+  .dash-head span { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--tweak-accent) 16%, var(--tweak-paper)); color: var(--tweak-accent); text-transform: capitalize; }
+  .metric-grid { display: grid; gap: 12px; padding: 16px 20px 20px; }
+  html[data-metric-density="comfortable"] .metric-grid { grid-template-columns: 1fr 1fr; }
+  html[data-metric-density="compact"] .metric-grid { grid-template-columns: 1fr 1fr 1fr; }
+  html[data-metric-density="dense"] .metric-grid { grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 12px; }
+  html[data-metric-density="compact"] .metric:nth-child(n+4) { display: none; }
+  html[data-metric-density="comfortable"] .metric:nth-child(n+5) { display: none; }
+  .metric { background: var(--tweak-paper); border: 1px solid color-mix(in srgb, var(--tweak-ink) 10%, transparent); border-radius: 12px; padding: 12px 14px; }
+  html[data-metric-density="dense"] .metric { padding: 8px 10px; border-radius: 8px; }
+  .metric-label { font-size: 11px; color: color-mix(in srgb, var(--tweak-ink) 55%, transparent); text-transform: uppercase; letter-spacing: 0.06em; }
+  .metric-value { font-family: Fraunces, Georgia, serif; font-size: 28px; font-weight: 600; letter-spacing: -0.03em; margin-top: 4px; }
+  html[data-metric-density="dense"] .metric-value { font-size: 18px; }
+  .spark { margin-top: 8px; height: 28px; width: 100%; color: var(--tweak-accent); display: block; }
+  html[data-sparkline="off"] .spark { display: none !important; }
+</style>
+<script type="application/atelier-tweaks">
+{
+  "look": { "type": "palette", "value": "ember", "label": "Look" },
+  "accent": { "type": "color", "value": "#c45c26", "label": "Accent" },
+  "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" },
+  "ink": { "type": "color", "value": "#1a1612", "label": "Ink" },
+  "metricDensity": { "type": "select", "control": "radio", "value": "comfortable", "options": ["comfortable", "compact", "dense"], "optionLabels": { "comfortable": "Comfortable", "compact": "Compact", "dense": "Dense" }, "label": "Metric density", "group": "layout", "structural": true },
+  "sparkline": { "type": "boolean", "value": true, "label": "Accent sparkline", "group": "visibility", "structural": true }
+}
+</script>
+</head>
+<body>
+  <section class="dash">
+    <div class="dash-head">Ops Pulse <span data-copy-for="metricDensity" data-copy-comfortable="comfortable" data-copy-compact="compact" data-copy-dense="dense">comfortable</span></div>
+    <div class="metric-grid">
+      <div class="metric"><div class="metric-label">Bags out</div><div class="metric-value">2.4k</div><svg class="spark" viewBox="0 0 80 22" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,16 12,14 24,18 36,8 48,12 60,4 80,10"/></svg></div>
+      <div class="metric"><div class="metric-label">Lots</div><div class="metric-value">18</div><svg class="spark" viewBox="0 0 80 22" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,12 12,10 24,14 36,9 48,11 60,6 80,8"/></svg></div>
+      <div class="metric"><div class="metric-label">NPS</div><div class="metric-value">64</div><svg class="spark" viewBox="0 0 80 22" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,18 12,16 24,12 36,10 48,11 60,7 80,5"/></svg></div>
+      <div class="metric"><div class="metric-label">Churn</div><div class="metric-value">2.1%</div><svg class="spark" viewBox="0 0 80 22" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,8 12,10 24,9 36,12 48,11 60,14 80,13"/></svg></div>
+      <div class="metric"><div class="metric-label">Tickets</div><div class="metric-value">118</div><svg class="spark" viewBox="0 0 80 22" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,14 12,12 24,15 36,8 48,10 60,6 80,9"/></svg></div>
+      <div class="metric"><div class="metric-label">Uptime</div><div class="metric-value">99.9%</div><svg class="spark" viewBox="0 0 80 22" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,10 12,10 24,9 36,10 48,10 60,9 80,10"/></svg></div>
+    </div>
+  </section>
 </body>
 </html>`;
 
@@ -482,6 +566,16 @@ export function createDemoProject(id = "demo"): Project {
       page: true,
     }),
     board({
+      id: "ab-dashboard",
+      title: "Dashboard",
+      kind: "html",
+      source: DASHBOARD,
+      x: 2440,
+      y: 860,
+      width: 920,
+      height: 560,
+    }),
+    board({
       id: "ab-phone",
       title: "Checkout · iPhone",
       kind: "html",
@@ -563,11 +657,12 @@ export function createDemoProject(id = "demo"): Project {
         id: nanoid(8),
         role: "assistant",
         content:
-          "Placed the Northbound site on the canvas: Home, Pricing, and About share one theme and the same header / pricing / CTA sections. Tweaks are linked — change a look or move pricing once and every page updates. Checkout, the brief, and a RoastGrid Design Component sit beside them.",
+          "Placed the Northbound site on the canvas. Tweaks are generative knobs prepared per artboard: Home has Mood / spacing / CTA / social proof, Dashboard restructures the metric grid, Pricing adds or removes plan cards. Look stays linked across Home, Pricing, and About. Checkout, the brief, and a RoastGrid Design Component sit beside them.",
         createdAt: now,
       },
     ],
     canvas: { panX: 20, panY: 36, zoom: 0.34 },
+    canvasPrefs: { ...DEFAULT_CANVAS_PREFS },
     selectedArtboardId: "ab-landing",
     selectedSelector: null,
     selectedStyles: null,
@@ -607,6 +702,7 @@ export function createBlankProject(name = "Untitled canvas"): Project {
     versions: [],
     messages: [],
     canvas: { panX: 80, panY: 80, zoom: 0.7 },
+    canvasPrefs: { ...DEFAULT_CANVAS_PREFS },
     selectedArtboardId: null,
     selectedSelector: null,
     selectedStyles: null,

@@ -15,13 +15,15 @@ import {
   parseSectionKey,
   sectionSchema,
 } from "@/lib/theme";
+import { INSPECTOR_KEYS, isGenerativeKey, optionLabel } from "@/lib/tweak-bind";
 import { cn } from "@/lib/cn";
 import type { Artboard, TweakField } from "@/lib/types";
 
 const COMPACT_KEYS = new Set(["look", "fxSpeed", "fxGlow", "heroLayout"]);
 
-const GROUPS = ["look", "motion", "geometry", "visibility", "layout", "type", "copy", "other"];
+const GROUPS = ["prepared", "look", "motion", "geometry", "visibility", "layout", "type", "copy", "other"];
 const GROUP_LABELS: Record<string, string> = {
+  prepared: "Prepared for this design",
   look: "Look",
   motion: "Motion",
   geometry: "Geometry",
@@ -33,11 +35,20 @@ const GROUP_LABELS: Record<string, string> = {
 };
 
 function groupOf(key: string, field: TweakField): string {
+  if (isGenerativeKey(key, field)) return "prepared";
   if (parseSectionKey(key)) return "layout";
   const g = field.group ?? "";
   if (g === "color" || g === "look") return "look";
   if (g === "density") return "layout";
   return GROUPS.includes(g) ? g : "other";
+}
+
+function shouldUseRadios(field: TweakField, compact?: boolean): boolean {
+  if (compact) return false;
+  if (field.type !== "select") return false;
+  if (field.control === "select") return false;
+  if (field.control === "radio") return true;
+  return (field.options?.length ?? 0) > 0 && (field.options?.length ?? 0) <= 4;
 }
 
 interface Props {
@@ -57,13 +68,26 @@ export function TweakControls({ board, compact }: Props) {
       return !sec || boardHasSection(board, sec.id);
     }),
   );
-  const schema = {
+  const merged = {
     ...(project?.themeSchema ?? {}),
     ...structural,
     ...board.tweakSchema,
   };
-  const entries = Object.entries(schema)
-    .filter(([key]) => (compact ? COMPACT_KEYS.has(key) : true))
+  const generative = Object.keys(board.tweakSchema).some((k) =>
+    isGenerativeKey(k, board.tweakSchema[k]),
+  );
+
+  const entries = Object.entries(merged)
+    .filter(([key]) => {
+      if (compact) {
+        return COMPACT_KEYS.has(key);
+      }
+      if (board.kind === "dc") return true;
+      if (generative && (INSPECTOR_KEYS.has(key) || key.startsWith("fx") || parseSectionKey(key))) {
+        return false;
+      }
+      return true;
+    })
     .map(([key, field], i) => ({ key, field, i, g: groupOf(key, field) }))
     .sort((a, b) => GROUPS.indexOf(a.g) - GROUPS.indexOf(b.g) || a.i - b.i)
     .map(({ key, field, g }) => [key, field, g] as [string, TweakField, string]);
@@ -73,7 +97,9 @@ export function TweakControls({ board, compact }: Props) {
       applyPalette(board.id, String(value));
       return;
     }
-    setTweaks(board.id, { ...board.tweaks, [key]: value });
+    let next: string | number | boolean = value;
+    if (key === "planCount") next = Number(value);
+    setTweaks(board.id, { ...board.tweaks, [key]: next });
   }
 
   return (
@@ -84,6 +110,7 @@ export function TweakControls({ board, compact }: Props) {
         const linked = project ? linkedBoardCount(project, key) : 0;
         const sec = parseSectionKey(key);
         const detached = sec ? isSectionUnlinked(board, sec.id) : isTokenUnlinked(board, key);
+        const radios = shouldUseRadios(field, compact);
         return (
           <div
             key={key}
@@ -206,7 +233,33 @@ export function TweakControls({ board, compact }: Props) {
                 onCheckedChange={(v) => setField(key, field, v)}
               />
             )}
-            {field.type === "select" && (
+            {radios && (
+              <div className="flex flex-wrap gap-1.5" data-testid={`tweak-${key}`} role="radiogroup">
+                {(field.options ?? []).map((o) => {
+                  const active = String(value) === String(o);
+                  return (
+                    <button
+                      key={o}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      data-testid={`tweak-${key}-${o}`}
+                      data-active={active ? "true" : "false"}
+                      className={cn(
+                        "rounded-full border px-2.5 py-1 text-[11px]",
+                        active
+                          ? "border-amber-300/80 bg-amber-300/15 text-amber-100"
+                          : "border-white/10 text-stone-400 hover:text-stone-200",
+                      )}
+                      onClick={() => setField(key, field, o)}
+                    >
+                      {optionLabel(field, o)}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            {field.type === "select" && !radios && (
               <select
                 data-testid={`tweak-${key}`}
                 className="h-8 w-full rounded-md border border-white/10 bg-black/30 px-2 text-sm"
@@ -214,7 +267,9 @@ export function TweakControls({ board, compact }: Props) {
                 onChange={(e) => setField(key, field, e.target.value)}
               >
                 {(field.options ?? []).map((o) => (
-                  <option key={o}>{o}</option>
+                  <option key={o} value={o}>
+                    {optionLabel(field, o)}
+                  </option>
                 ))}
               </select>
             )}

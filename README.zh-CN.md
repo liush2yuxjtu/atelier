@@ -33,7 +33,7 @@ Atelier 是独立产品。它借鉴了 Claude Artifacts / Claude Design 的**交
 - **流式渲染** — 模型还在写时，`<artboard>` 就会出现在画布上
 - **自检** — iframe 报错后自动发起一轮修复
 - **直接操作** — 编辑 / 检查 / 评论模式
-- **Tweaks** — 设计的关键价值，也是相对 Claude Design 的差异：项目级主题 + 共享章节绑在**每一页**上。代理（或「生成旋钮」）预先准备色板、字号、密度，以及结构旋钮（章节顺序、布局变体、显隐）。Home 上改 Moss 或上移 Pricing，Pricing / About 一起变（`linked in N boards`）。单页可 Unlink，也可 **Push to all**。**Present** 锁定机位，Compare A|B，撤销，**Approved**。不必再生成一轮。
+- **Tweaks** — 为**该设计**准备的生成式旋钮，不是 CSS 检查器。代理（或「生成旋钮」）会给出 Mood / 方案数量 / 指标密度 / 区块显隐，改完即时重组布局和文案。项目级主题仍跨页联动（`linked in N boards`）。**Apply across canvas** 把当前色板推到其他画板。Global 栏（主题 / 密度 / 网格 / 吸附 / 减少动效）与 Tweaks 分层。**Present**、Compare、**Approved** 照旧。不必再生成一轮。
 - **Design Components** — `.dc.html` 类型化 props、插槽、`<dc-import>` 组合、循环检测、组件库拖到画布、`dc-write` / `dc-set-props`、导出时内联。协议：[docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md)
 - **钉选评论** — 进入下一轮上下文，模型按 id 标记已处理
 - **项目文件与历史** — 每次生成后快照

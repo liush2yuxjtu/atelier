@@ -106,27 +106,75 @@ export function buildRuntimeScript(nonce: string): string {
     try { return JSON.parse(raw); } catch { return {}; }
   }
 
+  function kebabKey(key) {
+    return String(key).replace(/[A-Z]/g, function (m) { return "-" + m.toLowerCase(); }).replace(/^-/, "");
+  }
+  function attrValue(v) {
+    if (typeof v === "boolean") return v ? "on" : "off";
+    return String(v);
+  }
+  function truthy(v) {
+    return v === true || v === 1 || v === "1" || v === "true" || v === "on";
+  }
+
   function applyTweaks(tweaks) {
     const schema = parseTweaks();
     const root = document.documentElement;
     Object.keys(tweaks).forEach((key) => {
       const field = schema[key] || {};
-      let v = tweaks[key];
+      const raw = tweaks[key];
+      let v = raw;
       if (typeof v === "boolean") v = v ? "1" : "0";
       else if (typeof v === "number" && field.unit) v = v + field.unit;
       root.style.setProperty("--tweak-" + key, String(v));
+      const av = attrValue(raw);
+      const dataKey = kebabKey(key);
+      root.setAttribute("data-" + dataKey, av);
+      if (document.body) document.body.setAttribute("data-" + dataKey, av);
+      document.querySelectorAll('[data-copy-for="' + key + '"]').forEach((n) => {
+        const pack = n.getAttribute("data-copy-" + String(raw));
+        if (pack != null) n.textContent = pack;
+      });
+      document.querySelectorAll('[data-tweak-show="' + key + '"]').forEach((n) => {
+        const on = truthy(raw);
+        n.hidden = !on;
+        n.style.display = on ? "" : "none";
+      });
+      document.querySelectorAll('[data-tweak-count="' + key + '"]').forEach((el) => {
+        const n = Number(raw);
+        Array.prototype.forEach.call(el.children, function (child, i) {
+          child.style.display = i < n ? "" : "none";
+        });
+      });
       document.querySelectorAll('[data-tweak="' + key + '"]').forEach((n) => {
-        if (field.type === "text" || typeof tweaks[key] === "string") {
-          n.textContent = String(tweaks[key]);
+        if (n.getAttribute("data-copy-for")) return;
+        if (field.type === "text" || typeof raw === "string") {
+          n.textContent = String(raw);
         }
       });
-      if (key === "paper") document.body.style.background = String(tweaks[key]);
-      if (key === "ink") document.body.style.color = String(tweaks[key]);
+      if (key === "paper" && document.body) document.body.style.background = String(raw);
+      if (key === "ink" && document.body) document.body.style.color = String(raw);
       if (key === "layout") {
-        document.documentElement.setAttribute("data-layout", String(tweaks[key]));
-        document.body.setAttribute("data-layout", String(tweaks[key]));
+        root.setAttribute("data-layout", String(raw));
+        if (document.body) document.body.setAttribute("data-layout", String(raw));
       }
     });
+    if (tweaks.billing != null) {
+      document.querySelectorAll("[data-price-monthly]").forEach((n) => {
+        const monthly = n.getAttribute("data-price-monthly");
+        const yearly = n.getAttribute("data-price-yearly");
+        const amount = String(tweaks.billing) === "yearly" ? yearly : monthly;
+        if (amount == null) return;
+        const unit = n.querySelector("small, .price-unit");
+        const prefix = n.querySelector(".price-amount");
+        if (prefix) prefix.textContent = amount;
+        else if (unit) {
+          n.childNodes.forEach((child) => {
+            if (child.nodeType === 3) child.textContent = amount + " ";
+          });
+        } else n.textContent = amount;
+      });
+    }
     applySections(tweaks);
     try { window.dispatchEvent(new CustomEvent("atelier:tweaks", { detail: tweaks })); } catch (e) {}
   }

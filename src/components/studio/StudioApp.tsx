@@ -7,6 +7,7 @@ import { LibraryPanel } from "./LibraryPanel";
 import { CanvasView } from "./CanvasView";
 import { RightRail } from "./RightRail";
 import { Toolbar } from "./Toolbar";
+import { GlobalBar } from "./GlobalBar";
 import { ExportDialog } from "./ExportDialog";
 import { SettingsDialog } from "./SettingsDialog";
 import { ExtractDialog } from "./ExtractDialog";
@@ -65,6 +66,7 @@ export function StudioApp({ projectId }: { projectId: string }) {
           onSettings={() => setSettingsOpen(true)}
           onExtract={() => setExtractOpen(true)}
         />
+        <GlobalBar />
         <div className="flex min-h-0 flex-1">
           {!presenting && <ChatPanel />}
           {!presenting && <LibraryPanel />}

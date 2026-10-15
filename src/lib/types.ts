@@ -4,6 +4,8 @@ export type StudioMode = "preview" | "edit" | "comment" | "inspect";
 
 export type TweakType = "color" | "range" | "text" | "select" | "boolean" | "palette";
 
+export type TweakControl = "radio" | "select" | "chips";
+
 export interface TweakField {
   type: TweakType;
   value: string | number | boolean;
@@ -13,6 +15,11 @@ export interface TweakField {
   step?: number;
   unit?: string;
   options?: string[];
+  optionLabels?: Record<string, string>;
+  /** How a select field is rendered. Radios are the generative-Tweaks default. */
+  control?: TweakControl;
+  /** True when changing this knob restructures layout or content, not just a CSS token. */
+  structural?: boolean;
   /** Named color chips for a color field. */
   presets?: { label: string; value: string }[];
   /** Palette id → map of other tweak keys (accent, paper, ink…). */
@@ -118,6 +125,23 @@ export interface CanvasState {
   zoom: number;
 }
 
+/** Canvas chrome — separate from per-artboard generative Tweaks. */
+export interface CanvasPrefs {
+  theme: "light" | "dark";
+  density: "compact" | "comfortable" | "spacious";
+  grid: boolean;
+  snap: boolean;
+  reduceMotion: boolean;
+}
+
+export const DEFAULT_CANVAS_PREFS: CanvasPrefs = {
+  theme: "dark",
+  density: "comfortable",
+  grid: true,
+  snap: false,
+  reduceMotion: false,
+};
+
 export interface DesignToken {
   name: string;
   value: string;
@@ -141,6 +165,7 @@ export interface Project {
   versions: VersionSnapshot[];
   messages: ChatMessage[];
   canvas: CanvasState;
+  canvasPrefs?: CanvasPrefs;
   selectedArtboardId: string | null;
   selectedSelector: string | null;
   selectedStyles: Record<string, string> | null;

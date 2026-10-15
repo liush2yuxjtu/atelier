@@ -22,6 +22,7 @@ export function RightRail() {
   const redoTweaks = useStudio((s) => s.redoTweaks);
   const saveVariant = useStudio((s) => s.saveVariant);
   const approveLook = useStudio((s) => s.approveLook);
+  const applyAcrossCanvas = useStudio((s) => s.applyAcrossCanvas);
   const [draft, setDraft] = useState("");
 
   if (!project) return null;
@@ -60,6 +61,21 @@ export function RightRail() {
                   does not rewrite the component file.
                 </p>
               )}
+              {board && board.kind !== "dc" && (
+                <div data-testid="tweaks-prepared">
+                  <p
+                    className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/15 px-2 py-0.5 text-[11px] font-semibold text-amber-100"
+                    data-testid="tweaks-prepared-chip"
+                  >
+                    <span className="size-1.5 rounded-full bg-amber-300" />
+                    Prepared for this design
+                  </p>
+                  <p className="mt-2 text-[11px] leading-relaxed text-stone-500" data-testid="tweaks-prepared-sub">
+                    Generative controls for “{board.title}” — not a Properties inspector. Changing a
+                    knob restructures this artboard live.
+                  </p>
+                </div>
+              )}
               {board && Object.keys(board.tweakSchema).length === 0 && (
                 <Empty>
                   {board.kind === "dc"
@@ -70,6 +86,16 @@ export function RightRail() {
               {board && <TweakControls board={board} />}
               {board && (
                 <div className="flex flex-wrap gap-1.5 border-t border-white/8 pt-3">
+                  {board.kind !== "dc" && (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      data-testid="apply-across-canvas"
+                      onClick={() => applyAcrossCanvas(board.id)}
+                    >
+                      Apply across canvas
+                    </Button>
+                  )}
                   <Button
                     size="sm"
                     variant="secondary"

@@ -74,25 +74,21 @@ Holes are dotted lookups only ({{title}}, {{item.name}}) — no expressions. The
 
 ## Tweaks
 
-When the design has 3–8 high-leverage knobs, pre-generate them so a designer can adjust live in a client demo without calling you again. Cover the things that always move in a review: a named palette look (ember / moss / night / signal), accent, paper, ink, type scale, density, a layout variant, and a headline.
+Tweaks are generative knobs prepared for THIS design — mood, plan count, show/hide a block — not a generic padding/radius/title inspector. When you generate an artboard, also emit 3–8 contextual controls the designer will want next. Changing a knob must restructure layout or copy live (CSS data attributes, counted children, copy packs). Do not emit a freeform CSS inspector.
 
 Put this block in the HTML (comment form):
 
 /*@atelier-tweaks
 {
+  "mood": { "type": "select", "control": "radio", "value": "saas", "options": ["editorial","saas","playful"], "label": "Mood", "structural": true },
+  "spacing": { "type": "range", "value": 1, "min": 0.75, "max": 1.35, "step": 0.05, "label": "Spacing intensity", "structural": true },
   "look": { "type": "palette", "value": "ember", "label": "Look", "options": ["ember","moss","night","signal"], "swatches": { "ember": { "accent": "#c45c26", "paper": "#f4efe6", "ink": "#1a1612" }, "moss": { "accent": "#3d6b4f", "paper": "#eef3ea", "ink": "#142018" }, "night": { "accent": "#d4a054", "paper": "#16141c", "ink": "#f4efe6" }, "signal": { "accent": "#2f6fed", "paper": "#f3f6fb", "ink": "#12141a" } } },
-  "accent": { "type": "color", "value": "#c45c26", "label": "Accent" },
-  "paper": { "type": "color", "value": "#f4efe6", "label": "Paper" },
-  "ink": { "type": "color", "value": "#1a1612", "label": "Ink" },
-  "radius": { "type": "range", "value": 16, "min": 0, "max": 48, "unit": "px", "label": "Radius" },
-  "density": { "type": "range", "value": 1, "min": 0.75, "max": 1.35, "step": 0.05, "label": "Density" },
-  "type": { "type": "range", "value": 1, "min": 0.8, "max": 1.3, "step": 0.05, "label": "Type scale" },
-  "layout": { "type": "select", "value": "split", "options": ["split","stack"], "label": "Layout" },
-  "headline": { "type": "text", "value": "Northbound", "label": "Headline" }
+  "ctaWeight": { "type": "select", "control": "radio", "value": "bold", "options": ["regular","bold"], "label": "CTA weight", "structural": true },
+  "socialProof": { "type": "boolean", "value": true, "label": "Show social proof", "structural": true }
 }
 @atelier-tweaks*/
 
-Wire values through CSS variables: var(--tweak-accent), var(--tweak-paper), var(--tweak-ink), var(--tweak-radius), var(--tweak-density), var(--tweak-type). Mark live text with data-tweak="headline". Keep the panel small. The host can also infer knobs from markup if you omit the block.
+Wire tokens with var(--tweak-accent). Bind variants with html[data-mood], [data-tweak-show="socialProof"], [data-tweak-count="planCount"], and [data-copy-for="mood" data-copy-editorial="…" data-copy-saas="…"]. Keep the panel small. The host infers knobs from markup if you omit the block.
 
 ## Direct manipulation
 

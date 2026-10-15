@@ -119,6 +119,14 @@ export function CanvasView() {
 
   if (!project) return null;
   const { canvas, selectedArtboardId } = project;
+  const prefs = project.canvasPrefs ?? {
+    theme: "dark" as const,
+    density: "comfortable" as const,
+    grid: true,
+    snap: false,
+    reduceMotion: false,
+  };
+  const light = prefs.theme === "light";
   const pages = project.artboards.filter((b) => b.page);
   const visibleBoards = presenting
     ? pages.length
@@ -150,8 +158,12 @@ export function CanvasView() {
     }
     if (drag.current) {
       const z = canvas.zoom;
-      const nx = drag.current.ax + (e.clientX - drag.current.ox) / z;
-      const ny = drag.current.ay + (e.clientY - drag.current.oy) / z;
+      let nx = drag.current.ax + (e.clientX - drag.current.ox) / z;
+      let ny = drag.current.ay + (e.clientY - drag.current.oy) / z;
+      if (useStudio.getState().project?.canvasPrefs?.snap) {
+        nx = Math.round(nx / 24) * 24;
+        ny = Math.round(ny / 24) * 24;
+      }
       updateArtboard(drag.current.id, { x: nx, y: ny });
     }
   }
@@ -166,10 +178,17 @@ export function CanvasView() {
     <div
       ref={wrapRef}
       className={cn(
-        "relative h-full w-full overflow-hidden bg-[#121018]",
+        "relative h-full w-full overflow-hidden",
+        light ? "bg-[#efe8dc]" : "bg-[#121018]",
         space || panning ? "cursor-grab" : "cursor-default",
+        prefs.reduceMotion && "[&_*]:!transition-none",
       )}
       data-testid="canvas-view"
+      data-canvas-theme={prefs.theme}
+      data-canvas-density={prefs.density}
+      data-canvas-grid={prefs.grid ? "on" : "off"}
+      data-canvas-snap={prefs.snap ? "on" : "off"}
+      data-reduce-motion={prefs.reduceMotion ? "on" : "off"}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -201,15 +220,19 @@ export function CanvasView() {
         placeDc(path, { x, y });
       }}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.09) 1px, transparent 0)",
-          backgroundSize: `${24 * canvas.zoom}px ${24 * canvas.zoom}px`,
-          backgroundPosition: `${canvas.panX}px ${canvas.panY}px`,
-        }}
-      />
+      {prefs.grid && (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40"
+          data-testid="canvas-grid"
+          style={{
+            backgroundImage: light
+              ? "radial-gradient(circle at 1px 1px, rgba(28,27,22,0.12) 1px, transparent 0)"
+              : "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.09) 1px, transparent 0)",
+            backgroundSize: `${24 * canvas.zoom}px ${24 * canvas.zoom}px`,
+            backgroundPosition: `${canvas.panX}px ${canvas.panY}px`,
+          }}
+        />
+      )}
       <div
         className="absolute origin-top-left"
         style={{
@@ -239,6 +262,16 @@ export function CanvasView() {
               data-artboard="true"
               data-kind={board.kind}
               data-dc-path={board.dcPath ?? ""}
+              data-tweak-mood={String(board.tweaks.mood ?? "")}
+              data-tweak-plan-count={String(board.tweaks.planCount ?? "")}
+              data-tweak-metric-density={String(board.tweaks.metricDensity ?? "")}
+              data-tweak-social-proof={
+                board.tweaks.socialProof === undefined ? "" : board.tweaks.socialProof ? "on" : "off"
+              }
+              data-tweak-billing={String(board.tweaks.billing ?? "")}
+              data-tweak-sparkline={
+                board.tweaks.sparkline === undefined ? "" : board.tweaks.sparkline ? "on" : "off"
+              }
             >
               <div className="mb-2 flex items-center gap-2">
                 <button
