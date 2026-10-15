@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: If you use Atelier, please cite it as below.
+title: "Atelier: Open-source Claude Design / Artifacts alternative"
+authors:
+  - family-names: Liu
+    given-names: Shiyu
+    alias: liush2yuxjtu
+    affiliation: "Xi'an Jiaotong University"
+type: software
+license: MIT
+repository-code: "https://github.com/liush2yuxjtu/atelier"
+abstract: >-
+  Atelier is an MIT-licensed, self-hostable Next.js design canvas:
+  chat plus infinite multi-artboard HTML artboards, linked Tweaks,
+  Design Components (.dc.html), and BYOK for Anthropic, OpenAI,
+  OpenRouter, or OpenAI-compatible endpoints. Inspired by the
+  interaction shape of Claude Artifacts and Claude Design; not
+  affiliated with Anthropic.
+keywords:
+  - AI design
+  - Claude Design alternative
+  - Claude Artifacts
+  - infinite canvas
+  - design components
+  - BYOK
+  - Next.js
+  - open source
+version: 0.1.0
+date-released: "2026-10-01"
