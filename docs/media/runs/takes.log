@@ -1,2 +1,5 @@
 2026-10-14T22:23:00Z fancy-v6-take1 keep deterministic-30fps zoom-master gif=13.6-21.6 proof=15.8-21.6 evidence=strip.jpg,evidence/dup-check.json
 2026-10-15T10:51:42Z newa-v7-take1 keep 4beats+compare-sweep evidence=docs/media/runs/newa-v7-take1/edits/v2/gif-all-96-frames.jpg gif=2674066B 8.00s 520px 12fps
+2026-10-15T22:51:00Z generative-v1-take1 discard reason=bridge-disconnect (Mac mini bridge dropped mid-take, browser closed at frame 57) evidence=docs/media/runs/generative-v1-take1-bridge-disconnect/take1.log
+2026-10-15T22:52:49Z generative-v1-take2 discard reason=detached-killed (nohup run killed when bridge call ended; lock acquired, 0 frames) evidence=docs/media/runs/generative-v1-take2-detached-killed/
+2026-10-15T22:54:12Z generative-v1-take3 keep story=New-A Mood SaaS->Playful; click 2.967s result same frame; zoom-v1 rejected (1.6x crop cut headline) -> zoom-v2 1.45x/1.7x; gif=1.4-9.4 proof=3.6-9.4 evidence=docs/media/runs/generative-v1-take3/verify/strip-gt-0-9.5-0.5s.jpg,verify/strip-zoom-v2-0-9.5-0.5s.jpg,verify/timing.json,edits/v1/qa/gif-all-frames.jpg gif=1683535B 8.00s 520px

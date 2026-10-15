@@ -1,0 +1,148 @@
+{
+ "status": "ready-with-notes (branch build, not production)",
+ "metadata_pass": true,
+ "feature_id": "atelier-generative-tweaks-mood",
+ "raw_sha256": "dca4cddbbabe40342ebe1a97db7b381ccca58d31c82e2dde51ad17cde0523a4b",
+ "raw_duration_s": 9.666667,
+ "gif_source_window_s": [
+  1.4,
+  9.4
+ ],
+ "proof_interval_s": [
+  3.6,
+  9.4
+ ],
+ "crop": null,
+ "outputs": {
+  "mp4": {
+   "path": "/Users/liushiyu/gen/runs/generative-v1-take3/edits/v1/demo.mp4",
+   "bytes": 3387134,
+   "sha256": "014a0b1d43ab529058e9067077e8a18de0b63ad51e4a3aaa6fb9b5a1d2dfc8cf",
+   "probe": {
+    "streams": [
+     {
+      "index": 0,
+      "codec_name": "h264",
+      "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+      "profile": "High",
+      "codec_type": "video",
+      "codec_tag_string": "avc1",
+      "codec_tag": "0x31637661",
+      "mime_codec_string": "avc1.640028",
+      "width": 1920,
+      "height": 1080,
+      "coded_width": 1920,
+      "coded_height": 1080,
+      "has_b_frames": 2,
+      "pix_fmt": "yuv420p",
+      "level": 40,
+      "chroma_location": "left",
+      "field_order": "progressive",
+      "is_avc": "true",
+      "nal_length_size": "4",
+      "id": "0x1",
+      "r_frame_rate": "30/1",
+      "avg_frame_rate": "30/1",
+      "time_base": "1/15360",
+      "start_pts": 0,
+      "start_time": "0.000000",
+      "duration_ts": 148480,
+      "duration": "9.666667",
+      "bit_rate": "2799743",
+      "bits_per_raw_sample": "8",
+      "nb_frames": "290",
+      "extradata_size": 47,
+      "disposition": {
+       "default": 1,
+       "dub": 0,
+       "original": 0,
+       "comment": 0,
+       "lyrics": 0,
+       "karaoke": 0,
+       "forced": 0,
+       "hearing_impaired": 0,
+       "visual_impaired": 0,
+       "clean_effects": 0,
+       "attached_pic": 0,
+       "timed_thumbnails": 0,
+       "non_diegetic": 0,
+       "captions": 0,
+       "descriptions": 0,
+       "metadata": 0,
+       "dependent": 0,
+       "still_image": 0,
+       "multilayer": 0
+      },
+      "tags": {
+       "language": "und",
+       "handler_name": "VideoHandler",
+       "encoder": "Lavc63.1.102 libx264"
+      }
+     }
+    ],
+    "format": {
+     "filename": "/Users/liushiyu/gen/runs/generative-v1-take3/edits/v1/demo.mp4",
+     "nb_streams": 1,
+     "nb_programs": 0,
+     "nb_stream_groups": 0,
+     "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+     "format_long_name": "QuickTime / MOV",
+     "start_time": "0.000000",
+     "duration": "9.666667",
+     "size": "3387134",
+     "bit_rate": "2803145",
+     "probe_score": 100,
+     "tags": {
+      "major_brand": "isom",
+      "minor_version": "512",
+      "compatible_brands": "isomiso2avc1mp41",
+      "encoder": "Lavf63.1.102"
+     }
+    }
+   }
+  },
+  "gif": {
+   "path": "/Users/liushiyu/gen/runs/generative-v1-take3/edits/v1/feature-8s.gif",
+   "bytes": 1683535,
+   "sha256": "bd9ab886c289baa3df071e6803f6424305e1362879159f75473ae42c3a0711f2",
+   "width": 520,
+   "height": 292,
+   "frames": 96,
+   "animated": true,
+   "duration_s": 8.0,
+   "zero_delay_frames": 0,
+   "loop": 0,
+   "average_fps": 12.0
+  }
+ },
+ "visual_review": {
+  "reviewer": "Grok Bot executor (agent visual inspection of actual pixels)",
+  "reviewed_at": "2026-10-15T22:59:23.162160+00:00",
+  "images": [
+   "edits/v1/qa/gif-all-frames.jpg (all 96 GIF frames)",
+   "edits/v1/qa/gif-frame-001/025/037/049/061/096.png",
+   "edits/v1/gif-contact-sheet.png",
+   "edits/v1/full-contact-sheet.png",
+   "edits/v1/poster.png",
+   "verify/strip-gt-0-9.5-0.5s.jpg",
+   "verify/strip-zoom-v2-0-9.5-0.5s.jpg"
+  ],
+  "result": "pass-with-notes",
+  "checks": {
+   "first_frame_context": "pass: canvas + Home (SaaS hero) + Tweaks 'Prepared for this design' panel, no black/loading frame",
+   "pointer_before_click": "pass: pointer arrives on Mood > Playful at 2.40 s, click 2.97 s",
+   "result_changes": "pass: hero 'Coffee that tastes like the trail.' -> 'Bags without the boredom', CTA -> 'Let\u2019s roast', Playful highlighted",
+   "result_hold": "pass: Playful visible 2.97-9.4 s in GIF; global payoff hold 5.6-9.4 s (3.8 s)",
+   "no_overlays": "pass: pure-screen, no captions/badges/music",
+   "cjk_postcheck": "pass: no CJK UI text in any of the 96 GIF frames (visual) + DOM scan false pre/post",
+   "loop": "acceptable: loops Playful(global) -> SaaS(global) \u2014 jump reads as before/after"
+  },
+  "notes": [
+   "Push zoom is 1.45x not 1.6x: at 1.6x the right-clamped crop cut the Home headline (zoom-v1 rejected)",
+   "At 520 px GIF the CTA 'Let\u2019s roast' and panel labels are small; headline is the legible proof",
+   "Demo canvas shows a stray raw-JSON text line under 'How Atelier talks to a board' (app content, outside focus)",
+   "1.7x hero zoom framing sits slightly left of centre (Pricing board fills right third)"
+  ]
+ },
+ "publish_ready": false
+}

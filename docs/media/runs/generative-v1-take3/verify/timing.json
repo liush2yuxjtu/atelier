@@ -1,0 +1,74 @@
+{
+ "click_s": 2.967,
+ "result_visible_s": 2.967,
+ "frames_click_to_result": 0,
+ "gif_window_s": [
+  1.4,
+  9.4
+ ],
+ "proof_interval_s": [
+  3.6,
+  9.4
+ ],
+ "zoom_keys_s": [
+  [
+   1.5,
+   2.1,
+   "1.45x panel+hero"
+  ],
+  [
+   3.4,
+   4.0,
+   "1.7x hero"
+  ],
+  [
+   5.0,
+   5.6,
+   "pull back 1.0"
+  ]
+ ],
+ "markers": [
+  {
+   "elapsed_ms": 0,
+   "frame": 0,
+   "label": "start: Home selected, Tweaks 'Prepared for this design', Mood=SaaS, hero 'Coffee that tastes like the trail.'"
+  },
+  {
+   "elapsed_ms": 2400,
+   "frame": 72,
+   "label": "pointer on Mood > Playful"
+  },
+  {
+   "elapsed_ms": 2967,
+   "frame": 89,
+   "label": "click Playful",
+   "mood_after_click": "playful"
+  },
+  {
+   "elapsed_ms": 2967,
+   "frame": 89,
+   "label": "hero rewritten visible",
+   "hero": {
+    "h1": "Bags without the boredom",
+    "cta": "Get a bag"
+   },
+   "frames_after_click": 0,
+   "mood": "playful"
+  },
+  {
+   "elapsed_ms": 4267,
+   "frame": 128,
+   "label": "pointer parked off artboard"
+  },
+  {
+   "elapsed_ms": 5667,
+   "frame": 170,
+   "label": "payoff hold start"
+  },
+  {
+   "elapsed_ms": 9667,
+   "frame": 290,
+   "label": "end"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "repo": "https://github.com/liush2yuxjtu/atelier",
+ "branch": "feat/fancy-tweaks-baseline",
+ "commit": "b140c08a7c5b631494ac7a2d701459646480ccd4",
+ "observed_head": "b140c08a7c5b631494ac7a2d701459646480ccd4",
+ "pr": "https://github.com/liush2yuxjtu/atelier/pull/1 (review-only)",
+ "run": "npm install && npm run dev -> http://127.0.0.1:43173/studio/demo (Next.js 16.4.0 dev, Turbopack)",
+ "package_version": "0.1.0",
+ "note": "NOT a production release: there is no GitHub Release/tag; this is the PR #1 review branch running locally on the Mac mini. release_url/production_tag fields carry the commit URL/short SHA so the official encoder's gate can run; see source.verification_note."
+}
