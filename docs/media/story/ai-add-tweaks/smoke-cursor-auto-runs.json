@@ -1,0 +1,170 @@
+[
+  {
+    "run": 1,
+    "topic": "the pricing section",
+    "http": 502,
+    "latency_ms": 180256,
+    "provider": "cursor",
+    "status": "cursor-agent timed out",
+    "keys": [],
+    "labels": {},
+    "types": {},
+    "css": false,
+    "bindings": 0,
+    "error": "cursor-agent timed out",
+    "toggles": [],
+    "api_calls_during_toggles": 0
+  },
+  {
+    "run": 2,
+    "topic": "hero social proof and CTA emphasis",
+    "http": 200,
+    "latency_ms": 83773,
+    "provider": "cursor",
+    "model": "auto",
+    "status": "Added 4 tweaks",
+    "keys": [
+      "proofCopy",
+      "proofPlace",
+      "ctaEmphasis",
+      "showAvatars"
+    ],
+    "labels": {
+      "proofCopy": "Proof line",
+      "proofPlace": "Proof place",
+      "ctaEmphasis": "CTA emphasis",
+      "showAvatars": "Show avatars"
+    },
+    "types": {
+      "proofCopy": "select",
+      "proofPlace": "select",
+      "ctaEmphasis": "select",
+      "showAvatars": "boolean"
+    },
+    "css": true,
+    "bindings": 2,
+    "toggles": [
+      {
+        "key": "proofCopy",
+        "to": "roasters",
+        "iframe_attr": [
+          "teams",
+          "roasters"
+        ],
+        "host_attr": "roasters",
+        "text_changed": true,
+        "pixels_changed": true
+      },
+      {
+        "key": "proofPlace",
+        "to": "above",
+        "iframe_attr": [
+          "below",
+          "above"
+        ],
+        "host_attr": "above",
+        "text_changed": false,
+        "pixels_changed": true
+      },
+      {
+        "key": "ctaEmphasis",
+        "to": "banner",
+        "iframe_attr": [
+          "solid",
+          "banner"
+        ],
+        "host_attr": "banner",
+        "text_changed": true,
+        "pixels_changed": true
+      },
+      {
+        "key": "showAvatars",
+        "to": "toggled",
+        "iframe_attr": [
+          "on",
+          "off"
+        ],
+        "host_attr": "off",
+        "text_changed": false,
+        "pixels_changed": true
+      }
+    ],
+    "api_calls_during_toggles": 0
+  },
+  {
+    "run": 3,
+    "topic": "footer trust badges",
+    "http": 200,
+    "latency_ms": 71510,
+    "provider": "cursor",
+    "model": "auto",
+    "status": "Added 4 tweaks",
+    "keys": [
+      "showTrust",
+      "trustCopy",
+      "trustLayout",
+      "badgeTone"
+    ],
+    "labels": {
+      "showTrust": "Trust badges",
+      "trustCopy": "Badge line",
+      "trustLayout": "Badge layout",
+      "badgeTone": "Badge tone"
+    },
+    "types": {
+      "showTrust": "boolean",
+      "trustCopy": "select",
+      "trustLayout": "select",
+      "badgeTone": "select"
+    },
+    "css": true,
+    "bindings": 1,
+    "toggles": [
+      {
+        "key": "showTrust",
+        "to": "toggled",
+        "iframe_attr": [
+          "on",
+          "off"
+        ],
+        "host_attr": "off",
+        "text_changed": false,
+        "pixels_changed": true
+      },
+      {
+        "key": "trustCopy",
+        "to": "guarantee",
+        "iframe_attr": [
+          "seals",
+          "guarantee"
+        ],
+        "host_attr": "guarantee",
+        "text_changed": true,
+        "pixels_changed": true
+      },
+      {
+        "key": "trustLayout",
+        "to": "stack",
+        "iframe_attr": [
+          "row",
+          "stack"
+        ],
+        "host_attr": "stack",
+        "text_changed": false,
+        "pixels_changed": true
+      },
+      {
+        "key": "badgeTone",
+        "to": "pills",
+        "iframe_attr": [
+          "plain",
+          "pills"
+        ],
+        "host_attr": "pills",
+        "text_changed": false,
+        "pixels_changed": true
+      }
+    ],
+    "api_calls_during_toggles": 0
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "run": 1,
+    "topic": "the pricing section",
+    "http": 200,
+    "latency_ms": 95015,
+    "provider": "cursor",
+    "model": "auto",
+    "status": "Added 4 tweaks",
+    "keys": [
+      "planVoice",
+      "priceStyle",
+      "showCamp",
+      "priceFocus"
+    ],
+    "labels": {
+      "planVoice": "Plan voice",
+      "priceStyle": "Price layout",
+      "showCamp": "Show camp tier",
+      "priceFocus": "Highlight"
+    },
+    "types": {
+      "planVoice": "select",
+      "priceStyle": "select",
+      "showCamp": "boolean",
+      "priceFocus": "select"
+    },
+    "css": true,
+    "bindings": 4,
+    "toggles": [
+      {
+        "key": "planVoice",
+        "to": "monthly",
+        "iframe_attr": [
+          "weekly",
+          "monthly"
+        ],
+        "host_attr": "monthly",
+        "text_changed": true,
+        "pixels_changed": true
+      },
+      {
+        "key": "priceStyle",
+        "to": "rows",
+        "iframe_attr": [
+          "cards",
+          "rows"
+        ],
+        "host_attr": "rows",
+        "text_changed": false,
+        "pixels_changed": true
+      },
+      {
+        "key": "showCamp",
+        "to": "toggled",
+        "iframe_attr": [
+          "on",
+          "off"
+        ],
+        "host_attr": "off",
+        "text_changed": true,
+        "pixels_changed": true
+      },
+      {
+        "key": "priceFocus",
+        "to": "trail",
+        "iframe_attr": [
+          "summit",
+          "trail"
+        ],
+        "host_attr": "trail",
+        "text_changed": false,
+        "pixels_changed": true
+      }
+    ],
+    "api_calls_during_toggles": 0
+  }
+]
