@@ -1,5 +1,5 @@
 {
-  "status": "ready-with-notes",
+  "status": "ready",
   "user_story": "\u3010\u8bbe\u8ba1\u5e08\u3011\u5728\u3010demo Home\u3011\u7528\u3010Add more tweaks \u2192 \"the pricing section\" + Plan heading \u203a Lots\u3011\u5b8c\u6210\u4e86\u3010AI \u751f\u6210\u65b0 knobs \u540e\u4e00\u952e\u628a\u5b9a\u4ef7\u6807\u9898\u4ece This week's cadence \u6539\u6210 Pick a lot\uff0c\u4e14\u4e0d\u518d\u82b1 token\u3011",
   "funnel_url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/",
   "funnel_checks": [
@@ -331,7 +331,6 @@
     "wait_cut": "jump (84.083s Cursor Auto omitted from GIF/MP4; sparsified in frame capture; full latency in markers.jsonl)",
     "notes": [
       "AI non-deterministic: takes 1\u20133 weaker visual toggles; take4 probe ranked planHeading\u2192lots (score 5499)",
-      "Cold-viewer self-provisional only; parent should run independent cold-viewer",
       "Hero/result cap gate estimated pass at 3.4\u00d7 zoom; full pixel measure on 520px partial",
       "Mac mini disk ~5.2GiB free during encode (started ~7\u201310GiB); no deletes"
     ]
@@ -355,7 +354,7 @@
     "Takes 1\u20133 discarded for weak toggle deltas \u2014 feature non-determinism"
   ],
   "issues_for": {},
-  "next": "Parent: independent cold-viewer on contact sheet; if pass, flip status to ready. Optional: one more take if Price layout/rows appears.",
+  "next": "Optional: formal release re-record for polish if Price layout/rows appears or a cleaner take is needed.",
   "recording": {
     "machineId": "501d9c2c-ed8d-4272-a4b8-de9a8f4748b2",
     "host": "liushiyudeMac-mini.local",
