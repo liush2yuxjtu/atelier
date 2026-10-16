@@ -6,6 +6,7 @@ import {
   resolveAddTweaksServerSettings,
 } from "@/lib/add-tweaks";
 import type { ProviderSettings } from "@/lib/types";
+import { addTweaksProvider, cursorAgentComplete } from "@/lib/cursor-agent";
 
 export const runtime = "nodejs";
 
@@ -36,6 +37,41 @@ export async function POST(req: Request) {
     const { mockAddTweaksPayload } = await import("@/lib/add-tweaks");
     const payload = mockAddTweaksPayload(topic, existingKeys);
     return Response.json({ payload, model: "mock", mock: true });
+  }
+
+  // Cursor Auto (this account's Cursor subscription via cursor-agent) unless the
+  // client brings its own key or ATELIER_LLM_PROVIDER selects an HTTP provider.
+  const useCursor = addTweaksProvider() === "cursor" && !body.settings?.apiKey;
+  if (useCursor) {
+    const user = buildAddTweaksUserPrompt({
+      topic,
+      title: body.title || "Artboard",
+      source: body.source,
+      existingKeys: [...existingKeys],
+    });
+    const t0 = Date.now();
+    try {
+      const { text } = await cursorAgentComplete(ADD_TWEAKS_SYSTEM, user);
+      const payload = parseAddTweaksResponse(text, existingKeys);
+      if (!payload) {
+        return Response.json(
+          { error: "Model returned no usable tweak schema", raw: text.slice(0, 1500), provider: "cursor" },
+          { status: 422 },
+        );
+      }
+      return Response.json({
+        payload,
+        provider: "cursor",
+        model: process.env.ATELIER_CURSOR_MODEL || "auto",
+        latencyMs: Date.now() - t0,
+        addedKeys: Object.keys(payload.schema),
+      });
+    } catch (err) {
+      return Response.json(
+        { error: err instanceof Error ? err.message : "cursor-agent failed", provider: "cursor" },
+        { status: 502 },
+      );
+    }
   }
 
   if (!settings.apiKey) {

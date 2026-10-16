@@ -66,3 +66,15 @@ describe("add-tweaks", () => {
     expect(Object.keys(payload.schema).length).toBeGreaterThanOrEqual(1);
   });
 });
+
+describe("cursor provider selection", () => {
+  it("honours ATELIER_LLM_PROVIDER", async () => {
+    const { addTweaksProvider } = await import("@/lib/cursor-agent");
+    const prev = process.env.ATELIER_LLM_PROVIDER;
+    process.env.ATELIER_LLM_PROVIDER = "cursor";
+    expect(addTweaksProvider()).toBe("cursor");
+    process.env.ATELIER_LLM_PROVIDER = "openai";
+    expect(addTweaksProvider()).toBe("http");
+    process.env.ATELIER_LLM_PROVIDER = prev;
+  });
+});
