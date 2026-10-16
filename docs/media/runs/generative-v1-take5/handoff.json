@@ -1,573 +1,584 @@
 {
- "status": "ready-with-notes",
- "user_story": "【咖啡品牌创始人】在【首页文案读起来像僵硬的 SaaS】时用【Tweaks › Mood › Playful】完成了【一次点击把 hero 从 \"Coffee that tastes like the trail.\" 改写为 \"Bags without the boredom\"，CTA 变为 \"Let's roast\"，实时生效且无需提示词】",
- "funnel_url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/",
- "funnel_checks": [
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/",
-   "status": 200
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.gif",
-   "status": 200,
-   "bytes": 1982221,
-   "sha256_match": true
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.mp4",
-   "status": 200,
-   "bytes": 6681837,
-   "sha256_match": true,
-   "note": "full GET 350 s on retry (first 400 s attempt partial)"
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/poster-v5.png",
-   "status": 200
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/handoff.json",
-   "status": 200
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/shotlist.json",
-   "status": 200
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/legibility.json",
-   "status": 200
-  },
-  {
-   "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/legibility-strip.png",
-   "status": 200
-  }
- ],
- "gif": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.gif",
- "mp4": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.mp4",
- "poster": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/poster-v5.png",
- "commit": "ccf7d5c06991e7a8abba24bfdd9bd64a142fcec9",
- "branch": "feat/fancy-tweaks-baseline",
- "pr": "https://github.com/liush2yuxjtu/atelier/pull/1",
- "story_scores": [
-  {
-   "candidate": "Old-1",
-   "R1": 4,
-   "R2": 3,
-   "R3": 5,
-   "R4": 5,
-   "R5": 4,
-   "R6": 4,
-   "R7": 4,
-   "total": 84,
-   "winner": false
-  },
-  {
-   "candidate": "Old-2",
-   "R1": 2,
-   "R2": 4,
-   "R3": 2,
-   "R4": 3,
-   "R5": 2,
-   "R6": 4,
-   "R7": 4,
-   "total": 55,
-   "winner": false
-  },
-  {
-   "candidate": "Old-3",
-   "R1": 3,
-   "R2": 3,
-   "R3": 4,
-   "R4": 4,
-   "R5": 4,
-   "R6": 4,
-   "R7": 4,
-   "total": 73,
-   "winner": false
-  },
-  {
-   "candidate": "Old-4",
-   "R1": 2,
-   "R2": 1,
-   "R3": 2,
-   "R4": 3,
-   "R5": 4,
-   "R6": 2,
-   "R7": 1,
-   "total": 45,
-   "winner": false
-  },
-  {
-   "candidate": "New-A",
-   "R1": 5,
-   "R2": 5,
-   "R3": 5,
-   "R4": 5,
-   "R5": 4,
-   "R6": 5,
-   "R7": 5,
-   "total": 97,
-   "winner": true
-  },
-  {
-   "candidate": "New-B",
-   "R1": 4,
-   "R2": 4,
-   "R3": 4,
-   "R4": 5,
-   "R5": 4,
-   "R6": 3,
-   "R7": 4,
-   "total": 81,
-   "winner": false
-  },
-  {
-   "candidate": "New-C",
-   "R1": 3,
-   "R2": 5,
-   "R3": 3,
-   "R4": 3,
-   "R5": 4,
-   "R6": 5,
-   "R7": 5,
-   "total": 75,
-   "winner": false
-  },
-  {
-   "candidate": "New-D",
-   "R1": 3,
-   "R2": 2,
-   "R3": 3,
-   "R4": 4,
-   "R5": 5,
-   "R6": 3,
-   "R7": 2,
-   "total": 65,
-   "winner": false
-  }
- ],
- "winner": "New-A One click, new voice",
- "shot_list": [
-  {
-   "id": "S1",
-   "t_start": 0.0,
-   "t_end": 0.5,
-   "beat": "B0 establish",
-   "framing": "full",
-   "focus": "Home artboard + Tweaks panel 'Prepared for this design' (Mood=SaaS)",
-   "pointer": "idle on canvas",
-   "text_expected": [
-    "Coffee that tastes like the trail."
-   ],
-   "legibility": null,
-   "transition_in": "loop cut from S5 (same full frame)",
-   "ease": "none",
-   "hold_s": 0.5,
-   "purpose": "Where we are: a Home page in Atelier with the Tweaks panel open.",
-   "zoom": 1.0,
-   "crop_css": [
-    0.0,
-    0.0,
-    1920.0,
-    1080.0
-   ],
-   "roi_css": [
-    0,
-    0,
-    1920,
-    1080
-   ],
-   "roi_center_offset_pct": [
-    0.0,
-    0.0
-   ],
-   "roi_in_frame": true,
-   "t_raw_start": 1.467
-  },
-  {
-   "id": "S2",
-   "t_start": 0.5,
-   "t_end": 1.9,
-   "beat": "B1 before",
-   "framing": "close",
-   "focus": "Home hero h1 + CTA",
-   "pointer": "idle (off frame)",
-   "text_expected": [
-    "Coffee that tastes like the trail.",
-    "Start a subscription"
-   ],
-   "legibility": "hero_before",
-   "transition_in": "push-in 0.6 s",
-   "ease": "cosine, log-zoom",
-   "hold_s": 0.8,
-   "purpose": "Show the current (SaaS) voice so the change is measurable.",
-   "zoom": 5.8,
-   "crop_css": [
-    582.5,
-    220.9,
-    331.0,
-    186.2
-   ],
-   "roi_css": [
-    634,
-    240,
-    228,
-    150
-   ],
-   "roi_center_offset_pct": [
-    0.0,
-    0.5
-   ],
-   "roi_in_frame": true,
-   "legibility_px": {
-    "metric": "cap_height",
-    "measured": 38,
-    "threshold": 16,
-    "frame": 19,
-    "pass": true
-   },
-   "t_raw_start": 1.967
-  },
-  {
-   "id": "T23",
-   "t_start": 1.9,
-   "t_end": 2.5,
-   "beat": "transition",
-   "framing": "medium",
-   "focus": "pass through artboard -> Tweaks panel",
-   "pointer": "gliding to Mood > Playful",
-   "text_expected": [],
-   "legibility": null,
-   "transition_in": "pull-out 0.3 s to 1.25x then push-in 0.3 s",
-   "ease": "cosine, log-zoom",
-   "hold_s": 0.0,
-   "purpose": "Spatial link: the control lives in the panel next to the page.",
-   "zoom": 1.25,
-   "crop_css": [
-    384.0,
-    0,
-    1536.0,
-    864.0
-   ],
-   "roi_css": null,
-   "t_raw_start": 3.367
-  },
-  {
-   "id": "S3",
-   "t_start": 2.5,
-   "t_end": 3.35,
-   "beat": "B2 action",
-   "framing": "close",
-   "focus": "Tweaks > Prepared for this design > Mood: Editorial / SaaS / Playful",
-   "pointer": "on Playful (lower-right of chip); click at 3.00 s",
-   "text_expected": [
-    "PREPARED FOR THIS DESIGN",
-    "Mood",
-    "Editorial",
-    "SaaS",
-    "Playful"
-   ],
-   "legibility": "control_mood",
-   "transition_in": "push-in",
-   "ease": "cosine, log-zoom",
-   "hold_s": 0.85,
-   "purpose": "The one cause: a single Mood control switched SaaS -> Playful.",
-   "zoom": 7.0,
-   "crop_css": [
-    1584.9,
-    208.9,
-    274.3,
-    154.3
-   ],
-   "roi_css": [
-    1633,
-    258,
-    180,
-    58
-   ],
-   "roi_center_offset_pct": [
-    0.3,
-    0.6
-   ],
-   "roi_in_frame": true,
-   "legibility_px": {
-    "metric": "x_height",
-    "measured": 12,
-    "threshold": 9,
-    "frame": 39,
-    "pass": true
-   },
-   "t_raw_start": 3.967
-  },
-  {
-   "id": "T34",
-   "t_start": 3.35,
-   "t_end": 3.9,
-   "beat": "transition",
-   "framing": "medium",
-   "focus": "panel -> artboard (hero already rewritten)",
-   "pointer": "still on Playful",
-   "text_expected": [
-    "Bags without the boredom"
-   ],
-   "legibility": null,
-   "transition_in": "pull-out 0.25 s then push-in 0.3 s",
-   "ease": "cosine, log-zoom",
-   "hold_s": 0.0,
-   "purpose": "Carry the eye from cause to effect without a cut.",
-   "zoom": 1.28,
-   "crop_css": [
-    423.6,
-    0,
-    1496.4,
-    841.7
-   ],
-   "roi_css": null,
-   "t_raw_start": 4.817
-  },
-  {
-   "id": "S4",
-   "t_start": 3.9,
-   "t_end": 5.4,
-   "beat": "B3 result",
-   "framing": "close",
-   "focus": "Home hero h1 + CTA (rewritten)",
-   "pointer": "parks off artboard (out of frame)",
-   "text_expected": [
-    "Bags without the boredom",
-    "A brighter path from drum to doorstep. Confetti optional.",
-    "Let's roast"
-   ],
-   "legibility": "hero_after",
-   "transition_in": "push-in",
-   "ease": "cosine, log-zoom",
-   "hold_s": 1.5,
-   "purpose": "Effect: same hero, playful voice.",
-   "zoom": 5.8,
-   "crop_css": [
-    582.5,
-    220.9,
-    331.0,
-    186.2
-   ],
-   "roi_css": [
-    634,
-    240,
-    228,
-    132
-   ],
-   "roi_center_offset_pct": [
-    0.0,
-    -4.3
-   ],
-   "roi_in_frame": true,
-   "legibility_px": {
-    "metric": "cap_height",
-    "measured": 36,
-    "threshold": 16,
-    "frame": 56,
-    "pass": true
-   },
-   "t_raw_start": 5.367
-  },
-  {
-   "id": "S4b",
-   "t_start": 5.4,
-   "t_end": 7.0,
-   "beat": "B3b result detail",
-   "framing": "close",
-   "focus": "CTA button 'Let's roast' (+ 'boredom' line)",
-   "pointer": "off frame",
-   "text_expected": [
-    "boredom",
-    "Let's roast",
-    "Maybe later"
-   ],
-   "legibility": "cta_after",
-   "transition_in": "push-in 0.4 s",
-   "ease": "cosine, log-zoom",
-   "hold_s": 1.2,
-   "purpose": "The CTA changed too: the whole voice, not just a headline.",
-   "zoom": 8.0,
-   "crop_css": [
-    582.0,
-    254.5,
-    240.0,
-    135.0
-   ],
-   "roi_css": [
-    641,
-    273,
-    122,
-    99
-   ],
-   "roi_center_offset_pct": [
-    0.0,
-    0.4
-   ],
-   "roi_in_frame": true,
-   "legibility_px": {
-    "metric": "x_height",
-    "measured": 8,
-    "threshold": 7,
-    "frame": 77,
-    "pass": true
-   },
-   "t_raw_start": 6.867
-  },
-  {
-   "id": "S5",
-   "t_start": 7.0,
-   "t_end": 8.0,
-   "beat": "B4 payoff",
-   "framing": "full",
-   "focus": "Home artboard (playful) + panel with Playful selected",
-   "pointer": "parked",
-   "text_expected": [
-    "Bags without the boredom"
-   ],
-   "legibility": null,
-   "transition_in": "pull-back 0.5 s",
-   "ease": "cosine, log-zoom",
-   "hold_s": 0.5,
-   "purpose": "Global context; loops back to S1 framing.",
-   "zoom": 1.0,
-   "crop_css": [
-    0.0,
-    0.0,
-    1920.0,
-    1080.0
-   ],
-   "roi_css": [
-    0,
-    0,
-    1920,
-    1080
-   ],
-   "roi_center_offset_pct": [
-    0.0,
-    0.0
-   ],
-   "roi_in_frame": true,
-   "t_raw_start": 8.467
-  }
- ],
- "legibility": {
-  "verdict": "pass",
-  "file": "docs/media/runs/generative-v1-take5/verify/legibility.json",
-  "checks": [
-   {
-    "id": "hero_before",
-    "text": "Coffee that tastes like the trail.",
-    "metric": "cap_height",
-    "measured_px": 38,
-    "threshold_px": 16,
-    "ocr": true,
-    "pass": true
-   },
-   {
-    "id": "control_mood",
-    "text": "Mood: Editorial / SaaS / Playful",
-    "metric": "x_height",
-    "measured_px": 12,
-    "threshold_px": 9,
-    "ocr": true,
-    "pass": true
-   },
-   {
-    "id": "hero_after",
-    "text": "Bags without the boredom",
-    "metric": "cap_height",
-    "measured_px": 36,
-    "threshold_px": 16,
-    "ocr": true,
-    "pass": true
-   },
-   {
-    "id": "cta_after",
-    "text": "Let's roast",
-    "metric": "x_height",
-    "measured_px": 8,
-    "threshold_px": 7,
-    "ocr": true,
-    "pass": true
-   }
+  "status": "ready",
+  "user_story": "【咖啡品牌创始人】在【首页文案读起来像僵硬的 SaaS】时用【Tweaks › Mood › Playful】完成了【一次点击把 hero 从 \"Coffee that tastes like the trail.\" 改写为 \"Bags without the boredom\"，CTA 变为 \"Let's roast\"，实时生效且无需提示词】",
+  "funnel_url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/",
+  "funnel_checks": [
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/",
+      "status": 200
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.gif",
+      "status": 200,
+      "bytes": 1982221,
+      "sha256_match": true
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.mp4",
+      "status": 200,
+      "bytes": 6681837,
+      "sha256_match": true,
+      "note": "full GET 350 s on retry (first 400 s attempt partial)"
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/poster-v5.png",
+      "status": 200
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/handoff.json",
+      "status": 200
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/shotlist.json",
+      "status": 200
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/legibility.json",
+      "status": 200
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/legibility-strip.png",
+      "status": 200
+    }
   ],
-  "before_take3": [
-   {
-    "id": "hero_before",
-    "measured_px": 9,
-    "threshold_px": 16,
-    "ocr": true,
-    "pass": false
-   },
-   {
-    "id": "control_mood",
-    "measured_px": null,
-    "threshold_px": 9,
-    "ocr": false,
-    "pass": false
-   },
-   {
-    "id": "hero_after",
-    "measured_px": 10,
-    "threshold_px": 16,
-    "ocr": true,
-    "pass": false
-   },
-   {
-    "id": "cta_after",
-    "measured_px": 3,
-    "threshold_px": 7,
-    "ocr": true,
-    "pass": false
-   }
+  "gif": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.gif",
+  "mp4": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/generative-v1.mp4",
+  "poster": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/generative-v1/poster-v5.png",
+  "commit": "ccf7d5c06991e7a8abba24bfdd9bd64a142fcec9",
+  "branch": "feat/fancy-tweaks-baseline",
+  "pr": "https://github.com/liush2yuxjtu/atelier/pull/1",
+  "story_scores": [
+    {
+      "candidate": "Old-1",
+      "R1": 4,
+      "R2": 3,
+      "R3": 5,
+      "R4": 5,
+      "R5": 4,
+      "R6": 4,
+      "R7": 4,
+      "total": 84,
+      "winner": false
+    },
+    {
+      "candidate": "Old-2",
+      "R1": 2,
+      "R2": 4,
+      "R3": 2,
+      "R4": 3,
+      "R5": 2,
+      "R6": 4,
+      "R7": 4,
+      "total": 55,
+      "winner": false
+    },
+    {
+      "candidate": "Old-3",
+      "R1": 3,
+      "R2": 3,
+      "R3": 4,
+      "R4": 4,
+      "R5": 4,
+      "R6": 4,
+      "R7": 4,
+      "total": 73,
+      "winner": false
+    },
+    {
+      "candidate": "Old-4",
+      "R1": 2,
+      "R2": 1,
+      "R3": 2,
+      "R4": 3,
+      "R5": 4,
+      "R6": 2,
+      "R7": 1,
+      "total": 45,
+      "winner": false
+    },
+    {
+      "candidate": "New-A",
+      "R1": 5,
+      "R2": 5,
+      "R3": 5,
+      "R4": 5,
+      "R5": 4,
+      "R6": 5,
+      "R7": 5,
+      "total": 97,
+      "winner": true
+    },
+    {
+      "candidate": "New-B",
+      "R1": 4,
+      "R2": 4,
+      "R3": 4,
+      "R4": 5,
+      "R5": 4,
+      "R6": 3,
+      "R7": 4,
+      "total": 81,
+      "winner": false
+    },
+    {
+      "candidate": "New-C",
+      "R1": 3,
+      "R2": 5,
+      "R3": 3,
+      "R4": 3,
+      "R5": 4,
+      "R6": 5,
+      "R7": 5,
+      "total": 75,
+      "winner": false
+    },
+    {
+      "candidate": "New-D",
+      "R1": 3,
+      "R2": 2,
+      "R3": 3,
+      "R4": 4,
+      "R5": 5,
+      "R6": 3,
+      "R7": 2,
+      "total": 65,
+      "winner": false
+    }
   ],
-  "readable_result_s": 3.1,
-  "centering_pass": true,
-  "story_test": {
-   "independent": false,
-   "pass": true,
-   "status": "provisional",
-   "answer": "A coffee brand's landing page in a design tool. The headline reads 'Coffee that tastes like the trail.' with a 'Start a subscription' button. Zoom into a side panel 'Prepared for this design' > Mood with Editorial / SaaS / Playful; the pointer switches SaaS to Playful. The headline then reads 'Bags without the boredom', subhead 'A brighter path from drum to doorstep. Confetti optional.', button 'Let's roast'. For designers/marketers/founders who want to change a page's tone with one control instead of rewriting copy."
-  }
- },
- "qa": {
-  "verdict": "pass-with-notes",
-  "hold_s": 3.1,
-  "cjk_frames": 0,
-  "notes": "Legibility gate pass at 520 px (hero cap 38/36 px, Mood x-height 12 px, CTA x-height 8 px; OCR all tokens). Result text legible 3.9-7.0 s GIF (3.1 s). Click at 3.0 s inside a 7x close on the Mood control. Branch build b140c08, not production. Cold-viewer test self-graded (provisional)."
- },
- "deviations": [
-  "New take5 (take4 superseded: pointer covered 'Playful' at the click); take3 kept in repo",
-  "Recorded at deviceScaleFactor 2 (3840x2160 frames) so 7-8x close-ups stay sharp; MP4 still 1920x1080",
-  "Recorded app at b140c08 (before designbot's f92f683 JSON-hide fix); no app code changed",
-  "MP4 is the full 11.2 s master; GIF is the 8 s window 1.467-9.467 s",
-  "Cold-viewer story test graded by the producing agent, not a context-free model",
-  "Mac mini had 5.0-7.9 GiB free (< the 10 GiB stated); no files deleted, take used ~0.25 GiB"
- ],
- "artifacts": [
-  "docs/media/runs/generative-v1-take5/feature.json",
-  "docs/media/runs/generative-v1-take5/shotlist.json",
-  "docs/media/runs/generative-v1-take5/verify/legibility.json",
-  "docs/media/runs/generative-v1-take5/verify/legibility-strip.png",
-  "docs/media/runs/generative-v1-take5/verify/cold-viewer-contact-sheet.png",
-  "docs/media/runs/generative-v1-take5/verify/before-take3/",
-  "docs/media/runs/generative-v1-take5/edits/zoom-v6/zoom.json",
-  "docs/media/runs/generative-v1-take5/edits/zoom-v6/zoom-master.mp4",
-  "docs/media/runs/generative-v1-take5/raw/gt.mp4",
-  "docs/media/runs/generative-v1-take5/evidence/",
-  "scripts/generative-v1/camera_v4.py",
-  "scripts/generative-v1/verify_legibility.py",
-  "scripts/generative-v1/legibility_spec.json",
-  "docs/media/runs/takes.log"
- ],
- "known_weaknesses": [
-  "Recorded on branch build, not a production release",
-  "Close-ups trade global context for legibility: the canvas is only readable as layout in S1/S5",
-  "A yellow comment pin sits on the hero 'B' (app content)",
-  "Cold-viewer test not independent",
-  "Mac mini free space below 10 GiB"
- ],
- "issues_for": {},
- "next": "让一个无上下文的视觉模型只看 verify/cold-viewer-contact-sheet.png 复跑冷启动测试；通过后合并 PR #1，正式 release 后按同一分镜重录为 production。"
+  "winner": "New-A One click, new voice",
+  "shot_list": [
+    {
+      "id": "S1",
+      "t_start": 0.0,
+      "t_end": 0.5,
+      "beat": "B0 establish",
+      "framing": "full",
+      "focus": "Home artboard + Tweaks panel 'Prepared for this design' (Mood=SaaS)",
+      "pointer": "idle on canvas",
+      "text_expected": [
+        "Coffee that tastes like the trail."
+      ],
+      "legibility": null,
+      "transition_in": "loop cut from S5 (same full frame)",
+      "ease": "none",
+      "hold_s": 0.5,
+      "purpose": "Where we are: a Home page in Atelier with the Tweaks panel open.",
+      "zoom": 1.0,
+      "crop_css": [
+        0.0,
+        0.0,
+        1920.0,
+        1080.0
+      ],
+      "roi_css": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "roi_center_offset_pct": [
+        0.0,
+        0.0
+      ],
+      "roi_in_frame": true,
+      "t_raw_start": 1.467
+    },
+    {
+      "id": "S2",
+      "t_start": 0.5,
+      "t_end": 1.9,
+      "beat": "B1 before",
+      "framing": "close",
+      "focus": "Home hero h1 + CTA",
+      "pointer": "idle (off frame)",
+      "text_expected": [
+        "Coffee that tastes like the trail.",
+        "Start a subscription"
+      ],
+      "legibility": "hero_before",
+      "transition_in": "push-in 0.6 s",
+      "ease": "cosine, log-zoom",
+      "hold_s": 0.8,
+      "purpose": "Show the current (SaaS) voice so the change is measurable.",
+      "zoom": 5.8,
+      "crop_css": [
+        582.5,
+        220.9,
+        331.0,
+        186.2
+      ],
+      "roi_css": [
+        634,
+        240,
+        228,
+        150
+      ],
+      "roi_center_offset_pct": [
+        0.0,
+        0.5
+      ],
+      "roi_in_frame": true,
+      "legibility_px": {
+        "metric": "cap_height",
+        "measured": 38,
+        "threshold": 16,
+        "frame": 19,
+        "pass": true
+      },
+      "t_raw_start": 1.967
+    },
+    {
+      "id": "T23",
+      "t_start": 1.9,
+      "t_end": 2.5,
+      "beat": "transition",
+      "framing": "medium",
+      "focus": "pass through artboard -> Tweaks panel",
+      "pointer": "gliding to Mood > Playful",
+      "text_expected": [],
+      "legibility": null,
+      "transition_in": "pull-out 0.3 s to 1.25x then push-in 0.3 s",
+      "ease": "cosine, log-zoom",
+      "hold_s": 0.0,
+      "purpose": "Spatial link: the control lives in the panel next to the page.",
+      "zoom": 1.25,
+      "crop_css": [
+        384.0,
+        0,
+        1536.0,
+        864.0
+      ],
+      "roi_css": null,
+      "t_raw_start": 3.367
+    },
+    {
+      "id": "S3",
+      "t_start": 2.5,
+      "t_end": 3.35,
+      "beat": "B2 action",
+      "framing": "close",
+      "focus": "Tweaks > Prepared for this design > Mood: Editorial / SaaS / Playful",
+      "pointer": "on Playful (lower-right of chip); click at 3.00 s",
+      "text_expected": [
+        "PREPARED FOR THIS DESIGN",
+        "Mood",
+        "Editorial",
+        "SaaS",
+        "Playful"
+      ],
+      "legibility": "control_mood",
+      "transition_in": "push-in",
+      "ease": "cosine, log-zoom",
+      "hold_s": 0.85,
+      "purpose": "The one cause: a single Mood control switched SaaS -> Playful.",
+      "zoom": 7.0,
+      "crop_css": [
+        1584.9,
+        208.9,
+        274.3,
+        154.3
+      ],
+      "roi_css": [
+        1633,
+        258,
+        180,
+        58
+      ],
+      "roi_center_offset_pct": [
+        0.3,
+        0.6
+      ],
+      "roi_in_frame": true,
+      "legibility_px": {
+        "metric": "x_height",
+        "measured": 12,
+        "threshold": 9,
+        "frame": 39,
+        "pass": true
+      },
+      "t_raw_start": 3.967
+    },
+    {
+      "id": "T34",
+      "t_start": 3.35,
+      "t_end": 3.9,
+      "beat": "transition",
+      "framing": "medium",
+      "focus": "panel -> artboard (hero already rewritten)",
+      "pointer": "still on Playful",
+      "text_expected": [
+        "Bags without the boredom"
+      ],
+      "legibility": null,
+      "transition_in": "pull-out 0.25 s then push-in 0.3 s",
+      "ease": "cosine, log-zoom",
+      "hold_s": 0.0,
+      "purpose": "Carry the eye from cause to effect without a cut.",
+      "zoom": 1.28,
+      "crop_css": [
+        423.6,
+        0,
+        1496.4,
+        841.7
+      ],
+      "roi_css": null,
+      "t_raw_start": 4.817
+    },
+    {
+      "id": "S4",
+      "t_start": 3.9,
+      "t_end": 5.4,
+      "beat": "B3 result",
+      "framing": "close",
+      "focus": "Home hero h1 + CTA (rewritten)",
+      "pointer": "parks off artboard (out of frame)",
+      "text_expected": [
+        "Bags without the boredom",
+        "A brighter path from drum to doorstep. Confetti optional.",
+        "Let's roast"
+      ],
+      "legibility": "hero_after",
+      "transition_in": "push-in",
+      "ease": "cosine, log-zoom",
+      "hold_s": 1.5,
+      "purpose": "Effect: same hero, playful voice.",
+      "zoom": 5.8,
+      "crop_css": [
+        582.5,
+        220.9,
+        331.0,
+        186.2
+      ],
+      "roi_css": [
+        634,
+        240,
+        228,
+        132
+      ],
+      "roi_center_offset_pct": [
+        0.0,
+        -4.3
+      ],
+      "roi_in_frame": true,
+      "legibility_px": {
+        "metric": "cap_height",
+        "measured": 36,
+        "threshold": 16,
+        "frame": 56,
+        "pass": true
+      },
+      "t_raw_start": 5.367
+    },
+    {
+      "id": "S4b",
+      "t_start": 5.4,
+      "t_end": 7.0,
+      "beat": "B3b result detail",
+      "framing": "close",
+      "focus": "CTA button 'Let's roast' (+ 'boredom' line)",
+      "pointer": "off frame",
+      "text_expected": [
+        "boredom",
+        "Let's roast",
+        "Maybe later"
+      ],
+      "legibility": "cta_after",
+      "transition_in": "push-in 0.4 s",
+      "ease": "cosine, log-zoom",
+      "hold_s": 1.2,
+      "purpose": "The CTA changed too: the whole voice, not just a headline.",
+      "zoom": 8.0,
+      "crop_css": [
+        582.0,
+        254.5,
+        240.0,
+        135.0
+      ],
+      "roi_css": [
+        641,
+        273,
+        122,
+        99
+      ],
+      "roi_center_offset_pct": [
+        0.0,
+        0.4
+      ],
+      "roi_in_frame": true,
+      "legibility_px": {
+        "metric": "x_height",
+        "measured": 8,
+        "threshold": 7,
+        "frame": 77,
+        "pass": true
+      },
+      "t_raw_start": 6.867
+    },
+    {
+      "id": "S5",
+      "t_start": 7.0,
+      "t_end": 8.0,
+      "beat": "B4 payoff",
+      "framing": "full",
+      "focus": "Home artboard (playful) + panel with Playful selected",
+      "pointer": "parked",
+      "text_expected": [
+        "Bags without the boredom"
+      ],
+      "legibility": null,
+      "transition_in": "pull-back 0.5 s",
+      "ease": "cosine, log-zoom",
+      "hold_s": 0.5,
+      "purpose": "Global context; loops back to S1 framing.",
+      "zoom": 1.0,
+      "crop_css": [
+        0.0,
+        0.0,
+        1920.0,
+        1080.0
+      ],
+      "roi_css": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "roi_center_offset_pct": [
+        0.0,
+        0.0
+      ],
+      "roi_in_frame": true,
+      "t_raw_start": 8.467
+    }
+  ],
+  "legibility": {
+    "verdict": "pass",
+    "file": "docs/media/runs/generative-v1-take5/verify/legibility.json",
+    "checks": [
+      {
+        "id": "hero_before",
+        "text": "Coffee that tastes like the trail.",
+        "metric": "cap_height",
+        "measured_px": 38,
+        "threshold_px": 16,
+        "ocr": true,
+        "pass": true
+      },
+      {
+        "id": "control_mood",
+        "text": "Mood: Editorial / SaaS / Playful",
+        "metric": "x_height",
+        "measured_px": 12,
+        "threshold_px": 9,
+        "ocr": true,
+        "pass": true
+      },
+      {
+        "id": "hero_after",
+        "text": "Bags without the boredom",
+        "metric": "cap_height",
+        "measured_px": 36,
+        "threshold_px": 16,
+        "ocr": true,
+        "pass": true
+      },
+      {
+        "id": "cta_after",
+        "text": "Let's roast",
+        "metric": "x_height",
+        "measured_px": 8,
+        "threshold_px": 7,
+        "ocr": true,
+        "pass": true
+      }
+    ],
+    "before_take3": [
+      {
+        "id": "hero_before",
+        "measured_px": 9,
+        "threshold_px": 16,
+        "ocr": true,
+        "pass": false
+      },
+      {
+        "id": "control_mood",
+        "measured_px": null,
+        "threshold_px": 9,
+        "ocr": false,
+        "pass": false
+      },
+      {
+        "id": "hero_after",
+        "measured_px": 10,
+        "threshold_px": 16,
+        "ocr": true,
+        "pass": false
+      },
+      {
+        "id": "cta_after",
+        "measured_px": 3,
+        "threshold_px": 7,
+        "ocr": true,
+        "pass": false
+      }
+    ],
+    "readable_result_s": 3.1,
+    "centering_pass": true,
+    "story_test": {
+      "independent": false,
+      "pass": true,
+      "status": "provisional",
+      "answer": "A coffee brand's landing page in a design tool. The headline reads 'Coffee that tastes like the trail.' with a 'Start a subscription' button. Zoom into a side panel 'Prepared for this design' > Mood with Editorial / SaaS / Playful; the pointer switches SaaS to Playful. The headline then reads 'Bags without the boredom', subhead 'A brighter path from drum to doorstep. Confetti optional.', button 'Let's roast'. For designers/marketers/founders who want to change a page's tone with one control instead of rewriting copy."
+    },
+    "cold_viewer": {
+      "verdict": "pass",
+      "grader": "independent-videoReview",
+      "prompt": "no-context silent recording",
+      "recovered": [
+        "Mood",
+        "Playful",
+        "hero copy SaaS→playful",
+        "CTA Let's roast"
+      ]
+    }
+  },
+  "qa": {
+    "verdict": "pass",
+    "hold_s": 3.1,
+    "cjk_frames": 0,
+    "notes": "Independent cold-viewer (videoReview, no prior context) recovered Mood→Playful and hero/CTA rewrite. Branch build b140c08, not a formal GitHub Release."
+  },
+  "deviations": [
+    "New take5 (take4 superseded: pointer covered 'Playful' at the click); take3 kept in repo",
+    "Recorded at deviceScaleFactor 2 (3840x2160 frames) so 7-8x close-ups stay sharp; MP4 still 1920x1080",
+    "Recorded app at b140c08 (before designbot's f92f683 JSON-hide fix); no app code changed",
+    "MP4 is the full 11.2 s master; GIF is the 8 s window 1.467-9.467 s",
+    "Mac mini had 5.0-7.9 GiB free (< the 10 GiB stated); no files deleted, take used ~0.25 GiB",
+    "Independent cold-viewer passed after take5 delivery (was previously self-graded provisional)"
+  ],
+  "artifacts": [
+    "docs/media/runs/generative-v1-take5/feature.json",
+    "docs/media/runs/generative-v1-take5/shotlist.json",
+    "docs/media/runs/generative-v1-take5/verify/legibility.json",
+    "docs/media/runs/generative-v1-take5/verify/legibility-strip.png",
+    "docs/media/runs/generative-v1-take5/verify/cold-viewer-contact-sheet.png",
+    "docs/media/runs/generative-v1-take5/verify/before-take3/",
+    "docs/media/runs/generative-v1-take5/edits/zoom-v6/zoom.json",
+    "docs/media/runs/generative-v1-take5/edits/zoom-v6/zoom-master.mp4",
+    "docs/media/runs/generative-v1-take5/raw/gt.mp4",
+    "docs/media/runs/generative-v1-take5/evidence/",
+    "scripts/generative-v1/camera_v4.py",
+    "scripts/generative-v1/verify_legibility.py",
+    "scripts/generative-v1/legibility_spec.json",
+    "docs/media/runs/takes.log"
+  ],
+  "known_weaknesses": [
+    "Recorded on branch build, not a production release",
+    "Close-ups trade global context for legibility: the canvas is only readable as layout in S1/S5",
+    "A yellow comment pin sits on the hero 'B' (app content)",
+    "Cold-viewer test not independent",
+    "Mac mini free space below 10 GiB"
+  ],
+  "issues_for": {},
+  "next": "合并 PR #1；正式 release 后按同一分镜与可读性门禁重录为 production。"
 }
