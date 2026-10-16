@@ -205,7 +205,8 @@ test.describe("Atelier studio", () => {
     await page.getByTestId("tweak-socialProof").click();
     await expect(page.getByTestId("artboard-ab-landing")).toHaveAttribute("data-tweak-social-proof", "off");
 
-    await page.getByTestId("artboard-title-ab-dashboard").click();
+    await page.getByRole("button", { name: "fit" }).click();
+    await page.getByTestId("artboard-select-ab-dashboard").click();
     await expect(page.getByTestId("tweak-metricDensity")).toBeVisible();
     await expect(page.getByTestId("tweak-mood")).toHaveCount(0);
     await page.getByTestId("tweak-metricDensity-dense").click();
@@ -214,7 +215,7 @@ test.describe("Atelier studio", () => {
       "dense",
     );
 
-    await page.getByTestId("artboard-title-ab-pricing").click();
+    await page.getByTestId("artboard-select-ab-pricing").click();
     await expect(page.getByTestId("tweak-planCount")).toBeVisible();
     await page.getByTestId("tweak-planCount-4").click();
     await expect(page.getByTestId("artboard-ab-pricing")).toHaveAttribute("data-tweak-plan-count", "4");

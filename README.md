@@ -70,11 +70,11 @@ ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 ```bash
-npm test             # Vitest: protocol, tweaks, parse, export, design components
-npx playwright install chromium
-npm run test:e2e     # Playwright + screenshots in docs/screenshots and e2e/artifacts
+npm run verify       # local merge gate: prompts append-only, typecheck, lint, vitest, Playwright
 npm run build
 ```
+
+Verification is `npm run verify` (or the Cursor skill `/verify`). There is no GitHub Actions CI.
 
 ## Deploy
 

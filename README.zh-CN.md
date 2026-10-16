@@ -70,11 +70,11 @@ ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 ```bash
-npm test
-npx playwright install chromium
-npm run test:e2e
+npm run verify       # 本地合并门禁：prompts 只增不改、typecheck、lint、vitest、Playwright
 npm run build
 ```
+
+验证用 `npm run verify`（或 Cursor skill `/verify`），没有 GitHub Actions CI。
 
 ## 部署
 

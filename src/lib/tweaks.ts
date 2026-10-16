@@ -185,7 +185,7 @@ export function stripVisibleTweaksComment(source: string): string {
 
 export function injectTweaksScript(html: string, json: string): string {
   const tag = tweaksScriptTag(json);
-  let next = stripVisibleTweaksComment(html);
+  const next = stripVisibleTweaksComment(html);
   if (SCRIPT_RE.test(next)) {
     return next.replace(SCRIPT_RE, tag);
   }
