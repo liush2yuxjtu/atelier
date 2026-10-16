@@ -1,0 +1,66 @@
+{
+  "thresholds": {
+    "hero_cap_px": 16,
+    "control_x_px": 9,
+    "cta_x_px": 7,
+    "sources": "SKILL \u00a77.1"
+  },
+  "gif_size_px": [
+    520,
+    292
+  ],
+  "ocr": {
+    "frame_095": {
+      "tokens_found": [
+        "Plan",
+        "heading",
+        "Lots",
+        "Cadence"
+      ],
+      "t_gif_s": 7.916666666666667
+    },
+    "frame_120": {
+      "tokens_found": [
+        "Pick",
+        "a",
+        "lot",
+        "Trail",
+        "Camp",
+        "Coffee"
+      ],
+      "t_gif_s": 10.0
+    },
+    "frame_040": {
+      "tokens_found": [
+        "the",
+        "pricing",
+        "section"
+      ],
+      "note": "typed prompt visible (OCR noisy)"
+    }
+  },
+  "estimates_px": {
+    "control_Plan_heading_Lots": {
+      "metric": "x_height",
+      "est_px": 9.5,
+      "method": "zoom 3.2 \u00d7 ~5.5css \u00d7 520/1920",
+      "pass": true
+    },
+    "result_Pick_a_lot": {
+      "metric": "cap_height",
+      "est_px": 13.1,
+      "method": "zoom 2.2 \u00d7 ~18css \u00d7 520/1920",
+      "pass": false,
+      "note": "below 16px hero gate; readable via OCR on full-res master; recommend zoom bump in next edit"
+    }
+  },
+  "readable_result_s": {
+    "start_gif_s": 8.0,
+    "end_gif_s": 10.0,
+    "hold_s": 2.0,
+    "note": "GIF window ends at 10s; payoff hold in master continues; mark ready-with-notes for hold/legibility"
+  },
+  "cjk_frames": 0,
+  "cold_viewer_provisional": "Self-view of contact sheet: designer types 'the pricing section' in Add more tweaks, new Plan heading knobs appear, Lots selected, canvas pricing title becomes Pick a lot. Independent parent cold-viewer still required.",
+  "story_test_answer": "A designer on demo Home uses Tweaks \u203a Add more tweaks for 'the pricing section'; AI adds Plan heading/Billing/Featured tier/Show camp; clicking Plan heading \u203a Lots changes the pricing section title to 'Pick a lot'."
+}

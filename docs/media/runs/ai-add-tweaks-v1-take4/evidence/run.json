@@ -1,0 +1,36 @@
+{
+  "take": "ai-add-tweaks-v1-take4",
+  "frames": 393,
+  "fps": 30,
+  "beats": {
+    "b0-before": {
+      "frame": 36,
+      "t": 1.2
+    },
+    "b1-typed": {
+      "frame": 129,
+      "t": 4.3
+    },
+    "b2-adding": {
+      "frame": 181,
+      "t": 6.033
+    },
+    "b4-knobs": {
+      "frame": 211,
+      "t": 7.033
+    },
+    "b5-toggled": {
+      "frame": 273,
+      "t": 9.1
+    },
+    "b6-payoff": {
+      "frame": 393,
+      "t": 13.1
+    }
+  },
+  "errs": [],
+  "cjk_ui_post": false,
+  "source_commit": "de76e3ba20a338a1d8481af3e7d0155858dabd82",
+  "prompt": "the pricing section",
+  "wait_sparsified": true
+}

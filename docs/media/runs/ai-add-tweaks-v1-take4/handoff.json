@@ -1,0 +1,373 @@
+{
+  "status": "ready-with-notes",
+  "user_story": "\u3010\u8bbe\u8ba1\u5e08\u3011\u5728\u3010demo Home\u3011\u7528\u3010Add more tweaks \u2192 \"the pricing section\" + Plan heading \u203a Lots\u3011\u5b8c\u6210\u4e86\u3010AI \u751f\u6210\u65b0 knobs \u540e\u4e00\u952e\u628a\u5b9a\u4ef7\u6807\u9898\u4ece This week's cadence \u6539\u6210 Pick a lot\uff0c\u4e14\u4e0d\u518d\u82b1 token\u3011",
+  "funnel_url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/",
+  "funnel_checks": [
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/",
+      "status": 200
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/ai-add-tweaks.gif",
+      "status": 200,
+      "bytes": 2275073,
+      "sha256": "e0ade49cc0ca5c08cfda39e5795c88b772535c5073fbd85bbb552cd413cf2cbe"
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/ai-add-tweaks.mp4",
+      "status": 200,
+      "bytes": 3674874,
+      "sha256": "857582930979b3d7fc017ed513d92acd7fe5b1e576fa5d3b39eeed0ad95e815e"
+    },
+    {
+      "url": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/poster.png",
+      "status": 200,
+      "bytes": 802718
+    }
+  ],
+  "gif": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/ai-add-tweaks.gif",
+  "mp4": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/ai-add-tweaks.mp4",
+  "poster": "https://resume-box.tail6a877d.ts.net/atelier-tweaks/ai-add-tweaks/poster.png",
+  "commit": "1d820c3b0bc542a6c484dcf2aa95b2ca38ab8bcd",
+  "branch": "feat/fancy-tweaks-baseline",
+  "pr": "https://github.com/liush2yuxjtu/atelier/pull/1",
+  "story_scores": [
+    {
+      "candidate": "A GBA",
+      "R1": 4,
+      "R2": 4,
+      "R3": 5,
+      "R4": 4,
+      "R5": 4,
+      "R6": 4,
+      "R7": 4,
+      "total": 83,
+      "winner": false
+    },
+    {
+      "candidate": "B Direct designer",
+      "R1": 5,
+      "R2": 4,
+      "R3": 5,
+      "R4": 5,
+      "R5": 5,
+      "R6": 4,
+      "R7": 4,
+      "total": 93,
+      "winner": false
+    },
+    {
+      "candidate": "C Emotional Plan voice",
+      "R1": 4,
+      "R2": 4,
+      "R3": 4,
+      "R4": 5,
+      "R5": 5,
+      "R6": 4,
+      "R7": 4,
+      "total": 85,
+      "winner": false
+    },
+    {
+      "candidate": "New-A Price layout Rows",
+      "R1": 5,
+      "R2": 5,
+      "R3": 5,
+      "R4": 4,
+      "R5": 4,
+      "R6": 5,
+      "R7": 5,
+      "total": 94,
+      "winner": true
+    },
+    {
+      "candidate": "New-B Hero CTA Banner",
+      "R1": 4,
+      "R2": 5,
+      "R3": 4,
+      "R4": 4,
+      "R5": 4,
+      "R6": 5,
+      "R7": 5,
+      "total": 86,
+      "winner": false
+    },
+    {
+      "candidate": "New-C Chat-alias",
+      "R1": 3,
+      "R2": 4,
+      "R3": 4,
+      "R4": 4,
+      "R5": 4,
+      "R6": 3,
+      "R7": 3,
+      "total": 72,
+      "winner": false
+    },
+    {
+      "candidate": "New-D Flip all four",
+      "R1": 3,
+      "R2": 1,
+      "R3": 3,
+      "R4": 4,
+      "R5": 4,
+      "R6": 2,
+      "R7": 2,
+      "total": 54,
+      "winner": false
+    }
+  ],
+  "winner": "New-A (94) recorded as B narrative; take4 Plan heading \u203a Lots (best visible delta this session)",
+  "shot_list": [
+    {
+      "id": "S1",
+      "t_start": 0.0,
+      "t_end": 1.2,
+      "beat": "context",
+      "framing": "global",
+      "zoom": 1.0,
+      "roi": {
+        "center_css_px": [
+          960,
+          540
+        ]
+      },
+      "focus": "Home + Tweaks Add more tweaks form",
+      "pointer": "idle",
+      "text_expected": [
+        "Tweaks",
+        "Add more tweaks"
+      ],
+      "legibility_px": {
+        "metric": "n/a"
+      },
+      "transition": "cut",
+      "ease": "none",
+      "hold_s": 1.2,
+      "purpose": "Establish Home + AI form"
+    },
+    {
+      "id": "S2",
+      "t_start": 1.2,
+      "t_end": 4.5,
+      "beat": "type",
+      "framing": "close",
+      "zoom": 2.8,
+      "roi": {
+        "center_css_px": [
+          1770,
+          297
+        ]
+      },
+      "focus": "tweaks-ai-input",
+      "pointer": "type the pricing section",
+      "text_expected": [
+        "the pricing section",
+        "Add tweaks"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 10
+      },
+      "transition": "cosine",
+      "ease": "cosine ease-in-out",
+      "hold_s": 0.4,
+      "purpose": "Show specific AI prompt"
+    },
+    {
+      "id": "S3",
+      "t_start": 4.5,
+      "t_end": 6.1,
+      "beat": "submit",
+      "framing": "close",
+      "zoom": 2.5,
+      "roi": {
+        "center_css_px": [
+          1687,
+          335
+        ]
+      },
+      "focus": "tweaks-ai-submit",
+      "pointer": "click Add tweaks",
+      "text_expected": [
+        "Add tweaks",
+        "Adding"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 9
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 0.5,
+      "purpose": "Submit; wait jump-cut after"
+    },
+    {
+      "id": "S4",
+      "t_start": 6.1,
+      "t_end": 8.0,
+      "beat": "knobs",
+      "framing": "close",
+      "zoom": 2.6,
+      "roi": {
+        "center_css_px": [
+          1727,
+          375
+        ]
+      },
+      "focus": "new Plan heading knobs",
+      "pointer": "glide to Lots",
+      "text_expected": [
+        "Plan heading",
+        "Cadence",
+        "Lots",
+        "Added"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 9.5,
+        "pass": true
+      },
+      "transition": "jump from wait",
+      "ease": "cosine",
+      "hold_s": 1.0,
+      "purpose": "Reveal AI-generated knobs (wait cut)"
+    },
+    {
+      "id": "S5",
+      "t_start": 8.0,
+      "t_end": 9.2,
+      "beat": "toggle",
+      "framing": "close",
+      "zoom": 3.6,
+      "roi": {
+        "center_css_px": [
+          1727,
+          375
+        ]
+      },
+      "focus": "Plan heading \u203a Lots",
+      "pointer": "click Lots",
+      "text_expected": [
+        "Lots",
+        "Plan heading"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 11,
+        "pass": true
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 0.5,
+      "purpose": "Free toggle without new tokens"
+    },
+    {
+      "id": "S6",
+      "t_start": 9.2,
+      "t_end": 12.0,
+      "beat": "result",
+      "framing": "close",
+      "zoom": 3.4,
+      "roi": {
+        "center_css_px": [
+          780,
+          400
+        ]
+      },
+      "focus": "pricing title Pick a lot",
+      "pointer": "parked",
+      "text_expected": [
+        "Pick a lot",
+        "Trail",
+        "Camp"
+      ],
+      "legibility_px": {
+        "metric": "cap_height",
+        "est": 18,
+        "method": "zoom 3.4 \u00d7 ~18css \u00d7 520/1920",
+        "pass": true
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 3.0,
+      "purpose": "Readable pricing rewrite \u22653s"
+    },
+    {
+      "id": "S7",
+      "t_start": 12.0,
+      "t_end": 13.1,
+      "beat": "payoff",
+      "framing": "wide",
+      "zoom": 1.15,
+      "roi": {
+        "center_css_px": [
+          900,
+          420
+        ]
+      },
+      "focus": "full canvas + panel",
+      "pointer": "parked",
+      "text_expected": [
+        "Pick a lot"
+      ],
+      "legibility_px": {
+        "metric": "cap_height",
+        "est": 8,
+        "note": "soft pull"
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 1.1,
+      "purpose": "Context pull-back"
+    }
+  ],
+  "qa": {
+    "verdict": "pass-with-notes",
+    "hold_s": 3.0,
+    "cjk_frames": 0,
+    "ui_language": "en",
+    "take_kept": "ai-add-tweaks-v1-take4",
+    "wait_cut": "jump (84.083s Cursor Auto omitted from GIF/MP4; sparsified in frame capture; full latency in markers.jsonl)",
+    "notes": [
+      "AI non-deterministic: takes 1\u20133 weaker visual toggles; take4 probe ranked planHeading\u2192lots (score 5499)",
+      "Cold-viewer self-provisional only; parent should run independent cold-viewer",
+      "Hero/result cap gate estimated pass at 3.4\u00d7 zoom; full pixel measure on 520px partial",
+      "Mac mini disk ~5.2GiB free during encode (started ~7\u201310GiB); no deletes"
+    ]
+  },
+  "deviations": [
+    "Deliverable jumps from submit/Adding\u2026 to Added N tweaks (user-requested wait cut); no on-screen 2.5\u00d7 label because wait frames omitted rather than sped",
+    "Chosen toggle was Plan heading \u203a Lots (not Price layout \u203a Rows) \u2014 layout key absent in take4 schema; biggest measured delta used",
+    "GT frames sparsified during wait (disk); markers preserve wait_latency_ms=84083",
+    "Worktree /tmp/atelier-auto2 @ ba0e167 (docs-only delta vs de76e3b); /tmp/atelier left untouched (foreign dirty tree)"
+  ],
+  "artifacts": [
+    "docs/media/ai-add-tweaks.gif",
+    "docs/media/ai-add-tweaks.mp4",
+    "docs/media/runs/ai-add-tweaks-v1-take4/",
+    "docs/media/story/ai-add-tweaks/{research,story,storyboard}.md",
+    "gallery/atelier-tweaks/ai-add-tweaks/"
+  ],
+  "known_weaknesses": [
+    "Independent cold-viewer not yet run by a fresh context",
+    "520\u00d7292 GIF short height; panel close-ups help but pricing title still small without 3.4\u00d7",
+    "Takes 1\u20133 discarded for weak toggle deltas \u2014 feature non-determinism"
+  ],
+  "issues_for": {},
+  "next": "Parent: independent cold-viewer on contact sheet; if pass, flip status to ready. Optional: one more take if Price layout/rows appears.",
+  "recording": {
+    "machineId": "501d9c2c-ed8d-4272-a4b8-de9a8f4748b2",
+    "host": "liushiyudeMac-mini.local",
+    "lock_owner": "gif-job",
+    "source_commit_recorded": "de76e3ba20a338a1d8481af3e7d0155858dabd82",
+    "runtime_tree": "/tmp/atelier-auto2@ba0e167",
+    "prompt": "the pricing section",
+    "provider": "cursor",
+    "model": "auto",
+    "wait_latency_ms": 84083,
+    "gif_sha256": "e0ade49cc0ca5c08cfda39e5795c88b772535c5073fbd85bbb552cd413cf2cbe",
+    "mp4_sha256": "857582930979b3d7fc017ed513d92acd7fe5b1e576fa5d3b39eeed0ad95e815e",
+    "disk_note": "Mac mini Data volume ~5.2GiB free at handoff (below preferred 10GiB); proceeded without deleting files"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "feature_id": "ai-add-tweaks-v1",
+  "take": "ai-add-tweaks-v1-take4",
+  "shot_list": [
+    {
+      "id": "S1",
+      "t_start": 0.0,
+      "t_end": 1.2,
+      "beat": "context",
+      "framing": "global",
+      "zoom": 1.0,
+      "roi": {
+        "center_css_px": [
+          960,
+          540
+        ]
+      },
+      "focus": "Home + Tweaks Add more tweaks form",
+      "pointer": "idle",
+      "text_expected": [
+        "Tweaks",
+        "Add more tweaks"
+      ],
+      "legibility_px": {
+        "metric": "n/a"
+      },
+      "transition": "cut",
+      "ease": "none",
+      "hold_s": 1.2,
+      "purpose": "Establish Home + AI form"
+    },
+    {
+      "id": "S2",
+      "t_start": 1.2,
+      "t_end": 4.5,
+      "beat": "type",
+      "framing": "close",
+      "zoom": 2.8,
+      "roi": {
+        "center_css_px": [
+          1770,
+          297
+        ]
+      },
+      "focus": "tweaks-ai-input",
+      "pointer": "type the pricing section",
+      "text_expected": [
+        "the pricing section",
+        "Add tweaks"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 10
+      },
+      "transition": "cosine",
+      "ease": "cosine ease-in-out",
+      "hold_s": 0.4,
+      "purpose": "Show specific AI prompt"
+    },
+    {
+      "id": "S3",
+      "t_start": 4.5,
+      "t_end": 6.1,
+      "beat": "submit",
+      "framing": "close",
+      "zoom": 2.5,
+      "roi": {
+        "center_css_px": [
+          1687,
+          335
+        ]
+      },
+      "focus": "tweaks-ai-submit",
+      "pointer": "click Add tweaks",
+      "text_expected": [
+        "Add tweaks",
+        "Adding"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 9
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 0.5,
+      "purpose": "Submit; wait jump-cut after"
+    },
+    {
+      "id": "S4",
+      "t_start": 6.1,
+      "t_end": 8.0,
+      "beat": "knobs",
+      "framing": "close",
+      "zoom": 2.6,
+      "roi": {
+        "center_css_px": [
+          1727,
+          375
+        ]
+      },
+      "focus": "new Plan heading knobs",
+      "pointer": "glide to Lots",
+      "text_expected": [
+        "Plan heading",
+        "Cadence",
+        "Lots",
+        "Added"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 9.5,
+        "pass": true
+      },
+      "transition": "jump from wait",
+      "ease": "cosine",
+      "hold_s": 1.0,
+      "purpose": "Reveal AI-generated knobs (wait cut)"
+    },
+    {
+      "id": "S5",
+      "t_start": 8.0,
+      "t_end": 9.2,
+      "beat": "toggle",
+      "framing": "close",
+      "zoom": 3.6,
+      "roi": {
+        "center_css_px": [
+          1727,
+          375
+        ]
+      },
+      "focus": "Plan heading \u203a Lots",
+      "pointer": "click Lots",
+      "text_expected": [
+        "Lots",
+        "Plan heading"
+      ],
+      "legibility_px": {
+        "metric": "x_height",
+        "est": 11,
+        "pass": true
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 0.5,
+      "purpose": "Free toggle without new tokens"
+    },
+    {
+      "id": "S6",
+      "t_start": 9.2,
+      "t_end": 12.0,
+      "beat": "result",
+      "framing": "close",
+      "zoom": 3.4,
+      "roi": {
+        "center_css_px": [
+          780,
+          400
+        ]
+      },
+      "focus": "pricing title Pick a lot",
+      "pointer": "parked",
+      "text_expected": [
+        "Pick a lot",
+        "Trail",
+        "Camp"
+      ],
+      "legibility_px": {
+        "metric": "cap_height",
+        "est": 18,
+        "method": "zoom 3.4 \u00d7 ~18css \u00d7 520/1920",
+        "pass": true
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 3.0,
+      "purpose": "Readable pricing rewrite \u22653s"
+    },
+    {
+      "id": "S7",
+      "t_start": 12.0,
+      "t_end": 13.1,
+      "beat": "payoff",
+      "framing": "wide",
+      "zoom": 1.15,
+      "roi": {
+        "center_css_px": [
+          900,
+          420
+        ]
+      },
+      "focus": "full canvas + panel",
+      "pointer": "parked",
+      "text_expected": [
+        "Pick a lot"
+      ],
+      "legibility_px": {
+        "metric": "cap_height",
+        "est": 8,
+        "note": "soft pull"
+      },
+      "transition": "cosine",
+      "ease": "cosine",
+      "hold_s": 1.1,
+      "purpose": "Context pull-back"
+    }
+  ]
+}

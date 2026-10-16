@@ -1,0 +1,36 @@
+{
+  "ui_language": "en",
+  "phrases": [
+    "Add more tweaks",
+    "Add tweaks",
+    "Tweaks",
+    "Prepared for this design",
+    "Home"
+  ],
+  "cjk": false,
+  "zoom": "41%",
+  "has_ai_input": 1,
+  "url": "http://127.0.0.1:43173/studio/demo",
+  "keys_before": [
+    "tweak-panel",
+    "tweak-group-prepared",
+    "tweak-mood",
+    "tweak-mood-editorial",
+    "tweak-mood-saas",
+    "tweak-mood-playful",
+    "tweak-spacing",
+    "tweak-ctaWeight",
+    "tweak-ctaWeight-regular",
+    "tweak-ctaWeight-bold",
+    "tweak-socialProof",
+    "tweak-group-look",
+    "tweak-accent",
+    "tweak-group-layout",
+    "tweak-heroLayout",
+    "tweak-heroLayout-split",
+    "tweak-heroLayout-stack",
+    "tweak-heroLayout-full-bleed",
+    "tweak-undo",
+    "tweak-redo"
+  ]
+}

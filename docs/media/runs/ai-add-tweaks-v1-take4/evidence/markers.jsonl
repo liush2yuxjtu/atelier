@@ -1,0 +1,15 @@
+{"elapsed_ms":0,"frame":0,"wall_ms":1792145941761,"label":"start: Home + Tweaks Add more tweaks form"}
+{"elapsed_ms":1900,"frame":57,"wall_ms":1792145949342,"label":"pointer on tweaks-ai-input"}
+{"elapsed_ms":2333,"frame":70,"wall_ms":1792145951218,"label":"focus input"}
+{"elapsed_ms":3833,"frame":115,"wall_ms":1792145956953,"label":"typed prompt","prompt":"the pricing section"}
+{"elapsed_ms":4767,"frame":143,"wall_ms":1792145960892,"label":"pointer on Add tweaks"}
+{"elapsed_ms":5133,"frame":154,"wall_ms":1792145962336,"label":"click Add tweaks"}
+{"elapsed_ms":6033,"frame":181,"wall_ms":1792145966218,"label":"wait_start","note":"dense capture paused; sparsified wait"}
+{"elapsed_ms":6033,"frame":181,"wall_ms":1792146046462,"label":"wait_end","wait_latency_ms":84083,"status":"Added 4 tweaks","http":200,"provider":"cursor","model":"auto","keys":["planHeading","billing","featureTier","showCamp"]}
+{"elapsed_ms":7033,"frame":211,"wall_ms":1792146050718,"label":"knobs_visible","newKeys":["planHeading","billing","featureTier","showCamp"],"labels":{"planHeading":"Plan heading","billing":"Billing","featureTier":"Featured tier","showCamp":"Show camp tier"},"keysAfter":["tweak-panel","tweak-group-prepared","tweak-mood","tweak-mood-editorial","tweak-mood-saas","tweak-mood-playful","tweak-spacing","tweak-ctaWeight","tweak-ctaWeight-regular","tweak-ctaWeight-bold","tweak-socialProof","tweak-planHeading","tweak-planHeading-cadence","tweak-planHeading-lots","tweak-planHeading-pledge","tweak-billing","tweak-billing-month","tweak-billing-year","tweak-featureTier","tweak-featureTier-trail","tweak-featureTier-summit","tweak-featureTier-camp","tweak-showCamp","tweak-group-look","tweak-accent","tweak-group-layout","tweak-heroLayout","tweak-heroLayout-split","tweak-heroLayout-stack","tweak-heroLayout-full-bleed","tweak-undo","tweak-redo"]}
+{"elapsed_ms":7033,"frame":211,"wall_ms":1792146055194,"label":"Plan heading","key":"planHeading","type":"select","from":"cadence","to":"lots","bestScore":5499,"probe":[{"key":"billing","type":"select","testId":"tweak-billing-year","label":"Billing","to":"year","from":"month","score":2135},{"key":"showCamp","type":"boolean","testId":"tweak-showCamp","label":"Show camp tier","to":"toggled","score":2160},{"key":"planHeading","type":"select","testId":"tweak-planHeading-lots","label":"Plan heading","to":"lots","from":"cadence","score":5499},{"key":"featureTier","type":"select","testId":"tweak-featureTier-trail","label":"Featured tier","to":"trail","from":"summit","score":542}]}
+{"elapsed_ms":7733,"frame":232,"wall_ms":1792146058162,"label":"pointer on toggle","testId":"tweak-planHeading-lots"}
+{"elapsed_ms":8300,"frame":249,"wall_ms":1792146060453,"label":"click toggle","testId":"tweak-planHeading-lots","key":"planHeading","to":"lots"}
+{"elapsed_ms":9100,"frame":273,"wall_ms":1792146063827,"label":"toggle_result","pixels_changed":true}
+{"elapsed_ms":9600,"frame":288,"wall_ms":1792146066022,"label":"payoff hold start"}
+{"elapsed_ms":13100,"frame":393,"wall_ms":1792146079522,"label":"end"}

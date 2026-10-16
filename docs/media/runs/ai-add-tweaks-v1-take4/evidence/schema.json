@@ -1,0 +1,67 @@
+{
+  "schema": {
+    "planHeading": {
+      "type": "select",
+      "value": "cadence",
+      "label": "Plan heading",
+      "options": [
+        "cadence",
+        "lots",
+        "pledge"
+      ],
+      "optionLabels": {
+        "cadence": "Cadence",
+        "lots": "Lots",
+        "pledge": "Pledge"
+      },
+      "control": "radio",
+      "structural": true,
+      "group": "copy"
+    },
+    "billing": {
+      "type": "select",
+      "value": "month",
+      "label": "Billing",
+      "options": [
+        "month",
+        "year"
+      ],
+      "optionLabels": {
+        "month": "Monthly",
+        "year": "Yearly"
+      },
+      "control": "radio",
+      "structural": true,
+      "group": "copy"
+    },
+    "featureTier": {
+      "type": "select",
+      "value": "summit",
+      "label": "Featured tier",
+      "options": [
+        "trail",
+        "summit",
+        "camp"
+      ],
+      "optionLabels": {
+        "trail": "Trail",
+        "summit": "Summit",
+        "camp": "Camp"
+      },
+      "control": "radio",
+      "structural": true,
+      "group": "look"
+    },
+    "showCamp": {
+      "type": "boolean",
+      "value": true,
+      "label": "Show camp tier",
+      "structural": true,
+      "group": "visibility"
+    }
+  },
+  "chosen": "planHeading",
+  "targetOpt": "lots",
+  "wait_latency_ms": 84083,
+  "status": "Added 4 tweaks"
+}

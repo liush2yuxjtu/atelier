@@ -1,0 +1,48 @@
+{
+  "feature_id": "atelier-ai-add-tweaks",
+  "feature_name": "Tweaks \u2014 AI Add more tweaks",
+  "user_outcome": "On demo Home, type 'the pricing section' into Add more tweaks; after AI returns knobs, Plan heading \u203a Lots rewrites the pricing title to 'Pick a lot' with zero further API calls.",
+  "ui_language": "en",
+  "source": {
+    "environment": "branch",
+    "commit": "de76e3ba20a338a1d8481af3e7d0155858dabd82",
+    "branch": "feat/fancy-tweaks-baseline",
+    "prs": [
+      "https://github.com/liush2yuxjtu/atelier/pull/1"
+    ]
+  },
+  "recording": {
+    "surface": "browser",
+    "route": "Playwright Chromium DPR2 1920x1080; dense frames outside AI wait; wait sparsified",
+    "gt": "raw/gt.mp4 (Mac mini)",
+    "wait_cut": "jump",
+    "wait_latency_ms": 84083,
+    "proof_interval_s": [
+      9.2,
+      12.2
+    ]
+  },
+  "presentation": {
+    "mode": "pure-screen",
+    "explanatory_captions": false,
+    "pointer": "drawn SVG",
+    "zoom": "Screen-Studio cosine log-zoom zoom-v2"
+  },
+  "take_verification": {
+    "kept": "ai-add-tweaks-v1-take4",
+    "discarded": [
+      "take1-weak-compare",
+      "take2-showCamp-weak",
+      "take3-showCamp-weak",
+      "take1-server-symlink-fail"
+    ],
+    "takes_log": "~/gen/runs/takes.log"
+  },
+  "gif": {
+    "start_s": 1.0,
+    "duration_s": 11,
+    "width": 520,
+    "fps": 12,
+    "frames": 132
+  }
+}

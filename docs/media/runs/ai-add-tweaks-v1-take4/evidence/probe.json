@@ -1,0 +1,81 @@
+{
+  "candidates": [
+    {
+      "key": "billing",
+      "type": "select",
+      "testId": "tweak-billing-year",
+      "label": "Billing",
+      "to": "year",
+      "from": "month"
+    },
+    {
+      "key": "showCamp",
+      "type": "boolean",
+      "testId": "tweak-showCamp",
+      "label": "Show camp tier",
+      "to": "toggled"
+    },
+    {
+      "key": "planHeading",
+      "type": "select",
+      "testId": "tweak-planHeading-lots",
+      "label": "Plan heading",
+      "to": "lots",
+      "from": "cadence"
+    },
+    {
+      "key": "featureTier",
+      "type": "select",
+      "testId": "tweak-featureTier-trail",
+      "label": "Featured tier",
+      "to": "trail",
+      "from": "summit"
+    }
+  ],
+  "probe": [
+    {
+      "key": "billing",
+      "type": "select",
+      "testId": "tweak-billing-year",
+      "label": "Billing",
+      "to": "year",
+      "from": "month",
+      "score": 2135
+    },
+    {
+      "key": "showCamp",
+      "type": "boolean",
+      "testId": "tweak-showCamp",
+      "label": "Show camp tier",
+      "to": "toggled",
+      "score": 2160
+    },
+    {
+      "key": "planHeading",
+      "type": "select",
+      "testId": "tweak-planHeading-lots",
+      "label": "Plan heading",
+      "to": "lots",
+      "from": "cadence",
+      "score": 5499
+    },
+    {
+      "key": "featureTier",
+      "type": "select",
+      "testId": "tweak-featureTier-trail",
+      "label": "Featured tier",
+      "to": "trail",
+      "from": "summit",
+      "score": 542
+    }
+  ],
+  "best": {
+    "key": "planHeading",
+    "type": "select",
+    "testId": "tweak-planHeading-lots",
+    "label": "Plan heading",
+    "to": "lots",
+    "from": "cadence"
+  },
+  "bestScore": 5499
+}
