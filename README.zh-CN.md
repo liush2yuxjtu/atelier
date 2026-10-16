@@ -93,6 +93,35 @@ npm start -- --port 43173
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 代理循环、画布、iframe、服务端代理 |
 | [docs/DC-PROTOCOL.md](docs/DC-PROTOCOL.md) | Design Components（`.dc.html`）协议 |
 
+## 常见问题
+
+### Atelier 是否与 Anthropic 或 Claude 有关联？
+
+没有。Atelier 是独立的 MIT 项目，借鉴了 Claude Artifacts 与 Claude Design 的**交互形态**（对话 + 实时画布 + Tweaks），但不复制 Anthropic 的提示词、商标或源码。
+
+### 支持哪些模型？
+
+自带密钥（BYOK）：Anthropic、OpenAI、OpenRouter，或任意 OpenAI 兼容接口。密钥可放在 `localStorage` 或服务端环境变量。Northbound 演示对话无需密钥（本地草稿模型）。
+
+### 如何自托管？
+
+```bash
+npm install
+npm run build
+npm start -- --port 43173
+```
+
+也可将仓库导入 Vercel / 任意可运行 Next.js 16 的 Node 主机。若使用分享链接，生产环境请为 `.data/shares/` 挂载持久卷。
+
+### 必须有 Anthropic 账号吗？
+
+不必。你可以使用 OpenAI、OpenRouter 或其他兼容接口。Anthropic 密钥是可选的。
+
+## 相关项目
+
+- [html-artifacts](https://github.com/liush2yuxjtu/html-artifacts) — 用于自包含交互式 HTML artifacts 的 Claude Code skill
+- [pi-debug-mode](https://github.com/liush2yuxjtu/pi-debug-mode) — 面向 Pi coding agent 的 Cursor 风格、证据优先 Debug Mode
+
 ## 引用
 
 学术或写作中使用 Atelier 时，请参见 [CITATION.cff](CITATION.cff)。

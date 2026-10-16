@@ -99,6 +99,35 @@ Share links write JSON under `.data/shares/` — mount a persistent volume in pr
 
 Short architecture version: the browser owns the agent loop and the canvas; iframes are opaque; the Next.js server only proxies tokens and stores share snapshots.
 
+## FAQ
+
+### Is Atelier affiliated with Anthropic or Claude?
+
+No. Atelier is an independent MIT project inspired by the *shape* of Claude Artifacts and Claude Design (chat + live canvas + tweaks). It does not copy Anthropic prompts, trademarks, or source.
+
+### Which models does it support?
+
+Bring-your-own-key (BYOK): Anthropic, OpenAI, OpenRouter, or any OpenAI-compatible base URL. Keys can live in `localStorage` or server env. The Northbound demo chat can run without a key (local draft model).
+
+### How do I self-host?
+
+```bash
+npm install
+npm run build
+npm start -- --port 43173
+```
+
+Or import the repo into Vercel / any Node host that runs Next.js 16. Mount a persistent volume for `.data/shares/` in production if you use share links.
+
+### Does it require an Anthropic account?
+
+No. You can use OpenAI, OpenRouter, or another compatible endpoint. An Anthropic key is optional.
+
+## Related projects
+
+- [html-artifacts](https://github.com/liush2yuxjtu/html-artifacts) — Claude Code skill for self-contained interactive HTML artifacts
+- [pi-debug-mode](https://github.com/liush2yuxjtu/pi-debug-mode) — Cursor-style evidence-first Debug Mode for the Pi coding agent
+
 ## Cite
 
 If you use Atelier in research or writing, see [CITATION.cff](CITATION.cff).
