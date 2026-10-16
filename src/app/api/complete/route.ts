@@ -3,16 +3,25 @@ import { endpointFor } from "@/lib/providers";
 
 export async function POST(req: Request) {
   const body = (await req.json()) as { prompt: string; settings?: ProviderSettings };
+  const dashscope = process.env.DASHSCOPE_API_KEY || "";
   const envKey =
     process.env.ANTHROPIC_API_KEY ||
     process.env.OPENAI_API_KEY ||
     process.env.OPENROUTER_API_KEY ||
+    dashscope ||
     "";
+  const dashOnly =
+    Boolean(dashscope) &&
+    !process.env.ANTHROPIC_API_KEY &&
+    !process.env.OPENAI_API_KEY &&
+    !process.env.OPENROUTER_API_KEY;
   const settings: ProviderSettings = {
-    provider: body.settings?.provider || "openai",
-    model: body.settings?.model || "gpt-4.1-mini",
+    provider: body.settings?.provider || (dashOnly ? "compatible" : "openai"),
+    model: body.settings?.model || (dashOnly ? "qwen-turbo" : "gpt-4.1-mini"),
     apiKey: body.settings?.apiKey || envKey,
-    baseUrl: body.settings?.baseUrl || "",
+    baseUrl:
+      body.settings?.baseUrl ||
+      (dashOnly ? "https://dashscope.aliyuncs.com/compatible-mode/v1" : ""),
   };
 
   if (!settings.apiKey) {

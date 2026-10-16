@@ -11,16 +11,31 @@ interface Body {
 
 export async function POST(req: Request) {
   const body = (await req.json()) as Body;
+  const dashscope = process.env.DASHSCOPE_API_KEY || "";
   const envKey =
     process.env.ANTHROPIC_API_KEY ||
     process.env.OPENAI_API_KEY ||
     process.env.OPENROUTER_API_KEY ||
+    dashscope ||
     "";
+  const dashOnly =
+    Boolean(dashscope) &&
+    !process.env.ANTHROPIC_API_KEY &&
+    !process.env.OPENAI_API_KEY &&
+    !process.env.OPENROUTER_API_KEY;
   const settings: ProviderSettings = {
-    provider: body.settings?.provider || (process.env.ANTHROPIC_API_KEY ? "anthropic" : "openai"),
-    model: body.settings?.model || process.env.ATELIER_MODEL || "gpt-4.1",
+    provider:
+      body.settings?.provider ||
+      (process.env.ANTHROPIC_API_KEY ? "anthropic" : dashOnly ? "compatible" : process.env.OPENROUTER_API_KEY ? "openrouter" : "openai"),
+    model:
+      body.settings?.model ||
+      process.env.ATELIER_MODEL ||
+      (dashOnly ? "qwen-turbo" : "gpt-4.1"),
     apiKey: body.settings?.apiKey || envKey,
-    baseUrl: body.settings?.baseUrl || process.env.OPENAI_BASE_URL || "",
+    baseUrl:
+      body.settings?.baseUrl ||
+      process.env.OPENAI_BASE_URL ||
+      (dashOnly ? "https://dashscope.aliyuncs.com/compatible-mode/v1" : ""),
   };
 
   if (!settings.apiKey) {

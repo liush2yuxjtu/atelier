@@ -58,6 +58,7 @@ interface Props {
 
 export function TweakControls({ board, compact }: Props) {
   const project = useStudio((s) => s.project);
+  const recentlyAdded = useStudio((s) => s.recentlyAddedTweakKeys);
   const setTweaks = useStudio((s) => s.setTweaks);
   const applyPalette = useStudio((s) => s.applyPalette);
   const unlinkTweak = useStudio((s) => s.unlinkTweak);
@@ -114,7 +115,12 @@ export function TweakControls({ board, compact }: Props) {
         return (
           <div
             key={key}
-            className={cn("space-y-1.5", compact && field.type !== "palette" && "w-[150px]")}
+            data-recently-added={recentlyAdded.includes(key) ? "true" : "false"}
+            className={cn(
+              "space-y-1.5 rounded-md transition-[box-shadow,background-color] duration-500",
+              compact && field.type !== "palette" && "w-[150px]",
+              recentlyAdded.includes(key) && "bg-amber-300/10 ring-1 ring-amber-300/50",
+            )}
           >
             {header && (
               <div

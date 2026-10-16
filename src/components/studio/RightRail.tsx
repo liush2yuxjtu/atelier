@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStudio } from "@/lib/store";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -18,12 +18,23 @@ export function RightRail() {
   const restoreVersion = useStudio((s) => s.restoreVersion);
   const writeFile = useStudio((s) => s.writeFile);
   const generateKnobs = useStudio((s) => s.generateKnobs);
+  const addTweaksFromPrompt = useStudio((s) => s.addTweaksFromPrompt);
+  const tweaksAiBusy = useStudio((s) => s.tweaksAiBusy);
+  const tweaksAiMessage = useStudio((s) => s.tweaksAiMessage);
+  const clearRecentlyAddedTweaks = useStudio((s) => s.clearRecentlyAddedTweaks);
   const undoTweaks = useStudio((s) => s.undoTweaks);
   const redoTweaks = useStudio((s) => s.redoTweaks);
   const saveVariant = useStudio((s) => s.saveVariant);
   const approveLook = useStudio((s) => s.approveLook);
   const applyAcrossCanvas = useStudio((s) => s.applyAcrossCanvas);
   const [draft, setDraft] = useState("");
+  const [aiTopic, setAiTopic] = useState("");
+
+  useEffect(() => {
+    if (!tweaksAiMessage) return;
+    const t = window.setTimeout(() => clearRecentlyAddedTweaks(), 6000);
+    return () => window.clearTimeout(t);
+  }, [tweaksAiMessage, clearRecentlyAddedTweaks]);
 
   if (!project) return null;
   const board = project.artboards.find((b) => b.id === project.selectedArtboardId);
@@ -75,6 +86,56 @@ export function RightRail() {
                     knob restructures this artboard live.
                   </p>
                 </div>
+              )}
+              {board && board.kind !== "dc" && (
+                <form
+                  className="space-y-2 rounded-lg border border-white/10 bg-black/25 p-2.5"
+                  data-testid="tweaks-ai-form"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const topic = aiTopic.trim();
+                    if (!topic || tweaksAiBusy) return;
+                    void addTweaksFromPrompt(board.id, topic).then((r) => {
+                      if (!r.error) setAiTopic("");
+                    });
+                  }}
+                >
+                  <Label className="text-[11px] text-stone-400">Add more tweaks</Label>
+                  <Input
+                    data-testid="tweaks-ai-input"
+                    placeholder="Add more tweaks for…"
+                    value={aiTopic}
+                    disabled={tweaksAiBusy}
+                    onChange={(e) => setAiTopic(e.target.value)}
+                  />
+                  <div className="flex items-center gap-2">
+                    <Button
+                      type="submit"
+                      size="sm"
+                      disabled={tweaksAiBusy || !aiTopic.trim()}
+                      data-testid="tweaks-ai-submit"
+                    >
+                      {tweaksAiBusy ? "Adding…" : "Add tweaks"}
+                    </Button>
+                    {tweaksAiBusy && (
+                      <span className="text-[11px] text-amber-200/80" data-testid="tweaks-ai-loading">
+                        Asking the model…
+                      </span>
+                    )}
+                  </div>
+                  {tweaksAiMessage && (
+                    <p
+                      className={
+                        tweaksAiMessage.startsWith("Added")
+                          ? "text-[11px] text-emerald-200/90"
+                          : "text-[11px] text-rose-300/90"
+                      }
+                      data-testid="tweaks-ai-status"
+                    >
+                      {tweaksAiMessage}
+                    </p>
+                  )}
+                </form>
               )}
               {board && Object.keys(board.tweakSchema).length === 0 && (
                 <Empty>

@@ -21,6 +21,7 @@ import { applyTweaksToSource, mapsEqual, schemaToMap } from "./tweaks";
 import { applyLook } from "./palettes";
 import { enrichSchema } from "./infer-tweaks";
 import { inferGenerativeSchema, mapAcrossCanvas } from "./tweak-bind";
+import { mergeAddTweaks, type AddTweaksPayload } from "./add-tweaks";
 import {
   applySectionPatch,
   defaultSections,
@@ -74,6 +75,12 @@ interface StudioStore {
   setCompare: (variantId: string | null) => void;
   setPresenting: (on: boolean) => void;
   generateKnobs: (id: string) => void;
+  /** Ask the model for additional knobs for the selected board (topic like "the pricing section"). */
+  addTweaksFromPrompt: (id: string, topic: string, opts?: { mock?: boolean }) => Promise<{ addedKeys: string[]; error?: string }>;
+  clearRecentlyAddedTweaks: () => void;
+  tweaksAiBusy: boolean;
+  tweaksAiMessage: string | null;
+  recentlyAddedTweakKeys: string[];
   applyAcrossCanvas: (id: string) => void;
   setCanvasPrefs: (patch: Partial<CanvasPrefs>) => void;
   unlinkTweak: (id: string, key: string) => void;
@@ -174,6 +181,9 @@ export const useStudio = create<StudioStore>((set, get) => ({
   project: null,
   settings: DEFAULT_SETTINGS,
   busy: false,
+  tweaksAiBusy: false,
+  tweaksAiMessage: null,
+  recentlyAddedTweakKeys: [],
   hydrated: false,
 
   hydrate: async (id: string) => {
@@ -614,6 +624,84 @@ export const useStudio = create<StudioStore>((set, get) => ({
       }),
     });
     get().persist();
+  },
+
+  clearRecentlyAddedTweaks: () => set({ recentlyAddedTweakKeys: [], tweaksAiMessage: null }),
+
+  addTweaksFromPrompt: async (id, topic, opts) => {
+    const p = get().project;
+    if (!p) return { addedKeys: [], error: "No project" };
+    const board = p.artboards.find((b) => b.id === id);
+    if (!board) return { addedKeys: [], error: "Select an artboard first" };
+    if (board.kind === "dc") {
+      return { addedKeys: [], error: "AI add-tweaks is for HTML artboards (not DC props)" };
+    }
+    const trimmed = topic.trim();
+    if (!trimmed) return { addedKeys: [], error: "Enter what to add tweaks for" };
+
+    set({ tweaksAiBusy: true, tweaksAiMessage: null, busy: true });
+    try {
+      const existingKeys = Object.keys(board.tweakSchema);
+      const res = await fetch("/api/add-tweaks", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          topic: trimmed,
+          title: board.title,
+          source: board.source,
+          existingKeys,
+          settings: get().settings,
+          mock: opts?.mock === true ? true : undefined,
+        }),
+      });
+      const json = (await res.json()) as {
+        payload?: AddTweaksPayload;
+        error?: string;
+        addedKeys?: string[];
+      };
+      if (!res.ok || !json.payload) {
+        const error = json.error || `Request failed (${res.status})`;
+        set({ tweaksAiBusy: false, busy: false, tweaksAiMessage: error });
+        return { addedKeys: [], error };
+      }
+
+      const merged = mergeAddTweaks(board.source, board.tweakSchema, board.tweaks, json.payload);
+      const files = filesFromList(p.files);
+      const nextBoard: Artboard = {
+        ...board,
+        source: merged.source,
+        tweakSchema: merged.tweakSchema,
+        tweaks: merged.tweaks,
+        version: board.version + 1,
+        tweakUndo: [...(board.tweakUndo ?? []), board.tweaks].slice(-40),
+        tweakRedo: [],
+      };
+      const painted = paintTweaks(nextBoard, merged.tweaks, files);
+      set({
+        project: touch({
+          ...p,
+          artboards: p.artboards.map((b) => (b.id === id ? painted : b)),
+        }),
+        tweaksAiBusy: false,
+        busy: false,
+        recentlyAddedTweakKeys: merged.addedKeys,
+        tweaksAiMessage: `Added ${merged.addedKeys.length} tweak${merged.addedKeys.length === 1 ? "" : "s"}`,
+      });
+      get().persist();
+      if (typeof window !== "undefined") {
+        window.setTimeout(() => {
+          const cur = get().recentlyAddedTweakKeys;
+          if (cur.join() === merged.addedKeys.join()) {
+            set({ recentlyAddedTweakKeys: [] });
+          }
+        }, 4500);
+      }
+      return { addedKeys: merged.addedKeys };
+    } catch (err) {
+      const error = err instanceof Error ? err.message : "add tweaks failed";
+      set({ tweaksAiBusy: false, busy: false, tweaksAiMessage: error });
+      return { addedKeys: [], error };
+    }
   },
 
   applyAcrossCanvas: (id) => {

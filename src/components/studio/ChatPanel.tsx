@@ -9,6 +9,7 @@ import { parseStreaming } from "@/lib/agent/parse";
 import { streamOfflineReply } from "@/lib/agent/offline";
 import { hasClientKey } from "@/lib/providers";
 import { ATELIER_SYSTEM_PROMPT } from "@/lib/agent/prompt";
+import { extractAddTweaksTopic } from "@/lib/add-tweaks";
 
 export function ChatPanel() {
   const project = useStudio((s) => s.project);
@@ -21,6 +22,7 @@ export function ChatPanel() {
   const setBusy = useStudio((s) => s.setBusy);
   const updateArtboard = useStudio((s) => s.updateArtboard);
   const persist = useStudio((s) => s.persist);
+  const addTweaksFromPrompt = useStudio((s) => s.addTweaksFromPrompt);
   const [text, setText] = useState("");
   const box = useRef<HTMLTextAreaElement>(null);
 
@@ -30,6 +32,31 @@ export function ChatPanel() {
     const content = (raw ?? text).trim();
     if (!content || busy || !project) return;
     setText("");
+
+    const addTopic = extractAddTweaksTopic(content);
+    if (addTopic) {
+      const boardId = project.selectedArtboardId ?? project.artboards[0]?.id;
+      addMessage("user", content);
+      const assistantId = addMessage("assistant", "");
+      if (!boardId) {
+        appendMessage(assistantId, "Select an artboard first, then ask to add more tweaks.");
+        return;
+      }
+      setBusy(true);
+      const result = await addTweaksFromPrompt(boardId, addTopic);
+      setBusy(false);
+      if (result.error) {
+        appendMessage(assistantId, result.error);
+      } else {
+        appendMessage(
+          assistantId,
+          `Added ${result.addedKeys.length} tweak${result.addedKeys.length === 1 ? "" : "s"} (${result.addedKeys.join(", ")}). Toggle them in the Tweaks panel — no more tokens needed.`,
+        );
+      }
+      persist();
+      return;
+    }
+
     addMessage("user", content);
     const assistantId = addMessage("assistant", "");
     setBusy(true);

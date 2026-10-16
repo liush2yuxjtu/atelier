@@ -5,6 +5,7 @@ import { useStudio } from "@/lib/store";
 import { ArtboardFrame } from "./ArtboardFrame";
 import { PresentDock } from "./PresentDock";
 import { cn } from "@/lib/cn";
+import { kebabTweakKey, tweakAttrValue } from "@/lib/tweak-bind";
 import { DC_DRAG_MIME } from "@/lib/dc/types";
 import type { Artboard } from "@/lib/types";
 
@@ -262,16 +263,12 @@ export function CanvasView() {
               data-artboard="true"
               data-kind={board.kind}
               data-dc-path={board.dcPath ?? ""}
-              data-tweak-mood={String(board.tweaks.mood ?? "")}
-              data-tweak-plan-count={String(board.tweaks.planCount ?? "")}
-              data-tweak-metric-density={String(board.tweaks.metricDensity ?? "")}
-              data-tweak-social-proof={
-                board.tweaks.socialProof === undefined ? "" : board.tweaks.socialProof ? "on" : "off"
-              }
-              data-tweak-billing={String(board.tweaks.billing ?? "")}
-              data-tweak-sparkline={
-                board.tweaks.sparkline === undefined ? "" : board.tweaks.sparkline ? "on" : "off"
-              }
+              {...Object.fromEntries(
+                Object.entries(board.tweaks).map(([key, raw]) => [
+                  `data-tweak-${kebabTweakKey(key)}`,
+                  tweakAttrValue(raw),
+                ]),
+              )}
             >
               <div className="mb-2 flex items-center gap-2">
                 <button

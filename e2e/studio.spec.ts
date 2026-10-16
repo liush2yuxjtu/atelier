@@ -225,4 +225,101 @@ test.describe("Atelier studio", () => {
     await page.getByTestId("apply-across-canvas").click();
     await expect(page.getByTestId("global-bar")).toBeVisible();
   });
+
+  test("AI add more tweaks (mocked API) merges knobs and keeps existing", async ({ page }) => {
+    await page.route("**/api/add-tweaks", async (route) => {
+      const body = route.request().postDataJSON() as { topic?: string; mock?: boolean };
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          mock: true,
+          model: "mock",
+          payload: {
+            schema: {
+              heroVoice: {
+                type: "select",
+                control: "radio",
+                value: "warm",
+                options: ["warm", "direct", "bold"],
+                optionLabels: { warm: "Warm", direct: "Direct", bold: "Bold" },
+                label: "Hero voice",
+                structural: true,
+                group: "copy",
+              },
+              showFooter: {
+                type: "boolean",
+                value: true,
+                label: "Show footer strip",
+                structural: true,
+                group: "visibility",
+              },
+            },
+            css: 'html[data-hero-voice="bold"] h1 { letter-spacing: -0.04em; }',
+            bindings: [
+              {
+                match: 'class="lede"',
+                attrs: {
+                  "data-copy-for": "heroVoice",
+                  "data-copy-warm": "Small-lot roast from high-elevation lots.",
+                  "data-copy-direct": "Fresh bags. No warehouse blend.",
+                  "data-copy-bold": "Roast louder — skip the warehouse.",
+                },
+              },
+              { match: "<footer", attrs: { "data-tweak-show": "showFooter" } },
+            ],
+          },
+          addedKeys: ["heroVoice", "showFooter"],
+          topic: body.topic,
+        }),
+      });
+    });
+
+    await openDemo(page);
+    await page.getByTestId("artboard-title-ab-landing").click();
+    await page.getByTestId("tab-tweaks").click();
+    await expect(page.getByTestId("tweak-mood")).toBeVisible();
+    await expect(page.getByTestId("tweaks-ai-input")).toBeVisible();
+    await page.getByTestId("tweaks-ai-input").fill("the hero copy");
+    await page.getByTestId("tweaks-ai-submit").click();
+    await expect(page.getByTestId("tweaks-ai-status")).toContainText(/Added 2 tweaks/i);
+    await expect(page.getByTestId("tweak-mood")).toBeVisible();
+    await expect(page.getByTestId("tweak-heroVoice")).toBeVisible();
+    await expect(page.getByTestId("tweak-showFooter")).toBeVisible();
+    await expect(page.locator('[data-recently-added="true"]')).toHaveCount(2);
+
+    await page.getByTestId("tweak-heroVoice-bold").click();
+    await expect(page.getByTestId("artboard-ab-landing")).toHaveAttribute("data-tweak-hero-voice", "bold");
+    await page.getByTestId("tweak-showFooter").click();
+    await expect(page.getByTestId("artboard-ab-landing")).toHaveAttribute("data-tweak-show-footer", "off");
+
+    // Chat alias
+    await page.getByTestId("chat-input").fill("add more tweaks for the pricing section");
+    await page.route("**/api/add-tweaks", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          payload: {
+            schema: {
+              sectionFocus: {
+                type: "select",
+                control: "radio",
+                value: "balanced",
+                options: ["balanced", "value", "premium"],
+                label: "Section focus",
+                structural: true,
+                group: "layout",
+              },
+            },
+            css: "",
+            bindings: [],
+          },
+        }),
+      });
+    });
+    await page.getByTestId("chat-send").click();
+    await expect(page.getByTestId("msg-assistant").last()).toContainText(/Added 1 tweak/i);
+    await expect(page.getByTestId("tweak-sectionFocus")).toBeVisible();
+  });
 });

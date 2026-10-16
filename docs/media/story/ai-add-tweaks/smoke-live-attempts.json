@@ -1,0 +1,7 @@
+{
+  "status": "blocked_rate_limit",
+  "provider": "dashscope",
+  "model_attempted": "qwen-turbo",
+  "error": "limit_requests / Access denied by API-Key restrictions for other models",
+  "mac_mini_anthropic": "kimi gateway permission_error"
+}
