@@ -71,7 +71,7 @@ export function cursorAgentComplete(
     const timer = setTimeout(() => {
       child.kill("SIGKILL");
       finish(() => reject(new Error("cursor-agent timed out")));
-    }, opts.timeoutMs ?? 180_000);
+    }, opts.timeoutMs ?? (Number(process.env.ATELIER_CURSOR_TIMEOUT_MS) || 300_000));
     const tryParse = () => {
       // The CLI can linger after printing its result line; resolve as soon as it appears.
       for (const line of out.split("\n")) {
