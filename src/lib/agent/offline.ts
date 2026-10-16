@@ -17,7 +17,7 @@ function isDcPrompt(text: string): boolean {
 function offlineArtboard(userText: string): string {
   const title = guessTitle(userText);
   const html = template(userText, title);
-  return `Placed a new artboard called ${title}. Tweaks cover look, accent, paper, type scale, and density so you can adjust live in a client demo. Add an API key in Settings for a live model.\n\n<artboard title="${escapeAttr(title)}" kind="html" width="1280" height="800">\n${html}\n</artboard>`;
+  return `Placed a new artboard called ${title}. Tweaks are generative knobs for this design (look + a layout variant), so you can adjust live without another prompt. Add an API key in Settings for a live model.\n\n<artboard title="${escapeAttr(title)}" kind="html" width="1280" height="800">\n${html}\n</artboard>`;
 }
 
 function offlineDcWrite(userText: string): string {

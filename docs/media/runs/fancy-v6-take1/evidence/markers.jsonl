@@ -1,0 +1,13 @@
+{"elapsed_ms":0,"frame":0,"label":"start: client review, Present, Ember globe running"}
+{"elapsed_ms":2900,"frame":87,"label":"pointer on Speed"}
+{"elapsed_ms":4567,"frame":137,"label":"Speed dragged high"}
+{"elapsed_ms":6133,"frame":184,"label":"Glow dragged to max"}
+{"elapsed_ms":7300,"frame":219,"label":"Look -> Aurora (all three pages)"}
+{"elapsed_ms":10033,"frame":301,"label":"Stage layout -> full-bleed"}
+{"elapsed_ms":12900,"frame":387,"label":"select About"}
+{"elapsed_ms":14267,"frame":428,"label":"Unlink About"}
+{"elapsed_ms":15633,"frame":469,"label":"About only -> Ember; linked in 2 boards"}
+{"elapsed_ms":18233,"frame":547,"label":"pointer near linked in 2 boards"}
+{"elapsed_ms":20100,"frame":603,"label":"select Home"}
+{"elapsed_ms":21167,"frame":635,"label":"Approved"}
+{"elapsed_ms":25400,"frame":762,"label":"end"}

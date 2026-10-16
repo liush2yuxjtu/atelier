@@ -1,0 +1,30 @@
+[
+  {
+    "label": "start: Home selected, Tweaks 'Prepared for this design', Mood=SaaS, hero 'Coffee that tastes like the trail.'",
+    "time_s": 0.0
+  },
+  {
+    "label": "pointer on Mood > Playful",
+    "time_s": 2.4
+  },
+  {
+    "label": "click Playful",
+    "time_s": 2.967
+  },
+  {
+    "label": "hero rewritten visible",
+    "time_s": 2.967
+  },
+  {
+    "label": "pointer parked off artboard",
+    "time_s": 4.267
+  },
+  {
+    "label": "payoff hold start",
+    "time_s": 5.667
+  },
+  {
+    "label": "end",
+    "time_s": 9.667
+  }
+]

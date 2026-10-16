@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { nanoid } from "nanoid";
 import type {
   Artboard,
+  CanvasPrefs,
   PinComment,
   Project,
   ProviderSettings,
@@ -12,13 +13,14 @@ import type {
   TweakSchema,
   TweakVariant,
 } from "./types";
-import { DEFAULT_SETTINGS } from "./types";
+import { DEFAULT_CANVAS_PREFS, DEFAULT_SETTINGS } from "./types";
 import { createBlankProject, createDemoProject } from "./demo";
 import { loadProject, saveProject } from "./storage";
 import { loadSettings, saveSettings } from "./providers";
 import { applyTweaksToSource, mapsEqual, schemaToMap } from "./tweaks";
 import { applyLook } from "./palettes";
 import { enrichSchema } from "./infer-tweaks";
+import { inferGenerativeSchema, mapAcrossCanvas } from "./tweak-bind";
 import {
   applySectionPatch,
   defaultSections,
@@ -72,6 +74,8 @@ interface StudioStore {
   setCompare: (variantId: string | null) => void;
   setPresenting: (on: boolean) => void;
   generateKnobs: (id: string) => void;
+  applyAcrossCanvas: (id: string) => void;
+  setCanvasPrefs: (patch: Partial<CanvasPrefs>) => void;
   unlinkTweak: (id: string, key: string) => void;
   pushOverride: (id: string, key: string) => void;
   moveSharedSection: (id: string, sectionId: string) => void;
@@ -92,6 +96,8 @@ interface StudioStore {
   setBusy: (busy: boolean) => void;
 }
 
+const LOOK_PACK_KEYS = ["accent", "paper", "ink", "fxAccent2"];
+
 function touch(p: Project): Project {
   return { ...p, updatedAt: Date.now() };
 }
@@ -110,6 +116,7 @@ function normalizeProject(p: Project): Project {
     componentTweaks: p.componentTweaks ?? {},
     themeUndo: p.themeUndo ?? [],
     themeRedo: p.themeRedo ?? [],
+    canvasPrefs: { ...DEFAULT_CANVAS_PREFS, ...(p.canvasPrefs ?? {}) },
     artboards: p.artboards.map((b) => ({
       ...b,
       tweakUndo: b.tweakUndo ?? [],
@@ -187,7 +194,14 @@ export const useStudio = create<StudioStore>((set, get) => ({
     } else if (id === "demo") {
       const landing = project.artboards.find((b) => b.id === "ab-landing");
       const about = project.artboards.find((b) => b.id === "ab-about");
-      if (!landing?.tweakSchema?.look || !about || !project.theme) {
+      const dashboard = project.artboards.find((b) => b.id === "ab-dashboard");
+      if (
+        !landing?.tweakSchema?.look ||
+        !landing?.tweakSchema?.mood ||
+        !about ||
+        !dashboard ||
+        !project.theme
+      ) {
         project = createDemoProject("demo");
         await saveProject(project);
       }
@@ -573,11 +587,13 @@ export const useStudio = create<StudioStore>((set, get) => ({
     const sections = p.sections ?? defaultSections();
     const structural = sectionSchema(sections);
     const artboards = p.artboards.map((b) => {
-      const schema = enrichSchema(b.source);
+      const schema = b.id === id ? inferGenerativeSchema(b.source) : enrichSchema(b.source);
       const extra =
-        b.id === id || b.page
-          ? { ...pickThemeFields(schema), ...(b.page ? structural : {}) }
-          : {};
+        b.id === id
+          ? schema
+          : b.page
+            ? { ...pickThemeFields(schema), ...structural }
+            : {};
       const mergedSchema = { ...b.tweakSchema, ...extra };
       const nextBoard = { ...b, tweakSchema: mergedSchema, tweaks: { ...b.tweaks, ...schemaToMap(extra) } };
       return paintTweaks(nextBoard, resolveBoardTweaks({ theme, sections, componentTweaks: p.componentTweaks ?? {} }, nextBoard), files);
@@ -600,6 +616,39 @@ export const useStudio = create<StudioStore>((set, get) => ({
     get().persist();
   },
 
+  applyAcrossCanvas: (id) => {
+    get().pushOverride(id, "look");
+    const p = get().project;
+    if (!p) return;
+    const board = p.artboards.find((b) => b.id === id);
+    if (!board) return;
+    const files = filesFromList(p.files);
+    const mapped = p.artboards.map((b) => {
+      if (b.id === id || b.kind === "dc") return b;
+      const next = mapAcrossCanvas(board.tweaks, b.tweaks);
+      return paintTweaks({ ...b, unlinked: (b.unlinked ?? []).filter((k) => k !== "look") }, next, files);
+    });
+    set({
+      project: touch({
+        ...p,
+        artboards: mapped,
+      }),
+    });
+    get().persist();
+  },
+
+  setCanvasPrefs: (patch) => {
+    const p = get().project;
+    if (!p) return;
+    set({
+      project: touch({
+        ...p,
+        canvasPrefs: { ...DEFAULT_CANVAS_PREFS, ...(p.canvasPrefs ?? {}), ...patch },
+      }),
+    });
+    get().persist();
+  },
+
   unlinkTweak: (id, key) => {
     const p = get().project;
     if (!p) return;
@@ -612,7 +661,10 @@ export const useStudio = create<StudioStore>((set, get) => ({
           if (sec) {
             return { ...b, unlinkedSections: [...new Set([...(b.unlinkedSections ?? []), sec.id])] };
           }
-          return { ...b, unlinked: [...new Set([...(b.unlinked ?? []), key])] };
+          // A Look is a pack (accent, paper, ink, glow): unlinking it detaches the
+          // whole pack so "keep this page different" really keeps it different.
+          const keys = key === "look" ? [key, ...LOOK_PACK_KEYS] : [key];
+          return { ...b, unlinked: [...new Set([...(b.unlinked ?? []), ...keys])] };
         }),
       }),
     });
@@ -645,10 +697,13 @@ export const useStudio = create<StudioStore>((set, get) => ({
         unlinked: (b.unlinked ?? []).filter((k) => k !== key && k !== "*component"),
       }));
     } else {
-      theme = { ...theme, [key]: board.tweaks[key] };
+      const keys = key === "look" ? [key, ...LOOK_PACK_KEYS] : [key];
+      for (const k of keys) {
+        if (board.tweaks[k] !== undefined) theme = { ...theme, [k]: board.tweaks[k] };
+      }
       artboards = artboards.map((b) => ({
         ...b,
-        unlinked: (b.unlinked ?? []).filter((k) => k !== key),
+        unlinked: (b.unlinked ?? []).filter((k) => !keys.includes(k)),
       }));
     }
     const painted = propagate({ ...p, artboards, theme, sections, componentTweaks }, files, theme, sections, componentTweaks);

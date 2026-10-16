@@ -1,0 +1,49 @@
+{
+  "M": [
+    {
+      "t": 4.347,
+      "l": "baseline running (Ember, globe)"
+    },
+    {
+      "t": 7.727,
+      "l": "Speed -> high"
+    },
+    {
+      "t": 9.725,
+      "l": "Glow -> max"
+    },
+    {
+      "t": 11.706,
+      "l": "Density -> max"
+    },
+    {
+      "t": 12.981,
+      "l": "Look -> Aurora (dark premium)"
+    },
+    {
+      "t": 14.9,
+      "l": "Hero layout -> full-bleed"
+    },
+    {
+      "t": 17.416,
+      "l": "select About"
+    },
+    {
+      "t": 17.795,
+      "l": "About: Unlink Scene"
+    },
+    {
+      "t": 19.375,
+      "l": "Home: Scene -> flow (Pricing follows, About stays globe)"
+    },
+    {
+      "t": 22.778,
+      "l": "Tilt"
+    },
+    {
+      "t": 24.28,
+      "l": "end"
+    }
+  ],
+  "errs": []
+}

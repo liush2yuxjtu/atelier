@@ -23,6 +23,11 @@ function copyVideo(src: string, stem: string) {
   }
 }
 
+test.skip(
+  !process.env.RECORD_MEDIA,
+  "media recording is opt-in (RECORD_MEDIA=1); npm run verify must not record",
+);
+
 test.use({
   video: { mode: "on", size: { width: 1440, height: 900 } },
 });

@@ -16,6 +16,8 @@ export function PresentDock() {
   const generateKnobs = useStudio((s) => s.generateKnobs);
   const moveSharedSection = useStudio((s) => s.moveSharedSection);
   const setTweaks = useStudio((s) => s.setTweaks);
+  const unlinkTweak = useStudio((s) => s.unlinkTweak);
+  const pushOverride = useStudio((s) => s.pushOverride);
   if (!project?.presenting) return null;
   const board =
     project.artboards.find((b) => b.id === project.selectedArtboardId) ??
@@ -24,6 +26,7 @@ export function PresentDock() {
   const comparing = Boolean(project.compareVariantId);
   const before = board.variants?.find((v) => v.label === "Before") ?? board.variants?.[0];
   const linked = linkedBoardCount(project, "look");
+  const lookUnlinked = (board.unlinked ?? []).includes("look");
   const pricingOrder = project.sections?.pricing?.order ?? 2;
   const pricingLayout = project.sections?.pricing?.layout ?? "split";
 
@@ -62,6 +65,15 @@ export function PresentDock() {
             }
           >
             Pricing stack
+          </Button>
+          <Button
+            size="sm"
+            variant={lookUnlinked ? "secondary" : "ghost"}
+            data-testid="present-unlink-look"
+            data-unlinked={lookUnlinked ? "true" : "false"}
+            onClick={() => (lookUnlinked ? pushOverride(board.id, "look") : unlinkTweak(board.id, "look"))}
+          >
+            {lookUnlinked ? `${board.title} kept separate` : `Unlink ${board.title}`}
           </Button>
           <Button
             size="sm"

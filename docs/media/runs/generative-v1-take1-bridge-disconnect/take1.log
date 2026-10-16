@@ -1,0 +1,20 @@
+[chatcut-rec-lock 06:52:24] ACQUIRED owner=gif-job purpose=atelier generative tweaks generative-v1-take1 waited=0.0s
+preflight {"ui_language":"en","phrases":["Prepared for this design","Mood","Playful","Tweaks","Show social proof","Apply across canvas"],"cjk":false,"zoom":"45%","mood":"saas","hero":{"h1":"Coffee that tastes like the trail.","cta":"Get a bag"},"fx_frames":3,"url":"http://127.0.0.1:43173/studio/demo"}
+0 start: Home selected, Tweaks 'Prepared for this design', Mood=SaaS, hero 'Coffee that tastes like the trail.'
+[chatcut-rec-lock 06:52:36] RELEASED rc=143
+ERR page.screenshot: Target page, context or browser has been closed
+Call log:
+  - taking page screenshot
+  - waiting for fonts to load...
+  - fonts loaded
+
+    at step (/Users/liushiyu/gen/scripts/rec.mjs:15:134)
+    at async glide (/Users/liushiyu/gen/scripts/rec.mjs:18:225)
+    at async file:///Users/liushiyu/gen/scripts/rec.mjs:43:43 {
+  log: [
+    '  - taking page screenshot',
+    '  - waiting for fonts to load...',
+    '  - fonts loaded'
+  ]
+}
+frames 57 errs ["script Error: page.screenshot: Target page, context or browser has been closed\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n"]

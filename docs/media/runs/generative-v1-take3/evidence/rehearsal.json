@@ -1,0 +1,14 @@
+{
+ "status": "pass",
+ "semantics": true,
+ "selectors": true,
+ "state_transitions": true,
+ "framing": true,
+ "dependencies": true,
+ "evidence": [
+  "../rehearsal1 (headless dry run, no frames)",
+  "evidence/rehearsal-markers.jsonl",
+  "evidence/rehearsal-preflight.json"
+ ],
+ "notes": "Rehearsal REHEARSE=1: preflight English, Mood=saas, hero 'Coffee that tastes like the trail.'; click tweak-mood-playful -> data-tweak-mood=playful and h1 'Bags without the boredom' within 0 frames; framing checked on discovery 10-zoomed.png (45% canvas, Home + right rail visible). No API key needed."
+}

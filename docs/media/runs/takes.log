@@ -1,13 +1,7 @@
-2026-10-14T15:24:30Z B-take1 discard new-artboard-off-canvas evidence=docs/media/runs/B-take1-offcanvas/evidence
-2026-10-14T15:25:28Z B-take2 discard streamed-board-locator evidence=docs/media/runs/B-take2-locator
-2026-10-14T15:26:36Z B-take3 discard a11y-hidden-offcanvas-title evidence=docs/media/runs/B-take3
-2026-10-14T15:27:14Z B-take4 discard raced-old-script
-2026-10-14T15:29:00Z B-take4 keep stream+dc-props+export-done evidence=docs/media/runs/B-take4/edits/contact-gif-window.jpg gif=docs/media/feature-8s.gif 1455905B 8.00s 520px 12fps
-2026-10-14T15:42:02Z C-take1 discard caption-bar-blocked-Send
-2026-10-14T15:43:08Z C-take2 discard caption-still-blocked-Send
-2026-10-14T15:48:00Z C-take3 discard gif-window-missed-1s-context gce_frames=89 expected=96 walkthrough=16.6s evidence=docs/media/runs/C-take3-short-gce89/edits/contact-gif-window.jpg
-2026-10-14T15:53:00Z C-take4 keep user-story 1s-problem+stream+dc-props+Done proof=3.76s gce=96/800cs walkthrough=31.84s gif=docs/media/feature-8s.gif 1800947B evidence=docs/media/runs/C-take4/edits/contact-gif-window.jpg
-2026-10-14T16:20:00Z tweaks-v1-take1 keep live-accent-recolor proof=6.5s gce=96/800cs walkthrough=29.56s gif=docs/media/tweaks-v1.gif 2139188B
-2026-10-14T16:40:00Z tweaks-v2-take1 keep present+moss+approved proof=4.96s gce=96/800cs walkthrough=29.68s gif=docs/media/tweaks-v2.gif 1968642B evidence=docs/media/runs/tweaks-v2-take1/edits/contact-gif-window.jpg
-2026-10-14T19:56:30Z tweaks-v5-take1 keep one-look-change-recolors-3-pages click=10.223s visible=10.3s gif=8.9-16.9s proof=10.3-16.9s approved=13.065s evidence=runs/tweaks-v5-take1/strip.png,evidence/pixel-linkage.json
-2026-10-14T20:45:00Z tweaks-v5-take1 rebuild official build_feature_media.py edits/v2-official status=ready byte-identical-to-v1-manual
+2026-10-14T22:23:00Z fancy-v6-take1 keep deterministic-30fps zoom-master gif=13.6-21.6 proof=15.8-21.6 evidence=strip.jpg,evidence/dup-check.json
+2026-10-15T10:51:42Z newa-v7-take1 keep 4beats+compare-sweep evidence=docs/media/runs/newa-v7-take1/edits/v2/gif-all-96-frames.jpg gif=2674066B 8.00s 520px 12fps
+2026-10-15T22:51:00Z generative-v1-take1 discard reason=bridge-disconnect (Mac mini bridge dropped mid-take, browser closed at frame 57) evidence=docs/media/runs/generative-v1-take1-bridge-disconnect/take1.log
+2026-10-15T22:52:49Z generative-v1-take2 discard reason=detached-killed (nohup run killed when bridge call ended; lock acquired, 0 frames) evidence=docs/media/runs/generative-v1-take2-detached-killed/
+2026-10-15T22:54:12Z generative-v1-take3 keep story=New-A Mood SaaS->Playful; click 2.967s result same frame; zoom-v1 rejected (1.6x crop cut headline) -> zoom-v2 1.45x/1.7x; gif=1.4-9.4 proof=3.6-9.4 evidence=docs/media/runs/generative-v1-take3/verify/strip-gt-0-9.5-0.5s.jpg,verify/strip-zoom-v2-0-9.5-0.5s.jpg,verify/timing.json,edits/v1/qa/gif-all-frames.jpg gif=1683535B 8.00s 520px
+2026-10-16T07:08:11Z generative-v1-take4 superseded reason=pointer-occludes-label (DPR2 + legibility shot list; at the click the arrow covered 'Playful' so beat-frame OCR missed it) evidence=docs/media/runs/generative-v1-take4-superseded-pointer-occludes/edits/zoom-v4/generative-v1.gif,evidence/discovery.json
+2026-10-16T07:17:22Z generative-v1-take5 keep reason=legibility-gate-pass (take3 failed: hero cap 9-10px, Mood label unreadable, CTA 3px, cold-viewer could not name the control) fix=DPR2 capture + close shots S2 hero 5.8x / S3 Mood 7.0x at click / S4 hero 5.8x / S4b CTA 8.0x, ROI-centred, pointer clicks chip lower-right; edits zoom-v4 (hero crop cut CTA, centred high) -> zoom-v5 (result legible only 2.1s, CTA off-centre 13%) -> zoom-v6 keep; gif=1.467-9.467 click=3.0s gif legible-result=3.9-7.0s evidence=docs/media/runs/generative-v1-take5/verify/legibility.json,verify/legibility-strip.png,verify/cold-viewer-contact-sheet.png,shotlist.json gif=1982221B 8.00s 520px 96f

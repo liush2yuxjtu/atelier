@@ -1,0 +1,46 @@
+{
+ "mp4": "docs/media/generative-v1.mp4",
+ "label": "take3",
+ "gif_start_s": 1.4,
+ "checks": [
+  {
+   "id": "hero_before",
+   "t_mp4_s": 2.3,
+   "ocr_found": [
+    "Coffee",
+    "tastes",
+    "trail"
+   ],
+   "pass": true
+  },
+  {
+   "id": "control_mood",
+   "t_mp4_s": 3.0,
+   "ocr_found": [
+    "Mood",
+    "Editorial",
+    "Playful"
+   ],
+   "pass": true
+  },
+  {
+   "id": "hero_after",
+   "t_mp4_s": 4.4,
+   "ocr_found": [
+    "Bags",
+    "without",
+    "boredom"
+   ],
+   "pass": true
+  },
+  {
+   "id": "cta_after",
+   "t_mp4_s": 4.4,
+   "ocr_found": [
+    "roast"
+   ],
+   "pass": true
+  }
+ ],
+ "pass": true
+}

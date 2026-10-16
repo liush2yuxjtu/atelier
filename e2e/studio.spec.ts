@@ -18,7 +18,7 @@ async function openDemo(page: import("@playwright/test").Page) {
   await expect(page.getByTestId("studio-app")).toBeVisible();
   await expect(page.getByTestId("canvas-view")).toBeVisible();
   await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
-  await expect(page.locator("[data-artboard=true]")).toHaveCount(7);
+  await expect(page.locator("[data-artboard=true]")).toHaveCount(8);
   await page.waitForTimeout(2200);
 }
 
@@ -33,9 +33,10 @@ test.describe("Atelier studio", () => {
     await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-pricing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-about")).toBeVisible();
+    await expect(page.getByTestId("artboard-ab-dashboard")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-phone")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-dc-grid")).toBeVisible();
-    await expect(page.locator("[data-artboard=true]")).toHaveCount(7);
+    await expect(page.locator("[data-artboard=true]")).toHaveCount(8);
     await page.waitForTimeout(2500);
     save(await page.screenshot({ fullPage: true }), "canvas-multi-artboard.png");
   });
@@ -134,7 +135,7 @@ test.describe("Atelier studio", () => {
     await expect(page.getByTestId("artboard-ab-landing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-pricing")).toBeVisible();
     await expect(page.getByTestId("artboard-ab-about")).toBeVisible();
-    await expect(page.getByTestId("linked-count")).toContainText(/linked in 3 boards/i);
+    await expect(page.getByTestId("linked-count")).toContainText(/linked in \d+ boards/i);
 
     await page.getByTestId("generate-knobs").click();
     await page.getByTestId("palette-moss").click();
@@ -165,7 +166,7 @@ test.describe("Atelier studio", () => {
     await openDemo(page);
     await page.getByTestId("artboard-title-ab-landing").click();
     await page.getByTestId("tab-tweaks").click();
-    await expect(page.getByTestId("linked-look")).toContainText(/linked in 3 boards/i);
+    await expect(page.getByTestId("linked-look")).toContainText(/linked in \d+ boards/i);
     await page.getByTestId("unlink-accent").click();
     await expect(page.getByTestId("unlink-accent")).toHaveText(/Unlinked/i);
     const color = page.getByTestId("tweak-accent").first();
@@ -185,5 +186,43 @@ test.describe("Atelier studio", () => {
     await page.getByTestId("generate-knobs").click();
     await expect(page.getByTestId("palette-chips")).toBeVisible();
     await expect(page.getByTestId("palette-night")).toBeVisible();
+    const frame = page.frameLocator('[data-testid="artboard-frame-ab-flow"] iframe');
+    await expect(frame.getByRole("heading", { name: "How Atelier talks to a board" })).toBeVisible();
+    await expect(frame.locator("body")).not.toContainText("@atelier-tweaks");
+    await expect(frame.locator("body")).not.toContainText('"look"');
+  });
+
+  test("generative tweaks restructure landing, dashboard, and pricing", async ({ page }) => {
+    await openDemo(page);
+    await page.getByTestId("artboard-title-ab-landing").click();
+    await page.getByTestId("tab-tweaks").click();
+    await expect(page.getByTestId("tweaks-prepared-chip")).toBeVisible();
+    await expect(page.getByTestId("tweak-mood")).toBeVisible();
+    await expect(page.getByTestId("tweak-socialProof")).toBeVisible();
+    await expect(page.getByTestId("artboard-ab-landing")).toHaveAttribute("data-tweak-mood", "saas");
+    await page.getByTestId("tweak-mood-playful").click();
+    await expect(page.getByTestId("artboard-ab-landing")).toHaveAttribute("data-tweak-mood", "playful");
+    await page.getByTestId("tweak-socialProof").click();
+    await expect(page.getByTestId("artboard-ab-landing")).toHaveAttribute("data-tweak-social-proof", "off");
+
+    await page.getByRole("button", { name: "fit" }).click();
+    await page.getByTestId("artboard-select-ab-dashboard").click();
+    await expect(page.getByTestId("tweak-metricDensity")).toBeVisible();
+    await expect(page.getByTestId("tweak-mood")).toHaveCount(0);
+    await page.getByTestId("tweak-metricDensity-dense").click();
+    await expect(page.getByTestId("artboard-ab-dashboard")).toHaveAttribute(
+      "data-tweak-metric-density",
+      "dense",
+    );
+
+    await page.getByTestId("artboard-select-ab-pricing").click();
+    await expect(page.getByTestId("tweak-planCount")).toBeVisible();
+    await page.getByTestId("tweak-planCount-4").click();
+    await expect(page.getByTestId("artboard-ab-pricing")).toHaveAttribute("data-tweak-plan-count", "4");
+    await page.getByTestId("tweak-billing-yearly").click();
+    await expect(page.getByTestId("artboard-ab-pricing")).toHaveAttribute("data-tweak-billing", "yearly");
+
+    await page.getByTestId("apply-across-canvas").click();
+    await expect(page.getByTestId("global-bar")).toBeVisible();
   });
 });

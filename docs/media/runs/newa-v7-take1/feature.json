@@ -1,0 +1,566 @@
+{
+ "feature_id": "fancy-tweaks-linked-palette-newA",
+ "user_outcome": "One palette click flips Home/Pricing/About from Ember to Aurora; Glow raises all three heroes; Compare shows Before|After on all boards; Save look.",
+ "source": {
+  "branch": "feat/fancy-tweaks-baseline",
+  "app_commit": "1d08e52",
+  "note": "branch build (next build, Turbopack) on the Mac mini, not main/Release"
+ },
+ "recording": {
+  "surface": "browser",
+  "gt": "raw/gt.mp4 (Mac mini ~/v7/runs/newa-v7-take1)",
+  "capture": "deterministic 30 fps: __fxStep(1/30) per hero iframe + interpolated pointer + screenshot; 504 frames, 0 identical consecutive",
+  "proof_interval_s": [
+   9.7,
+   11.3
+  ]
+ },
+ "recording_lock": {
+  "owner": "gif-job",
+  "waited_s": 0,
+  "acquired": "18:49:05",
+  "released": "18:49:42 (UTC+8)"
+ },
+ "story": {
+  "chosen": "新 A",
+  "score": 94,
+  "research": "story/research.md"
+ },
+ "gif": {
+  "start_s": 3.3,
+  "duration_s": 8,
+  "width": 520,
+  "fps": 12,
+  "bytes": 2674066,
+  "frames": 96
+ },
+ "presentation": {
+  "mode": "pure-screen",
+  "explanatory_captions": false,
+  "music": false,
+  "pointer": "injected SVG arrow"
+ },
+ "zoom": {
+  "easing": "cosine ease-in-out",
+  "source_px": [
+   1920,
+   1080
+  ],
+  "keyframes": [
+   {
+    "t": 0,
+    "dur": 0,
+    "to": {
+     "zoom": 1,
+     "center_css_px": [
+      960,
+      540
+     ]
+    },
+    "label": "global: 3 boards Ember, pointer on Palette"
+   },
+   {
+    "t": 4.8,
+    "dur": 0.5,
+    "to": {
+     "zoom": 2.0,
+     "center_css_px": [
+      1150,
+      990
+     ]
+    },
+    "label": "push: linked in 3 boards"
+   },
+   {
+    "t": 5.7,
+    "dur": 0.5,
+    "to": {
+     "zoom": 1,
+     "center_css_px": [
+      960,
+      540
+     ]
+    },
+    "label": "pull out: 3 boards Aurora; Glow raised wide"
+   },
+   {
+    "t": 8.15,
+    "dur": 0.45,
+    "to": {
+     "zoom": 1.45,
+     "center_css_px": [
+      600,
+      480
+     ]
+    },
+    "label": "push: Compare A (Before, Ember) on Home"
+   },
+   {
+    "t": 8.6,
+    "dur": 1.1,
+    "to": {
+     "zoom": 1.45,
+     "center_css_px": [
+      1000,
+      480
+     ]
+    },
+    "label": "sweep: pan A -> B across the split"
+   },
+   {
+    "t": 9.7,
+    "dur": 0.5,
+    "to": {
+     "zoom": 1,
+     "center_css_px": [
+      960,
+      540
+     ]
+    },
+    "label": "pull out: A|B on all 3 boards, hold"
+   },
+   {
+    "t": 11.7,
+    "dur": 0.6,
+    "to": {
+     "zoom": 2.2,
+     "center_css_px": [
+      1020,
+      1010
+     ]
+    },
+    "label": "push: Save look"
+   },
+   {
+    "t": 12.6,
+    "dur": 0.6,
+    "to": {
+     "zoom": 1,
+     "center_css_px": [
+      960,
+      540
+     ]
+    },
+    "label": "pull out: final hold"
+   }
+  ],
+  "sampled": [
+   {
+    "t": 0.0,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 0.5,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 1.0,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 1.5,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 2.0,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 2.5,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 3.0,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 3.5,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 4.0,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 4.5,
+    "zoom": 1,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 5.0,
+    "zoom": 1.345,
+    "crop": [
+     312,
+     277,
+     1427,
+     803
+    ]
+   },
+   {
+    "t": 5.5,
+    "zoom": 2.0,
+    "crop": [
+     670,
+     540,
+     960,
+     540
+    ]
+   },
+   {
+    "t": 6.0,
+    "zoom": 1.345,
+    "crop": [
+     312,
+     277,
+     1427,
+     803
+    ]
+   },
+   {
+    "t": 6.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 7.0,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 7.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 8.0,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 8.5,
+    "zoom": 1.397,
+    "crop": [
+     0,
+     101,
+     1374,
+     773
+    ]
+   },
+   {
+    "t": 9.0,
+    "zoom": 1.45,
+    "crop": [
+     55,
+     108,
+     1324,
+     745
+    ]
+   },
+   {
+    "t": 9.5,
+    "zoom": 1.45,
+    "crop": [
+     306,
+     108,
+     1324,
+     745
+    ]
+   },
+   {
+    "t": 10.0,
+    "zoom": 1.155,
+    "crop": [
+     143,
+     52,
+     1662,
+     935
+    ]
+   },
+   {
+    "t": 10.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 11.0,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 11.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 12.0,
+    "zoom": 1.6,
+    "crop": [
+     390,
+     405,
+     1200,
+     675
+    ]
+   },
+   {
+    "t": 12.5,
+    "zoom": 2.2,
+    "crop": [
+     584,
+     589,
+     873,
+     491
+    ]
+   },
+   {
+    "t": 13.0,
+    "zoom": 1.3,
+    "crop": [
+     237,
+     242,
+     1477,
+     831
+    ]
+   },
+   {
+    "t": 13.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 14.0,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 14.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 15.0,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 15.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 16.0,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   },
+   {
+    "t": 16.5,
+    "zoom": 1.0,
+    "crop": [
+     0,
+     0,
+     1920,
+     1080
+    ]
+   }
+  ]
+ },
+ "ui_language": {
+  "value": "en",
+  "preflight": "evidence/ui-language-preflight.json",
+  "postcheck_cjk_ui": false
+ },
+ "take_verification": [
+  {
+   "take": "newa-v7-rehearsal",
+   "verdict": "rehearsal-pass",
+   "evidence": "beat screenshots grid"
+  },
+  {
+   "take": "newa-v7-take1",
+   "verdict": "keep",
+   "reason": "all beats at expected markers; 96/96 GIF frames reviewed; Pricing region warm->cool at g009-g013",
+   "edits": "v1 rejected (GIF ended mid pull-out, >3 MiB) -> v2"
+  }
+ ],
+ "markers": [
+  {
+   "elapsed_ms": 0,
+   "frame": 0,
+   "label": "start: Home/Pricing/About all Ember, heroes running"
+  },
+  {
+   "elapsed_ms": 2200,
+   "frame": 66,
+   "label": "pointer on Palette"
+  },
+  {
+   "elapsed_ms": 2800,
+   "frame": 84,
+   "label": "gif_window_start"
+  },
+  {
+   "elapsed_ms": 4000,
+   "frame": 120,
+   "label": "pointer on Aurora"
+  },
+  {
+   "elapsed_ms": 4067,
+   "frame": 122,
+   "label": "click Aurora: all 3 boards flip",
+   "linked": "linked in 3 boards"
+  },
+  {
+   "elapsed_ms": 6533,
+   "frame": 196,
+   "label": "pointer on Glow"
+  },
+  {
+   "elapsed_ms": 7200,
+   "frame": 216,
+   "label": "Glow raised: 3 heroes brighten"
+  },
+  {
+   "elapsed_ms": 8033,
+   "frame": 241,
+   "label": "Compare on: A (Before, Ember) | B (now)"
+  },
+  {
+   "elapsed_ms": 11433,
+   "frame": 343,
+   "label": "gif_window_end"
+  },
+  {
+   "elapsed_ms": 12100,
+   "frame": 363,
+   "label": "Save look"
+  },
+  {
+   "elapsed_ms": 16800,
+   "frame": 504,
+   "label": "end"
+  }
+ ]
+}

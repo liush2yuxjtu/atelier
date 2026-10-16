@@ -1,0 +1,26 @@
+{
+  "take": "generative-v1-take4",
+  "frames": 335,
+  "fps": 30,
+  "beats": {
+    "b0-before": {
+      "frame": 9,
+      "t": 0.3
+    },
+    "b3-playful-panel": {
+      "frame": 152,
+      "t": 5.067
+    },
+    "b4-playful-home": {
+      "frame": 215,
+      "t": 7.167
+    },
+    "b5-payoff": {
+      "frame": 335,
+      "t": 11.167
+    }
+  },
+  "errs": [],
+  "cjk_ui_post": false,
+  "source_commit": "b140c08a7c5b631494ac7a2d701459646480ccd4"
+}

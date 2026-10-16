@@ -1,0 +1,116 @@
+{
+ "gif_fps": 12,
+ "texts": [
+  {
+   "id": "hero_before",
+   "text": "Coffee that tastes like the trail.",
+   "metric": "cap_height",
+   "threshold_px": 16,
+   "measure_word": "Coffee",
+   "ocr_tokens": [
+    "Coffee",
+    "tastes",
+    "trail"
+   ],
+   "ocr_min": 1.0,
+   "t_window_s": [
+    0.2,
+    0.8,
+    1.2,
+    1.5,
+    1.8
+   ]
+  },
+  {
+   "id": "control_mood",
+   "text": "Mood: Editorial / SaaS / Playful",
+   "metric": "x_height",
+   "threshold_px": 9,
+   "measure_word": "Mood",
+   "xh_slice": [
+    0.4,
+    0.72
+   ],
+   "ocr_tokens": [
+    "Mood",
+    "Editorial",
+    "Playful"
+   ],
+   "ocr_min": 1.0,
+   "t_window_s": [
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.6,
+    3.0,
+    3.3
+   ]
+  },
+  {
+   "id": "hero_after",
+   "text": "Bags without the boredom",
+   "metric": "cap_height",
+   "threshold_px": 16,
+   "measure_word": "Bags",
+   "ocr_tokens": [
+    "Bags",
+    "without",
+    "boredom"
+   ],
+   "ocr_min": 1.0,
+   "t_window_s": [
+    2.5,
+    3.0,
+    3.3,
+    4.5,
+    5.5,
+    6.0,
+    7.5
+   ]
+  },
+  {
+   "id": "cta_after",
+   "text": "Let's roast",
+   "metric": "x_height",
+   "threshold_px": 7,
+   "measure_word": "roast",
+   "xh_slice": [
+    0.0,
+    0.72
+   ],
+   "ocr_tokens": [
+    "roast"
+   ],
+   "ocr_min": 1.0,
+   "t_window_s": [
+    4.5,
+    5.5,
+    6.0,
+    6.3,
+    6.8
+   ]
+  }
+ ],
+ "beat_t_gif_s": {
+  "take3": {
+   "hero_before": 0.9,
+   "control_mood": 1.6,
+   "hero_after": 3.0,
+   "cta_after": 3.0
+  },
+  "take4": {
+   "hero_before": 1.5,
+   "control_mood": 3.2,
+   "hero_after": 4.6,
+   "cta_after": 5.9
+  },
+  "take5": {
+   "hero_before": 1.5,
+   "control_mood": 3.2,
+   "hero_after": 4.6,
+   "cta_after": 6.3
+  }
+ },
+ "note": "Measured at the beat frame named in beat_t_gif_s[label]; t_window_s frames are OCR-only (any-frame readability)."
+}

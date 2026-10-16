@@ -1,0 +1,7 @@
+{"elapsed_ms":0,"frame":0,"label":"start: Home selected, Tweaks 'Prepared for this design', Mood=SaaS, hero 'Coffee that tastes like the trail.'"}
+{"elapsed_ms":3600,"frame":108,"label":"pointer on Mood > Playful"}
+{"elapsed_ms":4467,"frame":134,"label":"click Playful","mood_after_click":"playful"}
+{"elapsed_ms":4467,"frame":134,"label":"hero rewritten visible","hero":{"h1":"Bags without the boredom","cta":"Get a bag"},"frames_after_click":0,"mood":"playful","boxes_after":{"h1":{"x":640.515625,"y":235.90625,"width":223.625,"height":66.546875},"cta":{"x":1037.078125,"y":179.46875,"width":51.203125,"height":19.453125}}}
+{"elapsed_ms":5767,"frame":173,"label":"pointer parked off artboard"}
+{"elapsed_ms":7167,"frame":215,"label":"payoff hold start"}
+{"elapsed_ms":11167,"frame":335,"label":"end"}

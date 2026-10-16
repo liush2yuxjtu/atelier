@@ -1,0 +1,46 @@
+{
+ "mp4": "docs/media/runs/generative-v1-take5/edits/zoom-v6/zoom-master.mp4",
+ "label": "take5",
+ "gif_start_s": 1.467,
+ "checks": [
+  {
+   "id": "hero_before",
+   "t_mp4_s": 2.967,
+   "ocr_found": [
+    "Coffee",
+    "tastes",
+    "trail"
+   ],
+   "pass": true
+  },
+  {
+   "id": "control_mood",
+   "t_mp4_s": 4.667,
+   "ocr_found": [
+    "Mood",
+    "Editorial",
+    "Playful"
+   ],
+   "pass": true
+  },
+  {
+   "id": "hero_after",
+   "t_mp4_s": 6.067,
+   "ocr_found": [
+    "Bags",
+    "without",
+    "boredom"
+   ],
+   "pass": true
+  },
+  {
+   "id": "cta_after",
+   "t_mp4_s": 7.767,
+   "ocr_found": [
+    "roast"
+   ],
+   "pass": true
+  }
+ ],
+ "pass": true
+}

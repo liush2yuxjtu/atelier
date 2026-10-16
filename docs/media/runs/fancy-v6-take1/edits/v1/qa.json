@@ -1,0 +1,137 @@
+{
+  "status": "ready",
+  "metadata_pass": true,
+  "feature_id": "fancy-tweaks-linked-hero",
+  "raw_sha256": "d6bc4261ae2399568cc6ed0d83dbefe3015f26a6bc27de060391753c7f99e4e9",
+  "raw_duration_s": 25.4,
+  "gif_source_window_s": [
+    13.6,
+    21.6
+  ],
+  "proof_interval_s": [
+    15.8,
+    21.6
+  ],
+  "crop": null,
+  "outputs": {
+    "mp4": {
+      "path": "/Users/liushiyu/v6/runs/fancy-v6-take1/edits/v1/demo.mp4",
+      "bytes": 15379555,
+      "sha256": "2ea6674136df2b0cdef8ce0591c4b1062de990cbd242df2998131bbe05031ca2",
+      "probe": {
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "mime_codec_string": "avc1.640028",
+            "width": 1920,
+            "height": 1080,
+            "coded_width": 1920,
+            "coded_height": 1080,
+            "has_b_frames": 2,
+            "pix_fmt": "yuv420p",
+            "level": 40,
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "30/1",
+            "avg_frame_rate": "30/1",
+            "time_base": "1/15360",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 390144,
+            "duration": "25.400000",
+            "bit_rate": "4841125",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "762",
+            "extradata_size": 47,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "language": "und",
+              "handler_name": "VideoHandler",
+              "encoder": "Lavc63.1.102 libx264"
+            }
+          }
+        ],
+        "format": {
+          "filename": "/Users/liushiyu/v6/runs/fancy-v6-take1/edits/v1/demo.mp4",
+          "nb_streams": 1,
+          "nb_programs": 0,
+          "nb_stream_groups": 0,
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "format_long_name": "QuickTime / MOV",
+          "start_time": "0.000000",
+          "duration": "25.400000",
+          "size": "15379555",
+          "bit_rate": "4843954",
+          "probe_score": 100,
+          "tags": {
+            "major_brand": "isom",
+            "minor_version": "512",
+            "compatible_brands": "isomiso2avc1mp41",
+            "encoder": "Lavf63.1.102"
+          }
+        }
+      }
+    },
+    "gif": {
+      "path": "/Users/liushiyu/v6/runs/fancy-v6-take1/edits/v1/feature-8s.gif",
+      "bytes": 2336660,
+      "sha256": "9c1a23e4af855756fd0574e76010045a4f63a01f1a839dae7b39c72e863447fd",
+      "width": 520,
+      "height": 292,
+      "frames": 96,
+      "animated": true,
+      "duration_s": 8.0,
+      "zero_delay_frames": 0,
+      "loop": 0,
+      "average_fps": 12.0
+    }
+  },
+  "visual_review": {
+    "reviewer": "Grok Bot",
+    "method": "all 96 GIF frames extracted (qa/frames), qa/contact-all.jpg + qa/contact-every4.jpg viewed; full-master strip.jpg viewed",
+    "ui_language": "English only, no CJK text in any frame",
+    "checks": {
+      "opens_on_unlink": "#0-#20 dock shows 'About kept separate' after Unlink",
+      "about_differs": "from #28 (15.9s) to #95 About board is Ember/cream while Home + Pricing stay Aurora/dark",
+      "linked_count_push": "#56-#68 (18.3-19.3s) 2.6x push, 'linked in 2 boards' chip readable",
+      "approved": "#84-#95 'Approved' badge visible under 2.4x push then pull-out",
+      "no_duplicate_stutter": "source capture deterministic, 0 identical consecutive frames",
+      "framing": "stage layout: boards fill ~85% of the frame at 1x"
+    },
+    "weaknesses": [
+      "dock text is small at 520 px in wide shots; readable only in pushes",
+      "pointer is an injected SVG, not the OS cursor"
+    ],
+    "pass": true
+  },
+  "publish_ready": true
+}

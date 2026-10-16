@@ -1,0 +1,80 @@
+{
+  "viewport": [
+    1920,
+    1080
+  ],
+  "boxes": {
+    "artboard-ab-landing": {
+      "x": 32,
+      "y": 68,
+      "width": 1233.0220947265625,
+      "height": 812.1131591796875
+    },
+    "artboard-ab-pricing": {
+      "x": 1295.200927734375,
+      "y": 68,
+      "width": 592.799072265625,
+      "height": 390.43902587890625
+    },
+    "artboard-ab-about": {
+      "x": 1295.200927734375,
+      "y": 491.5818786621094,
+      "width": 592.799072265625,
+      "height": 390.4389953613281
+    },
+    "present-dock": {
+      "x": 0,
+      "y": 941,
+      "width": 1920,
+      "height": 123
+    },
+    "palette-aurora": {
+      "x": 673.578125,
+      "y": 959.5,
+      "width": 69.171875,
+      "height": 26.5
+    },
+    "palette-ember": {
+      "x": 387,
+      "y": 959.5,
+      "width": 68.890625,
+      "height": 26.5
+    },
+    "tweak-fxSpeed": {
+      "x": 762.75,
+      "y": 991,
+      "width": 150,
+      "height": 16
+    },
+    "tweak-fxGlow": {
+      "x": 932.75,
+      "y": 991,
+      "width": 150,
+      "height": 16
+    },
+    "tweak-heroLayout": {
+      "x": 1102.75,
+      "y": 975,
+      "width": 150,
+      "height": 32
+    },
+    "present-unlink-look": {
+      "x": 698.546875,
+      "y": 1023,
+      "width": 91.734375,
+      "height": 28
+    },
+    "linked-count": {
+      "x": 1144.828125,
+      "y": 1024.75,
+      "width": 105.3125,
+      "height": 24.5
+    },
+    "approve-look": {
+      "x": 1064.96875,
+      "y": 1023,
+      "width": 73.859375,
+      "height": 28
+    }
+  }
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "label": "start: client review, Present, Ember globe running",
+    "time_s": 0.0
+  },
+  {
+    "label": "pointer on Speed",
+    "time_s": 2.9
+  },
+  {
+    "label": "Speed dragged high",
+    "time_s": 4.567
+  },
+  {
+    "label": "Glow dragged to max",
+    "time_s": 6.133
+  },
+  {
+    "label": "Look -> Aurora (all three pages)",
+    "time_s": 7.3
+  },
+  {
+    "label": "Stage layout -> full-bleed",
+    "time_s": 10.033
+  },
+  {
+    "label": "select About",
+    "time_s": 12.9
+  },
+  {
+    "label": "Unlink About",
+    "time_s": 14.267
+  },
+  {
+    "label": "About only -> Ember; linked in 2 boards",
+    "time_s": 15.633
+  },
+  {
+    "label": "pointer near linked in 2 boards",
+    "time_s": 18.233
+  },
+  {
+    "label": "select Home",
+    "time_s": 20.1
+  },
+  {
+    "label": "Approved",
+    "time_s": 21.167
+  },
+  {
+    "label": "end",
+    "time_s": 25.4
+  }
+]

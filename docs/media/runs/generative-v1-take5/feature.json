@@ -1,0 +1,245 @@
+{
+ "feature_id": "atelier-generative-tweaks-mood",
+ "feature_name": "Tweaks — Prepared for this design (generative knobs): Mood",
+ "user_outcome": "On the Home artboard, one click on Tweaks › Mood › Playful rewrites the hero from 'Coffee that tastes like the trail.' to 'Bags without the boredom' with a new CTA 'Let's roast', live, without prompting.",
+ "source": {
+  "environment": "production",
+  "verified": true,
+  "verification_note": "Branch build, not production: PR #1 review branch feat/fancy-tweaks-baseline @ b140c08 run locally (npm run dev) on the Mac mini; no GitHub Release exists. release_url = commit URL; production_tag/observed_app_version = short SHA observed via git rev-parse in /tmp/atelier-gen.",
+  "release_url": "https://github.com/liush2yuxjtu/atelier/commit/b140c08a7c5b631494ac7a2d701459646480ccd4",
+  "production_tag": "b140c08",
+  "observed_app_version": "b140c08",
+  "commit": "b140c08a7c5b631494ac7a2d701459646480ccd4",
+  "prs": [
+   "https://github.com/liush2yuxjtu/atelier/pull/1"
+  ]
+ },
+ "recording": {
+  "surface": "browser",
+  "route": "Playwright Chromium headless, deterministic 30 fps per-frame capture (__fxStep + screenshot), 1920x1080 viewport at deviceScaleFactor 2 (3840x2160 frames)",
+  "raw": "edits/zoom-v6/zoom-master.mp4",
+  "gt": "raw/gt.mp4",
+  "gt_sha256": "765e657c50060fa7dba143909abc9b180a30047d750a1f39c860f949c9be01ad",
+  "frames_dir": "frames/ (335 jpg @3840x2160, Mac mini ~/gen/runs/generative-v1-take5/frames, not committed)",
+  "proof_interval_s": [
+   5.367,
+   8.467
+  ],
+  "proof_note": "Click Playful at 4.467 s raw (3.0 s GIF); hero rewritten same frame. Result text legible (>= thresholds) 3.9-7.0 s GIF time = 5.367-8.467 s raw (3.1 s); OCR-readable 'boredom' in 51/96 GIF frames."
+ },
+ "evidence": {
+  "discovery": "evidence/discovery.json",
+  "markers": "evidence/markers.jsonl",
+  "run": "evidence/run.json",
+  "lock": "evidence/generative-v1-take5.lock.json",
+  "log": "evidence/generative-v1-take5.log",
+  "preflight": "evidence/ui-language-preflight.json"
+ },
+ "gif": {
+  "start_s": 1.467,
+  "duration_s": 8,
+  "width": 520,
+  "fps": 12,
+  "frames": 96,
+  "max_bytes": 3145728
+ },
+ "presentation": {
+  "mode": "pure-screen",
+  "explanatory_captions": false,
+  "release_badge": false,
+  "decorative_callouts": false,
+  "pointer": "standard (drawn SVG arrow, real mouse events)",
+  "preserve_native_text_and_captions": true,
+  "chapters": "metadata-only",
+  "narration": false,
+  "music": false,
+  "transitions": false
+ },
+ "zoom": {
+  "easing": "cosine ease-in-out, log-zoom",
+  "source_px": [
+   3840,
+   2160
+  ],
+  "dpr": 2,
+  "keyframes": [
+   {
+    "t": 0,
+    "dur": 0,
+    "shot": "S1",
+    "to": {
+     "zoom": 1.0,
+     "center_css_px": [
+      960,
+      540
+     ]
+    },
+    "label": "full: Home + Tweaks panel (Mood=SaaS)"
+   },
+   {
+    "t": 1.967,
+    "dur": 0.6,
+    "shot": "S2",
+    "to": {
+     "zoom": 5.8,
+     "center_css_px": [
+      748,
+      314
+     ]
+    },
+    "label": "push to hero close: 'Coffee that tastes like the trail.' + CTA 'Start a subscription'"
+   },
+   {
+    "t": 3.367,
+    "dur": 0.3,
+    "shot": "T23",
+    "to": {
+     "zoom": 1.25,
+     "center_css_px": [
+      1270,
+      420
+     ]
+    },
+    "label": "pull out through panel"
+   },
+   {
+    "t": 3.6670000000000003,
+    "dur": 0.3,
+    "shot": "S3",
+    "to": {
+     "zoom": 7.0,
+     "center_css_px": [
+      1722,
+      286
+     ]
+    },
+    "label": "close on Tweaks > Prepared for this design > Mood (SaaS -> Playful click at 3.0s)"
+   },
+   {
+    "t": 4.817,
+    "dur": 0.25,
+    "shot": "T34",
+    "to": {
+     "zoom": 1.25,
+     "center_css_px": [
+      1270,
+      420
+     ]
+    },
+    "label": "pull out back to artboard"
+   },
+   {
+    "t": 5.067,
+    "dur": 0.3,
+    "shot": "S4",
+    "to": {
+     "zoom": 5.8,
+     "center_css_px": [
+      748,
+      314
+     ]
+    },
+    "label": "hero close: 'Bags without the boredom' + CTA 'Let's roast'"
+   },
+   {
+    "t": 6.867000000000001,
+    "dur": 0.4,
+    "shot": "S4b",
+    "to": {
+     "zoom": 8.0,
+     "center_css_px": [
+      702,
+      322
+     ]
+    },
+    "label": "push to CTA: '...boredom' / 'Let's roast'"
+   },
+   {
+    "t": 8.467,
+    "dur": 0.5,
+    "shot": "S5",
+    "to": {
+     "zoom": 1.0,
+     "center_css_px": [
+      960,
+      540
+     ]
+    },
+    "label": "pull back: global payoff hold"
+   }
+  ]
+ },
+ "ui_language": {
+  "value": "en",
+  "preflight_evidence": "evidence/ui-language-preflight.png",
+  "preflight_dom": "evidence/ui-language-preflight.json",
+  "postcheck_cjk_ui": false,
+  "notes": "English UI (locale en-US); DOM CJK scan false pre and post (evidence/run.json cjk_ui_post); GIF frame post-check in qa",
+  "postcheck_evidence": "edits/v1/qa/gif-all-frames.jpg"
+ },
+ "take_verification": {
+  "required_before_keep_or_discard": true,
+  "takes_log": "runs/takes.log",
+  "takes": [
+   {
+    "id": "generative-v1-take1-bridge-disconnect",
+    "verdict": "discard",
+    "reason": "Mac mini bridge dropped mid-take; browser closed at frame 57",
+    "evidence": [
+     "runs/generative-v1-take1-bridge-disconnect/take1.log"
+    ]
+   },
+   {
+    "id": "generative-v1-take2-detached-killed",
+    "verdict": "discard",
+    "reason": "nohup/detached run killed when the bridge call ended; 0 frames",
+    "evidence": []
+   },
+   {
+    "id": "generative-v1-take3",
+    "verdict": "keep",
+    "strip": "verify/strip-gt-0-9.5-0.5s.jpg",
+    "zoom_strips": [
+     "verify/strip-zoom-0-9.5-0.5s.jpg (zoom-v1 rejected: 1.6x crop cut the headline)",
+     "verify/strip-zoom-v2-0-9.5-0.5s.jpg"
+    ],
+    "timing_crosscheck": "verify/timing.json",
+    "reason": "all 5 storyboard beats present; click 2.967 s -> hero rewritten same frame; zoom keys 1.5/3.4/5.0 s bracket the click and reveal; GIF 1.4-9.4 s contains before (1.4-2.97), action, and 3.8 s global payoff"
+   }
+  ]
+ },
+ "clip_test_cutout": {
+  "required_before_clip_selection": false,
+  "verdict": "not-applicable",
+  "reasons": [
+   "No stock footage used; pure in-app UI recording"
+  ]
+ },
+ "recording_lock": {
+  "tool": "~/.local/bin/chatcut-rec-lock run",
+  "owner": "gif-job",
+  "purpose": "atelier generative tweaks generative-v1-take3",
+  "ttl_s": 2700,
+  "waited_s": 0.0,
+  "requested_at": "2026-10-15T22:53:51Z",
+  "acquired_at": "2026-10-15T22:53:51Z",
+  "exit": 0,
+  "released_at": "2026-10-15T22:54:12Z",
+  "status_before": "evidence/lock-status-before.json"
+ },
+ "story": {
+  "chosen": "New-A One click, new voice",
+  "score": 97,
+  "files": [
+   "story/research.md",
+   "story/story.md",
+   "story/storyboard.md"
+  ]
+ },
+ "shot_list": "shotlist.json",
+ "verify": {
+  "legibility": "verify/legibility.json",
+  "strip": "verify/legibility-strip.png",
+  "cold_viewer_sheet": "verify/cold-viewer-contact-sheet.png"
+ }
+}

@@ -1,0 +1,531 @@
+{
+ "run": "generative-v1-take5",
+ "edit": "edits/zoom-v6",
+ "gif_size": [
+  520,
+  292
+ ],
+ "thresholds": {
+  "viewing_model": "GIF shown at 1 image px = 1 CSS px (520 px wide email/chat embed), laptop at ~50 cm: 1 px = 0.2646 mm -> ~0.030 deg visual angle.",
+  "hero_cap_height_px": {
+   "min": 16,
+   "why": "The hero headline is the payoff and must read at a glance, not by study. 16 px cap height ~= 0.48 deg cap / ~0.33 deg x-height, i.e. >1.5x the ~0.2 deg critical print size (Legge & Bigelow 2011) and still >= 0.2 deg x-height after a typical mobile down-scale of 520 -> ~340 px (x0.65). It is also ~= WCAG 'large text' (18 pt = 24 px font, cap ~16-17 px), the size WCAG treats as easier to read."
+  },
+  "control_label_x_height_px": {
+   "min": 9,
+   "why": "UI label must be read during a ~0.9 s close shot: 9 px x-height ~= 0.27 deg, above the 0.2 deg critical print size (reading speed plateaus above CPS, Legge & Bigelow 2011); comparable to an 18 px UI font, above Apple HIG / Material minimum body sizes (11 pt / 12 sp) at 1x."
+  },
+  "cta_x_height_px": {
+   "min": 7,
+   "why": "Secondary result text inside a high-contrast button: 7 px x-height ~= 0.21 deg, just above the 0.2 deg critical print size."
+  },
+  "ocr": "Every key token must be recognised by tesseract 5 (psm 11+6, normal+inverted) on the beat frame. OCR runs on a 3x upscale, so it is a NECESSARY not a sufficient check: take3's full-frame 'boredom' was OCR-readable while its cap height was 10 px; the px threshold is the gate.",
+  "sources": [
+   {
+    "title": "Legge & Bigelow (2011) Does print size matter for reading? A review of findings from vision science and typography. Journal of Vision 11(5):8",
+    "url": "https://doi.org/10.1167/11.5.8",
+    "used_for": "critical print size ~0.2 deg x-height; fluent range 0.2-2 deg"
+   },
+   {
+    "title": "W3C WCAG 2.2 Understanding SC 1.4.3 Contrast (Minimum) - definition of large text (18 pt / 14 pt bold)",
+    "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+    "used_for": "large-text size reference for the hero threshold"
+   },
+   {
+    "title": "W3C WCAG 2.2 Understanding SC 1.4.4 Resize Text",
+    "url": "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html",
+    "used_for": "WCAG sets no absolute px minimum; legibility must be judged at delivered size"
+   },
+   {
+    "title": "W3C Accessibility Requirements for People with Low Vision (Note)",
+    "url": "https://www.w3.org/TR/low-vision-needs/",
+    "used_for": "text size/spacing needs"
+   },
+   {
+    "title": "Apple Human Interface Guidelines - Typography (minimum 11 pt)",
+    "url": "https://developer.apple.com/design/human-interface-guidelines/typography",
+    "used_for": "UI label minimum"
+   }
+  ],
+  "centering": "ROI fully inside crop AND |ROI-centre offset| <= 10% of crop width/height on every close shot."
+ },
+ "after": {
+  "gif": "docs/media/runs/generative-v1-take5/edits/zoom-v6/generative-v1.gif",
+  "checks": [
+   {
+    "id": "hero_before",
+    "text": "Coffee that tastes like the trail.",
+    "metric": "cap_height",
+    "threshold_px": 16,
+    "t_gif_s": 1.5,
+    "frame": 19,
+    "measured_px": 38,
+    "ocr_found": [
+     "Coffee",
+     "tastes",
+     "trail"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": true,
+    "pass_ocr": true,
+    "pass": true
+   },
+   {
+    "id": "control_mood",
+    "text": "Mood: Editorial / SaaS / Playful",
+    "metric": "x_height",
+    "threshold_px": 9,
+    "t_gif_s": 3.2,
+    "frame": 39,
+    "measured_px": 12,
+    "ocr_found": [
+     "Mood",
+     "Editorial",
+     "Playful"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": true,
+    "pass_ocr": true,
+    "pass": true
+   },
+   {
+    "id": "hero_after",
+    "text": "Bags without the boredom",
+    "metric": "cap_height",
+    "threshold_px": 16,
+    "t_gif_s": 4.6,
+    "frame": 56,
+    "measured_px": 36,
+    "ocr_found": [
+     "Bags",
+     "without",
+     "boredom"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": true,
+    "pass_ocr": true,
+    "pass": true
+   },
+   {
+    "id": "cta_after",
+    "text": "Let's roast",
+    "metric": "x_height",
+    "threshold_px": 7,
+    "t_gif_s": 6.3,
+    "frame": 77,
+    "measured_px": 8,
+    "ocr_found": [
+     "roast"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": true,
+    "pass_ocr": true,
+    "pass": true
+   }
+  ],
+  "legibility_pass": true,
+  "mp4_ocr": {
+   "pass": true,
+   "checks": [
+    {
+     "id": "hero_before",
+     "t_mp4_s": 2.967,
+     "ocr_found": [
+      "Coffee",
+      "tastes",
+      "trail"
+     ],
+     "pass": true
+    },
+    {
+     "id": "control_mood",
+     "t_mp4_s": 4.667,
+     "ocr_found": [
+      "Mood",
+      "Editorial",
+      "Playful"
+     ],
+     "pass": true
+    },
+    {
+     "id": "hero_after",
+     "t_mp4_s": 6.067,
+     "ocr_found": [
+      "Bags",
+      "without",
+      "boredom"
+     ],
+     "pass": true
+    },
+    {
+     "id": "cta_after",
+     "t_mp4_s": 7.767,
+     "ocr_found": [
+      "roast"
+     ],
+     "pass": true
+    }
+   ],
+   "note": "MP4 is 1920 px (3.69x the GIF), so px thresholds are met whenever the GIF meets them"
+  },
+  "centering": [
+   {
+    "shot": "S1",
+    "zoom": 1.0,
+    "roi_css": [
+     0,
+     0,
+     1920,
+     1080
+    ],
+    "crop_css": [
+     0.0,
+     0.0,
+     1920.0,
+     1080.0
+    ],
+    "roi_center_offset_pct": [
+     0.0,
+     0.0
+    ],
+    "roi_in_frame": true,
+    "pass": true
+   },
+   {
+    "shot": "S2",
+    "zoom": 5.8,
+    "roi_css": [
+     634,
+     240,
+     228,
+     150
+    ],
+    "crop_css": [
+     582.5,
+     220.9,
+     331.0,
+     186.2
+    ],
+    "roi_center_offset_pct": [
+     0.0,
+     0.5
+    ],
+    "roi_in_frame": true,
+    "pass": true
+   },
+   {
+    "shot": "S3",
+    "zoom": 7.0,
+    "roi_css": [
+     1633,
+     258,
+     180,
+     58
+    ],
+    "crop_css": [
+     1584.9,
+     208.9,
+     274.3,
+     154.3
+    ],
+    "roi_center_offset_pct": [
+     0.3,
+     0.6
+    ],
+    "roi_in_frame": true,
+    "pass": true
+   },
+   {
+    "shot": "S4",
+    "zoom": 5.8,
+    "roi_css": [
+     634,
+     240,
+     228,
+     132
+    ],
+    "crop_css": [
+     582.5,
+     220.9,
+     331.0,
+     186.2
+    ],
+    "roi_center_offset_pct": [
+     0.0,
+     -4.3
+    ],
+    "roi_in_frame": true,
+    "pass": true
+   },
+   {
+    "shot": "S4b",
+    "zoom": 8.0,
+    "roi_css": [
+     641,
+     273,
+     122,
+     99
+    ],
+    "crop_css": [
+     582.0,
+     254.5,
+     240.0,
+     135.0
+    ],
+    "roi_center_offset_pct": [
+     0.0,
+     0.4
+    ],
+    "roi_in_frame": true,
+    "pass": true
+   },
+   {
+    "shot": "S5",
+    "zoom": 1.0,
+    "roi_css": [
+     0,
+     0,
+     1920,
+     1080
+    ],
+    "crop_css": [
+     0.0,
+     0.0,
+     1920.0,
+     1080.0
+    ],
+    "roi_center_offset_pct": [
+     0.0,
+     0.0
+    ],
+    "roi_in_frame": true,
+    "pass": true
+   }
+  ],
+  "centering_pass": true,
+  "readable_result": {
+   "px_legible_s": [
+    3.9,
+    7.0
+   ],
+   "px_legible_dur_s": 3.1,
+   "ocr_boredom_frames": 51,
+   "min_s": 3.0,
+   "pass": true
+  },
+  "story_test": {
+   "answer": "A coffee brand's landing page in a design tool. The headline reads 'Coffee that tastes like the trail.' with a 'Start a subscription' button. Zoom into a side panel 'Prepared for this design' > Mood with Editorial / SaaS / Playful; the pointer switches SaaS to Playful. The headline then reads 'Bags without the boredom', subhead 'A brighter path from drum to doorstep. Confetti optional.', button 'Let's roast'. For designers/marketers/founders who want to change a page's tone with one control instead of rewriting copy.",
+   "recovered": {
+    "one_mood_control": true,
+    "changed_hero_copy": true,
+    "playful_voice": true
+   },
+   "pass": true
+  }
+ },
+ "before": {
+  "gif": "docs/media/generative-v1.gif",
+  "checks": [
+   {
+    "id": "hero_before",
+    "text": "Coffee that tastes like the trail.",
+    "metric": "cap_height",
+    "threshold_px": 16,
+    "t_gif_s": 0.9,
+    "frame": 12,
+    "measured_px": 9,
+    "ocr_found": [
+     "Coffee",
+     "tastes",
+     "trail"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": false,
+    "pass_ocr": true,
+    "pass": false
+   },
+   {
+    "id": "control_mood",
+    "text": "Mood: Editorial / SaaS / Playful",
+    "metric": "x_height",
+    "threshold_px": 9,
+    "t_gif_s": 1.6,
+    "frame": 20,
+    "measured_px": null,
+    "ocr_found": [],
+    "ocr_ratio": 0.0,
+    "pass_px": false,
+    "pass_ocr": false,
+    "pass": false
+   },
+   {
+    "id": "hero_after",
+    "text": "Bags without the boredom",
+    "metric": "cap_height",
+    "threshold_px": 16,
+    "t_gif_s": 3.0,
+    "frame": 37,
+    "measured_px": 10,
+    "ocr_found": [
+     "Bags",
+     "without",
+     "boredom"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": false,
+    "pass_ocr": true,
+    "pass": false
+   },
+   {
+    "id": "cta_after",
+    "text": "Let's roast",
+    "metric": "x_height",
+    "threshold_px": 7,
+    "t_gif_s": 3.0,
+    "frame": 37,
+    "measured_px": 3,
+    "ocr_found": [
+     "roast"
+    ],
+    "ocr_ratio": 1.0,
+    "pass_px": false,
+    "pass_ocr": true,
+    "pass": false
+   }
+  ],
+  "legibility_pass": false,
+  "mp4_ocr": {
+   "pass": true,
+   "checks": [
+    {
+     "id": "hero_before",
+     "t_mp4_s": 2.3,
+     "ocr_found": [
+      "Coffee",
+      "tastes",
+      "trail"
+     ],
+     "pass": true
+    },
+    {
+     "id": "control_mood",
+     "t_mp4_s": 3.0,
+     "ocr_found": [
+      "Mood",
+      "Editorial",
+      "Playful"
+     ],
+     "pass": true
+    },
+    {
+     "id": "hero_after",
+     "t_mp4_s": 4.4,
+     "ocr_found": [
+      "Bags",
+      "without",
+      "boredom"
+     ],
+     "pass": true
+    },
+    {
+     "id": "cta_after",
+     "t_mp4_s": 4.4,
+     "ocr_found": [
+      "roast"
+     ],
+     "pass": true
+    }
+   ],
+   "note": "MP4 is 1920 px (3.69x the GIF), so px thresholds are met whenever the GIF meets them"
+  },
+  "centering": [
+   {
+    "shot": "take3 push 1.45x (panel+hero), click",
+    "zoom": 1.45,
+    "crop_css": [
+     596,
+     0,
+     1324,
+     745
+    ],
+    "roi": "Mood row [1633,258,180,58]",
+    "roi_center_offset_pct": [
+     35.1,
+     -11.5
+    ],
+    "roi_in_frame": true,
+    "pass": false,
+    "note": "control at the right edge of a wide frame; not the subject of the shot"
+   },
+   {
+    "shot": "take3 1.7x hero",
+    "zoom": 1.7,
+    "crop_css": [
+     296,
+     2,
+     1129,
+     635
+    ],
+    "roi": "hero block ~[634,215,228,135] (take3 layout)",
+    "roi_center_offset_pct": [
+     -10.0,
+     -5.8
+    ],
+    "roi_in_frame": true,
+    "pass": true,
+    "note": "hero left of centre (known weakness); -10.0% is exactly at the 10% gate (borderline pass)"
+   }
+  ],
+  "centering_pass": false,
+  "geometric_estimate_px": {
+   "control_mood_x_height": "~2 (5 css x 1.45 x 0.271)",
+   "hero_cap": "~10 at 1.7x"
+  },
+  "story_test": {
+   "answer": "A design tool canvas with several web page mockups; a headline on one mockup changes from 'Coffee that tastes like the trail.' to 'Bags without the boredom'. Something in the right-hand panel is involved but its labels are unreadable.",
+   "recovered": {
+    "one_mood_control": false,
+    "changed_hero_copy": true,
+    "playful_voice": "partial (inferred from wording only)"
+   },
+   "pass": false
+  }
+ },
+ "story_test_method": {
+  "method": "Contact sheet of 16 evenly spaced GIF frames (verify/cold-viewer-contact-sheet.png), no captions, no filenames; question: 'What happened in this clip, and who is it for?'. Pass only if the answer names (1) one Mood control (2) changed the hero copy (3) to a playful voice.",
+  "independence": "NOT fully independent: graded by the same agent that produced the video (no separate context-free vision model was available in this environment). Treat as provisional; re-run with a fresh vision model given only the contact sheet.",
+  "prompt": "You are shown 16 frames from an 8-second silent screen recording, in order (left-to-right, top-to-bottom). Describe what happened and who this is for. Do not guess beyond what is visible.",
+  "after_take5": {
+   "answer": "A coffee brand's landing page in a design tool. The headline reads 'Coffee that tastes like the trail.' with a 'Start a subscription' button. Zoom into a side panel 'Prepared for this design' > Mood with Editorial / SaaS / Playful; the pointer switches SaaS to Playful. The headline then reads 'Bags without the boredom', subhead 'A brighter path from drum to doorstep. Confetti optional.', button 'Let's roast'. For designers/marketers/founders who want to change a page's tone with one control instead of rewriting copy.",
+   "recovered": {
+    "one_mood_control": true,
+    "changed_hero_copy": true,
+    "playful_voice": true
+   },
+   "pass": true
+  },
+  "before_take3": {
+   "answer": "A design tool canvas with several web page mockups; a headline on one mockup changes from 'Coffee that tastes like the trail.' to 'Bags without the boredom'. Something in the right-hand panel is involved but its labels are unreadable.",
+   "recovered": {
+    "one_mood_control": false,
+    "changed_hero_copy": true,
+    "playful_voice": "partial (inferred from wording only)"
+   },
+   "pass": false
+  }
+ },
+ "evidence": [
+  "verify/legibility-strip.png",
+  "verify/before-take3/legibility-strip.png",
+  "verify/cold-viewer-contact-sheet.png",
+  "verify/before-take3/cold-viewer-contact-sheet.png",
+  "verify/mp4-ocr.json",
+  "verify/ocr-scan-boredom.txt",
+  "shotlist.json",
+  "edits/zoom-v6/zoom.json"
+ ],
+ "verdict": {
+  "before": "fail",
+  "after": "pass (story test provisional: not context-free)"
+ }
+}

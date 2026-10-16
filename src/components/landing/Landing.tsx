@@ -87,8 +87,8 @@ export function Landing() {
               d: "Each board is an opaque-origin iframe. The host talks to it only through a typed postMessage protocol.",
             },
             {
-              t: "Tweaks without a round-trip",
-              d: "Declared knobs become sliders and color wells. Changes apply live and persist into the source.",
+              t: "Generative Tweaks",
+              d: "Each artboard gets knobs prepared for that design — mood, plan count, metric density — that restructure layout and copy live. Not a CSS inspector.",
             },
             {
               t: "Export the real page size",

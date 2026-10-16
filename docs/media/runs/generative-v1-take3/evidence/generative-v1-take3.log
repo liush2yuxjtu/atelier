@@ -1,0 +1,11 @@
+[chatcut-rec-lock 06:53:51] ACQUIRED owner=gif-job purpose=atelier generative tweaks generative-v1-take3 waited=0.0s
+preflight {"ui_language":"en","phrases":["Prepared for this design","Mood","Playful","Tweaks","Show social proof","Apply across canvas"],"cjk":false,"zoom":"45%","mood":"saas","hero":{"h1":"Coffee that tastes like the trail.","cta":"Get a bag"},"fx_frames":3,"url":"http://127.0.0.1:43173/studio/demo"}
+0 start: Home selected, Tweaks 'Prepared for this design', Mood=SaaS, hero 'Coffee that tastes like the trail.'
+2400 pointer on Mood > Playful
+2967 click Playful
+2967 hero rewritten visible
+4267 pointer parked off artboard
+5667 payoff hold start
+9667 end
+frames 290 errs []
+[chatcut-rec-lock 06:54:12] RELEASED rc=0

@@ -1,0 +1,33 @@
+{
+  "frames": 762,
+  "fps": 30,
+  "beats": {
+    "b0-ember": {
+      "frame": 60,
+      "t": 2
+    },
+    "b1-speed-glow": {
+      "frame": 196,
+      "t": 6.533333333333333
+    },
+    "b2-aurora": {
+      "frame": 279,
+      "t": 9.3
+    },
+    "b3-fullbleed": {
+      "frame": 361,
+      "t": 12.033333333333333
+    },
+    "b4-about-unlinked": {
+      "frame": 529,
+      "t": 17.633333333333333
+    },
+    "b5-approved": {
+      "frame": 636,
+      "t": 21.2
+    }
+  },
+  "errs": [],
+  "cjk_ui_post": false,
+  "linked_end": "linked in 2 boards"
+}

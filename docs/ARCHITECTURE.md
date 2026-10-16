@@ -42,13 +42,13 @@ Original wire format (not Anthropic's `EDITMODE` block):
 
 ```
 /*@atelier-tweaks
-{ "accent": { "type": "color", "value": "#c45c26" } }
+{ "mood": { "type": "select", "control": "radio", "value": "saas", "options": ["editorial","saas","playful"], "structural": true } }
 @atelier-tweaks*/
 ```
 
-or `<script type="application/atelier-tweaks">`. The right rail generates controls from the schema. Dragging a slider posts `apply-tweaks` into the iframe **and** rewrites the block in source so export is self-consistent.
+or `<script type="application/atelier-tweaks">`. The right rail generates **contextual** controls from the schema (radios, sliders, toggles, palette chips) labeled “Prepared for this design.” Changing a knob posts `apply-tweaks` into the iframe, which sets `data-*` attributes, swaps `[data-copy-for]` packs, shows/hides `[data-tweak-show]`, and counts `[data-tweak-count]` children — layout and copy restructure without regenerating the page. The Inspect tab remains the property inspector.
 
-Project-level **theme** (`look`, `accent`, `paper`, `ink`, `radius`, `density`, `type`) and **shared sections** (`header`, `hero`, `pricing`, `cta` — layout / visible / order / variant) live on the `Project`. `resolveBoardTweaks` paints them onto every linked artboard. A board can unlink a token or section (`unlinked` / `unlinkedSections`) or push an override back to the layer. Present, Compare, and undo/redo read the same snapshot (`theme` + `sections` + per-board maps).
+Project-level **theme** (`look`, `accent`, `paper`, `ink`) and **shared sections** still bind linked pages. **Apply across canvas** copies the active look pack. Canvas chrome has its own Global bar (theme / density / grid / snap / reduce motion), separate from Tweaks.
 
 ## Streaming
 

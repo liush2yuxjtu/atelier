@@ -83,15 +83,34 @@ function normalizeField(value: unknown): TweakField | null {
       : undefined,
     presets,
     swatches,
+    optionLabels: parseOptionLabels(rec.optionLabels),
+    control:
+      rec.control === "radio" || rec.control === "select" || rec.control === "chips"
+        ? rec.control
+        : undefined,
+    structural: rec.structural === true ? true : undefined,
     group:
       rec.group === "color" ||
       rec.group === "type" ||
       rec.group === "density" ||
       rec.group === "layout" ||
-      rec.group === "copy"
+      rec.group === "copy" ||
+      rec.group === "look" ||
+      rec.group === "motion" ||
+      rec.group === "geometry" ||
+      rec.group === "visibility"
         ? rec.group
         : undefined,
   };
+}
+
+function parseOptionLabels(raw: unknown): TweakField["optionLabels"] {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return undefined;
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (typeof v === "string") out[k] = v;
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 function defaultFor(type: TweakField["type"]): TweakField["value"] {
@@ -149,6 +168,46 @@ export function tweaksToCssVars(
   return vars;
 }
 
+function tweaksScriptTag(json: string): string {
+  return `<script type="application/atelier-tweaks">\n${json}\n</script>`;
+}
+
+/** CSS-comment form is not an HTML comment — browsers paint it as text. */
+export function stripVisibleTweaksComment(source: string): string {
+  const start = source.indexOf(TWEAKS_BEGIN);
+  if (start === -1) return source;
+  const end = source.indexOf(TWEAKS_END, start);
+  if (end === -1) return source;
+  const before = source.slice(0, start);
+  const after = source.slice(end + TWEAKS_END.length);
+  return (before + after).replace(/^\s*\n/, "");
+}
+
+export function injectTweaksScript(html: string, json: string): string {
+  const tag = tweaksScriptTag(json);
+  const next = stripVisibleTweaksComment(html);
+  if (SCRIPT_RE.test(next)) {
+    return next.replace(SCRIPT_RE, tag);
+  }
+  if (/<\/head>/i.test(next)) {
+    return next.replace(/<\/head>/i, `${tag}</head>`);
+  }
+  if (/<head\b[^>]*>/i.test(next)) {
+    return next.replace(/<head\b[^>]*>/i, (open) => `${open}${tag}`);
+  }
+  return `${tag}\n${next}`;
+}
+
+/** Move a CSS-comment tweaks block into a non-rendering script tag. */
+export function concealTweaksBlock(source: string): string {
+  if (!source.includes(TWEAKS_BEGIN)) return source;
+  const raw = extractTweaksBlock(source);
+  const stripped = stripVisibleTweaksComment(source);
+  if (raw == null) return stripped;
+  if (SCRIPT_RE.test(stripped)) return stripped;
+  return injectTweaksScript(stripped, raw);
+}
+
 export function applyTweaksToSource(
   source: string,
   tweaks: TweakMap,
@@ -161,27 +220,7 @@ export function applyTweaksToSource(
     }
   }
   const json = JSON.stringify(nextSchema, null, 2);
-
-  if (SCRIPT_RE.test(source)) {
-    return source.replace(
-      SCRIPT_RE,
-      `<script type="application/atelier-tweaks">\n${json}\n</script>`,
-    );
-  }
-
-  const start = source.indexOf(TWEAKS_BEGIN);
-  if (start !== -1) {
-    const end = source.indexOf(TWEAKS_END, start);
-    if (end !== -1) {
-      return (
-        source.slice(0, start) +
-        `${TWEAKS_BEGIN}\n${json}\n${TWEAKS_END}` +
-        source.slice(end + TWEAKS_END.length)
-      );
-    }
-  }
-
-  return `${TWEAKS_BEGIN}\n${json}\n${TWEAKS_END}\n${source}`;
+  return injectTweaksScript(source, json);
 }
 
 export function cssVarsBlock(tweaks: TweakMap, schema?: TweakSchema): string {

@@ -1,0 +1,28 @@
+{
+  "frames": 504,
+  "fps": 30,
+  "beats": {
+    "b0-ember": {
+      "frame": 84,
+      "t": 2.8
+    },
+    "b1-aurora": {
+      "frame": 182,
+      "t": 6.066666666666666
+    },
+    "b2-glow": {
+      "frame": 225,
+      "t": 7.5
+    },
+    "b3-compare": {
+      "frame": 343,
+      "t": 11.433333333333334
+    },
+    "b4-saved": {
+      "frame": 375,
+      "t": 12.5
+    }
+  },
+  "errs": [],
+  "cjk_ui_post": false
+}

@@ -18,6 +18,9 @@ interface Props {
   frameKey?: string;
 }
 
+const TWEAKS_BLOCK_RE =
+  /<script type="application\/atelier-tweaks">[\s\S]*?<\/script>|\/\*@atelier-tweaks[\s\S]*?@atelier-tweaks\*\//;
+
 export function ArtboardFrame({ board, vendorBase, tweaksOverride, frameKey }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const mode = useStudio((s) => s.project?.mode ?? "preview");
@@ -33,6 +36,17 @@ export function ArtboardFrame({ board, vendorBase, tweaksOverride, frameKey }: P
 
   const files = useStudio((s) => s.project?.files ?? []);
 
+  // Live tweaks must not rebuild the document: a new srcDoc reloads the iframe,
+  // which resets running animations and flashes white. For plain HTML boards we
+  // key the compiled document on structure only (source minus the tweaks block)
+  // and stream value changes through the "apply-tweaks" postMessage below.
+  const structuralSource =
+    board.kind === "html" ? board.source.replace(TWEAKS_BLOCK_RE, "") : board.source;
+  const live = board.kind !== "html";
+  const liveTweaksDep = live ? liveTweaks : null;
+  const liveSchemaDep = live ? board.tweakSchema : null;
+  const liveDcPropsDep = live ? board.dcProps : null;
+
   const srcDoc = useMemo(
     () =>
       compileArtboard({
@@ -46,13 +60,14 @@ export function ArtboardFrame({ board, vendorBase, tweaksOverride, frameKey }: P
         dcPath: board.dcPath,
         dcProps: board.dcProps ?? board.tweaks,
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       board.kind,
-      board.source,
-      liveTweaks,
-      board.tweakSchema,
+      structuralSource,
+      liveTweaksDep,
+      liveSchemaDep,
+      liveDcPropsDep,
       board.dcPath,
-      board.dcProps,
       files,
       nonce,
       vendorBase,

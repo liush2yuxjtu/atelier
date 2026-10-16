@@ -1,7 +1,7 @@
 import { transform } from "sucrase";
 import { marked } from "marked";
 import { buildRuntimeScript } from "./runtime";
-import { mergeTweaksIntoHtml } from "../tweaks";
+import { concealTweaksBlock, mergeTweaksIntoHtml } from "../tweaks";
 import { filesFromList, flattenAllSafe, isDcSource } from "../dc";
 import type { ArtboardKind, ProjectFile, TweakMap, TweakSchema } from "../types";
 
@@ -67,6 +67,8 @@ export function compileArtboard(opts: CompileOptions): string {
     default:
       html = ensureDocument(source, nonce);
   }
+
+  html = concealTweaksBlock(html);
 
   if (opts.tweaks && opts.tweakSchema && Object.keys(opts.tweakSchema).length > 0) {
     html = mergeTweaksIntoHtml(html, opts.tweaks, opts.tweakSchema);
