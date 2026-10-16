@@ -186,6 +186,10 @@ test.describe("Atelier studio", () => {
     await page.getByTestId("generate-knobs").click();
     await expect(page.getByTestId("palette-chips")).toBeVisible();
     await expect(page.getByTestId("palette-night")).toBeVisible();
+    const frame = page.frameLocator('[data-testid="artboard-frame-ab-flow"] iframe');
+    await expect(frame.getByRole("heading", { name: "How Atelier talks to a board" })).toBeVisible();
+    await expect(frame.locator("body")).not.toContainText("@atelier-tweaks");
+    await expect(frame.locator("body")).not.toContainText('"look"');
   });
 
   test("generative tweaks restructure landing, dashboard, and pricing", async ({ page }) => {

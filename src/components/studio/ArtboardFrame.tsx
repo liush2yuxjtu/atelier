@@ -18,7 +18,8 @@ interface Props {
   frameKey?: string;
 }
 
-const TWEAKS_BLOCK_RE = /<script type="application\/atelier-tweaks">[\s\S]*?<\/script>/;
+const TWEAKS_BLOCK_RE =
+  /<script type="application\/atelier-tweaks">[\s\S]*?<\/script>|\/\*@atelier-tweaks[\s\S]*?@atelier-tweaks\*\//;
 
 export function ArtboardFrame({ board, vendorBase, tweaksOverride, frameKey }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);

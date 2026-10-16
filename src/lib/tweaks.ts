@@ -168,6 +168,46 @@ export function tweaksToCssVars(
   return vars;
 }
 
+function tweaksScriptTag(json: string): string {
+  return `<script type="application/atelier-tweaks">\n${json}\n</script>`;
+}
+
+/** CSS-comment form is not an HTML comment — browsers paint it as text. */
+export function stripVisibleTweaksComment(source: string): string {
+  const start = source.indexOf(TWEAKS_BEGIN);
+  if (start === -1) return source;
+  const end = source.indexOf(TWEAKS_END, start);
+  if (end === -1) return source;
+  const before = source.slice(0, start);
+  const after = source.slice(end + TWEAKS_END.length);
+  return (before + after).replace(/^\s*\n/, "");
+}
+
+export function injectTweaksScript(html: string, json: string): string {
+  const tag = tweaksScriptTag(json);
+  let next = stripVisibleTweaksComment(html);
+  if (SCRIPT_RE.test(next)) {
+    return next.replace(SCRIPT_RE, tag);
+  }
+  if (/<\/head>/i.test(next)) {
+    return next.replace(/<\/head>/i, `${tag}</head>`);
+  }
+  if (/<head\b[^>]*>/i.test(next)) {
+    return next.replace(/<head\b[^>]*>/i, (open) => `${open}${tag}`);
+  }
+  return `${tag}\n${next}`;
+}
+
+/** Move a CSS-comment tweaks block into a non-rendering script tag. */
+export function concealTweaksBlock(source: string): string {
+  if (!source.includes(TWEAKS_BEGIN)) return source;
+  const raw = extractTweaksBlock(source);
+  const stripped = stripVisibleTweaksComment(source);
+  if (raw == null) return stripped;
+  if (SCRIPT_RE.test(stripped)) return stripped;
+  return injectTweaksScript(stripped, raw);
+}
+
 export function applyTweaksToSource(
   source: string,
   tweaks: TweakMap,
@@ -180,27 +220,7 @@ export function applyTweaksToSource(
     }
   }
   const json = JSON.stringify(nextSchema, null, 2);
-
-  if (SCRIPT_RE.test(source)) {
-    return source.replace(
-      SCRIPT_RE,
-      `<script type="application/atelier-tweaks">\n${json}\n</script>`,
-    );
-  }
-
-  const start = source.indexOf(TWEAKS_BEGIN);
-  if (start !== -1) {
-    const end = source.indexOf(TWEAKS_END, start);
-    if (end !== -1) {
-      return (
-        source.slice(0, start) +
-        `${TWEAKS_BEGIN}\n${json}\n${TWEAKS_END}` +
-        source.slice(end + TWEAKS_END.length)
-      );
-    }
-  }
-
-  return `${TWEAKS_BEGIN}\n${json}\n${TWEAKS_END}\n${source}`;
+  return injectTweaksScript(source, json);
 }
 
 export function cssVarsBlock(tweaks: TweakMap, schema?: TweakSchema): string {
