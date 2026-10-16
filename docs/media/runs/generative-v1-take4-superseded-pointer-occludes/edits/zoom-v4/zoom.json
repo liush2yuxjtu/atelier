@@ -1,0 +1,347 @@
+{
+ "easing": "cosine ease-in-out, log-zoom",
+ "source_px": [
+  3840,
+  2160
+ ],
+ "dpr": 2,
+ "gif_start_s": 1.467,
+ "keyframes": [
+  {
+   "t": 0,
+   "dur": 0,
+   "shot": "S1",
+   "to": {
+    "zoom": 1.0,
+    "center_css_px": [
+     960,
+     540
+    ]
+   },
+   "label": "full: Home + Tweaks panel (Mood=SaaS)"
+  },
+  {
+   "t": 1.967,
+   "dur": 0.6,
+   "shot": "S2",
+   "to": {
+    "zoom": 5.8,
+    "center_css_px": [
+     748,
+     314
+    ]
+   },
+   "label": "push to hero close: 'Coffee that tastes like the trail.' + CTA 'Get a bag'"
+  },
+  {
+   "t": 3.367,
+   "dur": 0.3,
+   "shot": "T23",
+   "to": {
+    "zoom": 1.25,
+    "center_css_px": [
+     1270,
+     420
+    ]
+   },
+   "label": "pull out through panel"
+  },
+  {
+   "t": 3.6670000000000003,
+   "dur": 0.3,
+   "shot": "S3",
+   "to": {
+    "zoom": 7.0,
+    "center_css_px": [
+     1722,
+     286
+    ]
+   },
+   "label": "close on Tweaks > Prepared for this design > Mood (SaaS -> Playful click at 3.0s)"
+  },
+  {
+   "t": 4.9670000000000005,
+   "dur": 0.3,
+   "shot": "T34",
+   "to": {
+    "zoom": 1.25,
+    "center_css_px": [
+     1270,
+     420
+    ]
+   },
+   "label": "pull out back to artboard"
+  },
+  {
+   "t": 5.2669999999999995,
+   "dur": 0.3,
+   "shot": "S4",
+   "to": {
+    "zoom": 5.8,
+    "center_css_px": [
+     748,
+     314
+    ]
+   },
+   "label": "hero close: 'Bags without the boredom' + CTA 'Let's roast'"
+  },
+  {
+   "t": 6.4670000000000005,
+   "dur": 0.4,
+   "shot": "S4b",
+   "to": {
+    "zoom": 8.0,
+    "center_css_px": [
+     690,
+     340
+    ]
+   },
+   "label": "push to CTA: '...boredom' / 'Let's roast'"
+  },
+  {
+   "t": 7.667,
+   "dur": 0.6,
+   "shot": "S5",
+   "to": {
+    "zoom": 1.0,
+    "center_css_px": [
+     960,
+     540
+    ]
+   },
+   "label": "pull back: global payoff hold"
+  }
+ ],
+ "sampled": [
+  {
+   "t": 0.0,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 0.5,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 1.0,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 1.5,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 2.0,
+   "zoom": 1.013,
+   "crop_css": [
+    11,
+    5,
+    1895,
+    1066
+   ]
+  },
+  {
+   "t": 2.5,
+   "zoom": 5.498,
+   "crop_css": [
+    580,
+    223,
+    349,
+    196
+   ]
+  },
+  {
+   "t": 3.0,
+   "zoom": 5.8,
+   "crop_css": [
+    582,
+    221,
+    331,
+    186
+   ]
+  },
+  {
+   "t": 3.5,
+   "zoom": 3.084,
+   "crop_css": [
+    652,
+    183,
+    622,
+    350
+   ]
+  },
+  {
+   "t": 4.0,
+   "zoom": 7.0,
+   "crop_css": [
+    1585,
+    209,
+    274,
+    154
+   ]
+  },
+  {
+   "t": 4.5,
+   "zoom": 7.0,
+   "crop_css": [
+    1585,
+    209,
+    274,
+    154
+   ]
+  },
+  {
+   "t": 5.0,
+   "zoom": 6.652,
+   "crop_css": [
+    1564,
+    209,
+    289,
+    162
+   ]
+  },
+  {
+   "t": 5.5,
+   "zoom": 4.839,
+   "crop_css": [
+    611,
+    215,
+    397,
+    223
+   ]
+  },
+  {
+   "t": 6.0,
+   "zoom": 5.8,
+   "crop_css": [
+    582,
+    221,
+    331,
+    186
+   ]
+  },
+  {
+   "t": 6.5,
+   "zoom": 5.831,
+   "crop_css": [
+    582,
+    222,
+    329,
+    185
+   ]
+  },
+  {
+   "t": 7.0,
+   "zoom": 8.0,
+   "crop_css": [
+    570,
+    272,
+    240,
+    135
+   ]
+  },
+  {
+   "t": 7.5,
+   "zoom": 8.0,
+   "crop_css": [
+    570,
+    272,
+    240,
+    135
+   ]
+  },
+  {
+   "t": 8.0,
+   "zoom": 2.365,
+   "crop_css": [
+    442,
+    229,
+    812,
+    457
+   ]
+  },
+  {
+   "t": 8.5,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 9.0,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 9.5,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 10.0,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 10.5,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  },
+  {
+   "t": 11.0,
+   "zoom": 1.0,
+   "crop_css": [
+    0,
+    0,
+    1920,
+    1080
+   ]
+  }
+ ]
+}

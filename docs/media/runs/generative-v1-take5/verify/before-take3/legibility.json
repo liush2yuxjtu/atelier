@@ -1,0 +1,102 @@
+{
+ "gif": "docs/media/generative-v1.gif",
+ "label": "take3",
+ "size": [
+  520,
+  292
+ ],
+ "frames": 96,
+ "method": "tesseract 5 psm11+psm6, normal+inverted, on 3x upscale for recognition; ink-row height measured on delivered-size frame",
+ "checks": [
+  {
+   "id": "hero_before",
+   "text": "Coffee that tastes like the trail.",
+   "metric": "cap_height",
+   "threshold_px": 16,
+   "t_gif_s": 0.9,
+   "frame": 12,
+   "ocr_found": [
+    "Coffee",
+    "tastes",
+    "trail"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 9,
+   "ocr_full_match_frames": [
+    12,
+    3,
+    11,
+    15
+   ],
+   "beat_frame_measured": true,
+   "pass_px": false,
+   "pass_ocr": true,
+   "pass": false
+  },
+  {
+   "id": "control_mood",
+   "text": "Mood: Editorial / SaaS / Playful",
+   "metric": "x_height",
+   "threshold_px": 9,
+   "t_gif_s": 1.6,
+   "frame": 20,
+   "ocr_found": [],
+   "ocr_ratio": 0.0,
+   "measured_px": null,
+   "ocr_full_match_frames": [],
+   "beat_frame_measured": true,
+   "pass_px": false,
+   "pass_ocr": false,
+   "pass": false
+  },
+  {
+   "id": "hero_after",
+   "text": "Bags without the boredom",
+   "metric": "cap_height",
+   "threshold_px": 16,
+   "t_gif_s": 3.0,
+   "frame": 37,
+   "ocr_found": [
+    "Bags",
+    "without",
+    "boredom"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 10,
+   "ocr_full_match_frames": [
+    37,
+    31,
+    41,
+    55,
+    67,
+    73,
+    91
+   ],
+   "beat_frame_measured": true,
+   "pass_px": false,
+   "pass_ocr": true,
+   "pass": false
+  },
+  {
+   "id": "cta_after",
+   "text": "Let's roast",
+   "metric": "x_height",
+   "threshold_px": 7,
+   "t_gif_s": 3.0,
+   "frame": 37,
+   "ocr_found": [
+    "roast"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 3,
+   "ocr_full_match_frames": [
+    37
+   ],
+   "beat_frame_measured": true,
+   "pass_px": false,
+   "pass_ocr": true,
+   "pass": false
+  }
+ ],
+ "pass": false
+}

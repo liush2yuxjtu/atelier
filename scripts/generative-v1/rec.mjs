@@ -1,3 +1,4 @@
+// take5: pointer clicks lower-right of chip (label stays readable). take4: deviceScaleFactor 2 (sharp 6-7x close-ups), longer before-hold, ROI boxes for hero h1/CTA/Mood row logged for the camera.
 // generative-v1 GT recorder (adapted from scripts/v7/rec.mjs): deterministic 30 fps capture
 // (per frame: __fxStep(1/30) in hero iframes + page screenshot). Story New-A: Home Mood SaaS -> Playful.
 import { chromium } from "/tmp/atelier-gen/node_modules/@playwright/test/index.mjs";
@@ -6,7 +7,7 @@ const TAKE = process.env.TAKE || "generative-v1-take1"; const REH = process.env.
 const RUN = path.join(process.env.HOME, "gen/runs", TAKE); const FR = path.join(RUN, "frames"), EV = path.join(RUN, "evidence");
 fs.mkdirSync(FR, { recursive: true }); fs.mkdirSync(EV, { recursive: true });
 const FPS = 30, W = 1920, H = 1080, URL = "http://127.0.0.1:43173";
-const b = await chromium.launch(); const c = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1, locale: "en-US" });
+const b = await chromium.launch(); const c = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2, locale: "en-US" });
 const p = await c.newPage(); const errs = []; p.on("pageerror", e => errs.push("pageerror " + e.message));
 let n = 0, mx = 1180, my = 760; const markers = []; const beats = {};
 const mark = (label, extra = {}) => { const r = { elapsed_ms: Math.round(n * 1000 / FPS), frame: n, label, ...extra }; markers.push(r); console.log(r.elapsed_ms, label); };
@@ -36,15 +37,16 @@ try {
   console.log("preflight", JSON.stringify(pre));
   if (pre.cjk || pre.phrases.length < 6 || pre.mood !== "saas" || !pre.hero?.h1.includes("Coffee")) throw new Error("preflight failed " + JSON.stringify(pre));
   const boxes = {}; for (const t of ["artboard-ab-landing", "tweak-panel", "tweaks-prepared-chip", "tweak-mood", "tweak-mood-saas", "tweak-mood-playful", "tweak-socialProof", "zoom-label"]) boxes[t] = await box(t);
-  fs.writeFileSync(path.join(EV, "discovery.json"), JSON.stringify({ viewport: [W, H], boxes }, null, 2));
+  for (const f of p.frames()) { const h = f.locator("h1").first(); if (await h.count().catch(() => 0) && (await f.evaluate(() => document.body.innerText.includes("This week")).catch(() => false))) { boxes["hero-h1"] = await h.boundingBox(); boxes["hero-cta"] = await f.locator("a.btn, .btn, button").first().boundingBox(); break; } }
+  fs.writeFileSync(path.join(EV, "discovery.json"), JSON.stringify({ viewport: [W, H], dpr: 2, boxes }, null, 2));
   // ---- GT ----
   mark("start: Home selected, Tweaks 'Prepared for this design', Mood=SaaS, hero 'Coffee that tastes like the trail.'");
-  await hold(0.3); await shot("b0-before"); await hold(1.2);
-  const pl = boxes["tweak-mood-playful"]; await glide(pl.x + pl.width / 2, pl.y + pl.height / 2 + 2, 0.9); mark("pointer on Mood > Playful");
-  await hold(0.5);
+  await hold(0.3); await shot("b0-before"); await hold(2.4);
+  const pl = boxes["tweak-mood-playful"]; await glide(pl.x + pl.width * 0.86, pl.y + pl.height * 0.8, 0.9); /* take5: click lower-right of chip so the arrow never covers the label */ mark("pointer on Mood > Playful");
+  await hold(0.8);
   await click(); mark("click Playful", { mood_after_click: await mood() });
   let k = 0; while (k < 60) { const h = await heroText(); if (h?.h1.includes("Bags")) break; await step(); k++; }
-  const hv = await heroText(); mark("hero rewritten visible", { hero: hv, frames_after_click: k, mood: await mood() });
+  const hv = await heroText(); const hb = {}; for (const f of p.frames()) { const h = f.locator("h1").first(); if (await h.count().catch(() => 0) && (await f.evaluate(() => document.body.innerText.includes("This week")).catch(() => false))) { hb.h1 = await h.boundingBox(); hb.cta = await f.locator("a.btn, .btn, button").first().boundingBox(); break; } } mark("hero rewritten visible", { hero: hv, frames_after_click: k, mood: await mood(), boxes_after: hb });
   await hold(0.6); await shot("b3-playful-panel");
   await glide(1210, 780, 0.7); mark("pointer parked off artboard");
   await hold(1.4); await shot("b4-playful-home"); mark("payoff hold start");

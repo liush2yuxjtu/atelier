@@ -1,0 +1,112 @@
+{
+ "gif": "docs/media/runs/generative-v1-take5/edits/zoom-v6/generative-v1.gif",
+ "label": "take5",
+ "size": [
+  520,
+  292
+ ],
+ "frames": 96,
+ "method": "tesseract 5 psm11+psm6, normal+inverted, on 3x upscale for recognition; ink-row height measured on delivered-size frame",
+ "checks": [
+  {
+   "id": "hero_before",
+   "text": "Coffee that tastes like the trail.",
+   "metric": "cap_height",
+   "threshold_px": 16,
+   "t_gif_s": 1.5,
+   "frame": 19,
+   "ocr_found": [
+    "Coffee",
+    "tastes",
+    "trail"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 38,
+   "ocr_full_match_frames": [
+    19,
+    3,
+    11,
+    15,
+    23
+   ],
+   "beat_frame_measured": true,
+   "pass_px": true,
+   "pass_ocr": true,
+   "pass": true
+  },
+  {
+   "id": "control_mood",
+   "text": "Mood: Editorial / SaaS / Playful",
+   "metric": "x_height",
+   "threshold_px": 9,
+   "t_gif_s": 3.2,
+   "frame": 39,
+   "ocr_found": [
+    "Mood",
+    "Editorial",
+    "Playful"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 12,
+   "ocr_full_match_frames": [
+    39,
+    32,
+    37,
+    41
+   ],
+   "beat_frame_measured": true,
+   "pass_px": true,
+   "pass_ocr": true,
+   "pass": true
+  },
+  {
+   "id": "hero_after",
+   "text": "Bags without the boredom",
+   "metric": "cap_height",
+   "threshold_px": 16,
+   "t_gif_s": 4.6,
+   "frame": 56,
+   "ocr_found": [
+    "Bags",
+    "without",
+    "boredom"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 36,
+   "ocr_full_match_frames": [
+    56,
+    55,
+    67,
+    91
+   ],
+   "beat_frame_measured": true,
+   "pass_px": true,
+   "pass_ocr": true,
+   "pass": true
+  },
+  {
+   "id": "cta_after",
+   "text": "Let's roast",
+   "metric": "x_height",
+   "threshold_px": 7,
+   "t_gif_s": 6.3,
+   "frame": 77,
+   "ocr_found": [
+    "roast"
+   ],
+   "ocr_ratio": 1.0,
+   "measured_px": 8,
+   "ocr_full_match_frames": [
+    77,
+    67,
+    73,
+    83
+   ],
+   "beat_frame_measured": true,
+   "pass_px": true,
+   "pass_ocr": true,
+   "pass": true
+  }
+ ],
+ "pass": true
+}
