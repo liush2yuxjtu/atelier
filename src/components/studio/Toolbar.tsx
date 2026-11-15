@@ -1,5 +1,7 @@
 "use client";
 
+import { LocaleControl, useLocale } from "@/components/LocaleProvider";
+
 import Link from "next/link";
 import {
   Copy,
@@ -32,6 +34,7 @@ const MODES: { id: StudioMode; label: string; icon: typeof MousePointer2 }[] = [
 ];
 
 export function Toolbar({ onExport, onSettings, onExtract }: Props) {
+  const { t } = useLocale();
   const project = useStudio((s) => s.project);
   const setMode = useStudio((s) => s.setMode);
   const setName = useStudio((s) => s.setName);
@@ -68,11 +71,12 @@ export function Toolbar({ onExport, onSettings, onExtract }: Props) {
             )}
           >
             <m.icon className="size-3.5" />
-            {m.label}
+            {t(m.label)}
           </button>
         ))}
       </div>
       <div className="ml-auto flex items-center gap-1">
+        <LocaleControl />
         <Button
           size="sm"
           variant={presenting ? "default" : "secondary"}
@@ -81,7 +85,7 @@ export function Toolbar({ onExport, onSettings, onExtract }: Props) {
           onClick={() => setPresenting(!presenting)}
         >
           <Maximize2 />
-          {presenting ? "Exit present" : "Present"}
+          {t(presenting ? "Exit present" : "Present")}
         </Button>
         <Button
           size="sm"
@@ -90,34 +94,34 @@ export function Toolbar({ onExport, onSettings, onExtract }: Props) {
           onClick={() => addArtboard({ title: "New board" })}
         >
           <Plus />
-          Artboard
+          {t("Artboard")}
         </Button>
         <Button
           size="icon"
           variant="ghost"
-          title="Duplicate"
+          title={t("Duplicate")}
           data-testid="duplicate-artboard"
           onClick={() => project.selectedArtboardId && duplicateArtboard(project.selectedArtboardId)}
         >
           <Copy />
         </Button>
-        <Button size="icon" variant="ghost" title="Arrange" data-testid="arrange-artboards" onClick={arrangeArtboards}>
+        <Button size="icon" variant="ghost" title={t("Arrange")} data-testid="arrange-artboards" onClick={arrangeArtboards}>
           <LayoutGrid />
         </Button>
         <Button
           size="icon"
           variant="ghost"
-          title="Delete"
+          title={t("Delete")}
           onClick={() => project.selectedArtboardId && removeArtboard(project.selectedArtboardId)}
         >
           <Trash2 />
         </Button>
         <Button size="sm" variant="ghost" onClick={onExtract}>
-          Tokens
+          {t("Tokens")}
         </Button>
         <Button size="sm" variant="secondary" data-testid="open-export" onClick={onExport}>
           <Share2 />
-          Export
+          {t("Export")}
         </Button>
         <Button size="icon" variant="ghost" data-testid="open-settings" onClick={onSettings}>
           <Settings2 />

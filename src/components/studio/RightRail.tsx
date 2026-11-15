@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+
 import { useState } from "react";
 import { useStudio } from "@/lib/store";
 import { Label } from "@/components/ui/label";
@@ -12,6 +14,7 @@ import { encodeHost } from "@/lib/protocol";
 import { TweakControls } from "./TweakControls";
 
 export function RightRail() {
+  const { t, locale } = useLocale();
   const project = useStudio((s) => s.project);
   const resolveComment = useStudio((s) => s.resolveComment);
   const addComment = useStudio((s) => s.addComment);
@@ -37,16 +40,16 @@ export function RightRail() {
         <div className="border-b border-white/8 px-3 py-2">
           <TabsList>
             <TabsTrigger value="tweaks" data-testid="tab-tweaks">
-              {board?.kind === "dc" ? "Props" : "Tweaks"}
+              {t(board?.kind === "dc" ? "Props" : "Tweaks")}
             </TabsTrigger>
             <TabsTrigger value="inspect" data-testid="tab-inspect">
-              Inspect
+              {t("Inspect")}
             </TabsTrigger>
             <TabsTrigger value="comments" data-testid="tab-comments">
-              Notes
+              {t("Notes")}
             </TabsTrigger>
             <TabsTrigger value="files" data-testid="tab-files">
-              Files
+              {t("Files")}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -68,11 +71,10 @@ export function RightRail() {
                     data-testid="tweaks-prepared-chip"
                   >
                     <span className="size-1.5 rounded-full bg-amber-300" />
-                    Prepared for this design
+                    {t("Prepared for this design")}
                   </p>
                   <p className="mt-2 text-[11px] leading-relaxed text-stone-500" data-testid="tweaks-prepared-sub">
-                    Generative controls for “{board.title}” — not a Properties inspector. Changing a
-                    knob restructures this artboard live.
+                    {locale === "zh-CN" ? `为“${board.title}”准备的生成式控件。调整控件会立即改变此画板的布局和文案。` : `Generative controls for “${board.title}” — not a Properties inspector. Changing a knob restructures this artboard live.`}
                   </p>
                 </div>
               )}
@@ -93,7 +95,7 @@ export function RightRail() {
                       data-testid="apply-across-canvas"
                       onClick={() => applyAcrossCanvas(board.id)}
                     >
-                      Apply across canvas
+                      {t("Apply across canvas")}
                     </Button>
                   )}
                   <Button
@@ -102,7 +104,7 @@ export function RightRail() {
                     data-testid="generate-knobs"
                     onClick={() => generateKnobs(board.id)}
                   >
-                    Generate knobs
+                    {t("Generate knobs")}
                   </Button>
                   <Button
                     size="sm"
@@ -111,7 +113,7 @@ export function RightRail() {
                     disabled={(project.themeUndo ?? []).length === 0 && (board.tweakUndo ?? []).length === 0}
                     onClick={() => undoTweaks(board.id)}
                   >
-                    Undo
+                    {t("Undo")}
                   </Button>
                   <Button
                     size="sm"
@@ -120,7 +122,7 @@ export function RightRail() {
                     disabled={(project.themeRedo ?? []).length === 0 && (board.tweakRedo ?? []).length === 0}
                     onClick={() => redoTweaks(board.id)}
                   >
-                    Redo
+                    {t("Redo")}
                   </Button>
                   <Button
                     size="sm"
@@ -128,7 +130,7 @@ export function RightRail() {
                     data-testid="save-look"
                     onClick={() => saveVariant(board.id, "Look")}
                   >
-                    Save look
+                    {t("Save look")}
                   </Button>
                   <Button
                     size="sm"
@@ -136,14 +138,14 @@ export function RightRail() {
                     data-testid="approve-look"
                     onClick={() => approveLook(board.id)}
                   >
-                    Approved
+                    {t("Approved")}
                   </Button>
                   {board.approvedVariantId && (
                     <span
                       data-testid="look-approved"
                       className="rounded-full bg-emerald-400/20 px-2 py-0.5 text-[11px] font-semibold text-emerald-200"
                     >
-                      Approved
+                      {t("Approved")}
                     </span>
                   )}
                 </div>

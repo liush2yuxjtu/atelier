@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+
 import { useMemo } from "react";
 import { Boxes, GripVertical, Plus } from "lucide-react";
 import { useStudio } from "@/lib/store";
@@ -9,6 +11,7 @@ import { filesFromList, flattenAllSafe, listDcFiles, parseDcSchema } from "@/lib
 import { DC_DRAG_MIME } from "@/lib/dc/types";
 
 export function LibraryPanel() {
+  const { t } = useLocale();
   const project = useStudio((s) => s.project);
   const placeDc = useStudio((s) => s.placeDc);
 
@@ -39,7 +42,7 @@ export function LibraryPanel() {
       <div className="flex items-center gap-2 border-b border-white/8 px-3 py-2.5">
         <Boxes className="size-3.5 text-amber-200/80" />
         <div className="text-[11px] font-medium tracking-wide text-stone-300 uppercase">
-          Components
+          {t("Components")}
         </div>
         <span className="ml-auto font-mono text-[10px] text-stone-600">{items.length}</span>
       </div>
@@ -107,7 +110,7 @@ export function LibraryPanel() {
                     }}
                   >
                     <Plus className="size-3" />
-                    Place on canvas
+                    {t("Place on canvas")}
                   </Button>
                 </div>
               </div>

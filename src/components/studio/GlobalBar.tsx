@@ -1,10 +1,13 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+
 import { useStudio } from "@/lib/store";
 import { DEFAULT_CANVAS_PREFS } from "@/lib/types";
 import { cn } from "@/lib/cn";
 
 export function GlobalBar() {
+  const { t } = useLocale();
   const prefs = useStudio((s) => s.project?.canvasPrefs ?? DEFAULT_CANVAS_PREFS);
   const setCanvasPrefs = useStudio((s) => s.setCanvasPrefs);
   const presenting = useStudio((s) => Boolean(s.project?.presenting));
@@ -18,7 +21,7 @@ export function GlobalBar() {
       aria-label="Global canvas toggles"
     >
       <span className="font-semibold tracking-[0.14em] text-[10px] uppercase text-amber-200/80">
-        Global
+        {t("Global")}
       </span>
       <div className="flex overflow-hidden rounded-full border border-white/10">
         <button
@@ -28,7 +31,7 @@ export function GlobalBar() {
           className={cn("px-2 py-0.5", prefs.theme === "dark" && "bg-white/12 text-amber-100")}
           onClick={() => setCanvasPrefs({ theme: "dark" })}
         >
-          Dark
+          {t("Dark")}
         </button>
         <button
           type="button"
@@ -37,11 +40,11 @@ export function GlobalBar() {
           className={cn("px-2 py-0.5", prefs.theme === "light" && "bg-white/12 text-amber-100")}
           onClick={() => setCanvasPrefs({ theme: "light" })}
         >
-          Light
+          {t("Light")}
         </button>
       </div>
       <label className="flex items-center gap-1">
-        Density
+        {t("Density")}
         <select
           data-testid="global-density"
           className="rounded border border-white/10 bg-transparent px-1 py-0.5"
@@ -52,9 +55,9 @@ export function GlobalBar() {
             })
           }
         >
-          <option value="compact">Compact</option>
-          <option value="comfortable">Comfortable</option>
-          <option value="spacious">Spacious</option>
+          <option value="compact">{t("Compact")}</option>
+          <option value="comfortable">{t("Comfortable")}</option>
+          <option value="spacious">{t("Spacious")}</option>
         </select>
       </label>
       <label className="flex items-center gap-1">
@@ -64,7 +67,7 @@ export function GlobalBar() {
           checked={prefs.grid}
           onChange={(e) => setCanvasPrefs({ grid: e.target.checked })}
         />
-        Grid
+        {t("Grid")}
       </label>
       <label className="flex items-center gap-1">
         <input
@@ -73,7 +76,7 @@ export function GlobalBar() {
           checked={prefs.snap}
           onChange={(e) => setCanvasPrefs({ snap: e.target.checked })}
         />
-        Snap
+        {t("Snap")}
       </label>
       <label className="flex items-center gap-1">
         <input
@@ -82,9 +85,9 @@ export function GlobalBar() {
           checked={prefs.reduceMotion}
           onChange={(e) => setCanvasPrefs({ reduceMotion: e.target.checked })}
         />
-        Reduce motion
+        {t("Reduce motion")}
       </label>
-      <span className="ml-auto text-[10px] text-stone-600">canvas chrome · not Tweaks</span>
+      <span className="ml-auto text-[10px] text-stone-600">{t("canvas chrome · not Tweaks")}</span>
     </div>
   );
 }

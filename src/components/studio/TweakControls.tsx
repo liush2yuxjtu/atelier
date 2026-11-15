@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -57,6 +59,7 @@ interface Props {
 }
 
 export function TweakControls({ board, compact }: Props) {
+  const { t, locale } = useLocale();
   const project = useStudio((s) => s.project);
   const setTweaks = useStudio((s) => s.setTweaks);
   const applyPalette = useStudio((s) => s.applyPalette);
@@ -121,25 +124,25 @@ export function TweakControls({ board, compact }: Props) {
                 data-testid={`tweak-group-${group}`}
                 className="border-t border-white/8 pt-3 text-[10px] font-semibold tracking-[0.16em] text-amber-200/70 uppercase first:border-t-0 first:pt-0"
               >
-                {GROUP_LABELS[group] ?? group}
+                {t(GROUP_LABELS[group] ?? group)}
               </div>
             )}
             {!compact && (
               <div className="flex items-center justify-between gap-2">
-                <Label>{field.label || key}</Label>
+                <Label>{t(field.label || key)}</Label>
                 {linked > 1 && (
                   <span
                     data-testid={`linked-${key}`}
                     className="rounded-full bg-amber-300/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-100"
                   >
-                    linked in {linked} boards
+                    {locale === "zh-CN" ? `已联动 ${linked} 个画板` : `linked in ${linked} boards`}
                   </span>
                 )}
               </div>
             )}
             {compact && field.type !== "palette" && (
               <div className="text-[10px] tracking-wide text-stone-500 uppercase">
-                {field.label || key}
+                {t(field.label || key)}
               </div>
             )}
             {field.type === "palette" && (
@@ -162,7 +165,7 @@ export function TweakControls({ board, compact }: Props) {
                       onClick={() => setField(key, field, id)}
                     >
                       <span className="size-3 rounded-full" style={{ background: swatch }} />
-                      {PALETTE_LABELS[id] ?? id}
+                      {t(PALETTE_LABELS[id] ?? id)}
                     </button>
                   );
                 })}
@@ -170,7 +173,7 @@ export function TweakControls({ board, compact }: Props) {
             )}
             {compact && key === "look" && linked > 1 && (
               <div className="text-[10px] font-medium tracking-wide text-amber-200/90">
-                linked in {linked} boards
+                {locale === "zh-CN" ? `已联动 ${linked} 个画板` : `linked in ${linked} boards`}
               </div>
             )}
             {field.type === "color" && (
@@ -253,7 +256,7 @@ export function TweakControls({ board, compact }: Props) {
                       )}
                       onClick={() => setField(key, field, o)}
                     >
-                      {optionLabel(field, o)}
+                      {t(optionLabel(field, o))}
                     </button>
                   );
                 })}
@@ -268,7 +271,7 @@ export function TweakControls({ board, compact }: Props) {
               >
                 {(field.options ?? []).map((o) => (
                   <option key={o} value={o}>
-                    {optionLabel(field, o)}
+                    {t(optionLabel(field, o))}
                   </option>
                 ))}
               </select>
@@ -281,7 +284,7 @@ export function TweakControls({ board, compact }: Props) {
                   data-testid={`unlink-${key}`}
                   onClick={() => unlinkTweak(board.id, key)}
                 >
-                  {detached ? "Unlinked" : "Unlink"}
+                  {t(detached ? "Unlinked" : "Unlink")}
                 </Button>
                 <Button
                   size="sm"
@@ -289,7 +292,7 @@ export function TweakControls({ board, compact }: Props) {
                   data-testid={`push-${key}`}
                   onClick={() => pushOverride(board.id, key)}
                 >
-                  Push to all
+                  {t("Push to all")}
                 </Button>
               </div>
             )}

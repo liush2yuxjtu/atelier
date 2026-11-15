@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Third-party minified copies; not project source
     "public/vendor/**",
+    // Generated Playwright report bundles are not source code.
+    "e2e/report/**",
+    "e2e/test-output/**",
   ]),
 ]);
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+
 import { useEffect, useState } from "react";
 import { useStudio } from "@/lib/store";
 import { ChatPanel } from "./ChatPanel";
@@ -14,6 +16,7 @@ import { ExtractDialog } from "./ExtractDialog";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export function StudioApp({ projectId }: { projectId: string }) {
+  const { t } = useLocale();
   const hydrate = useStudio((s) => s.hydrate);
   const hydrated = useStudio((s) => s.hydrated);
   const persist = useStudio((s) => s.persist);
@@ -46,7 +49,7 @@ export function StudioApp({ projectId }: { projectId: string }) {
   if (!hydrated) {
     return (
       <div className="flex h-dvh items-center justify-center bg-[#120f18] text-sm text-stone-400">
-        Opening canvas…
+        {t("Opening canvas…")}
       </div>
     );
   }

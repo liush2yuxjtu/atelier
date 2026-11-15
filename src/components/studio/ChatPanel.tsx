@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+
 import { useRef, useState } from "react";
 import { ArrowUp, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +13,7 @@ import { hasClientKey } from "@/lib/providers";
 import { ATELIER_SYSTEM_PROMPT } from "@/lib/agent/prompt";
 
 export function ChatPanel() {
+  const { t } = useLocale();
   const project = useStudio((s) => s.project);
   const busy = useStudio((s) => s.busy);
   const settings = useStudio((s) => s.settings);
@@ -111,9 +114,9 @@ export function ChatPanel() {
       <div className="flex items-center gap-2 border-b border-white/8 px-4 py-3">
         <Sparkles className="size-4 text-amber-300" />
         <div>
-          <div className="text-sm font-medium text-stone-100">Chat</div>
+          <div className="text-sm font-medium text-stone-100">{t("Chat")}</div>
           <div className="text-[11px] text-stone-500">
-            {hasClientKey(settings) ? settings.model : "Offline draft model"}
+            {hasClientKey(settings) ? settings.model : t("Offline draft model")}
           </div>
         </div>
       </div>
@@ -164,15 +167,15 @@ export function ChatPanel() {
                 void send();
               }
             }}
-            placeholder="Ask for a landing page, a deck, a variant…"
+            placeholder={t("Ask for a landing page, a deck, a variant…")}
             rows={3}
             className="w-full resize-none bg-transparent text-sm text-stone-100 outline-none placeholder:text-stone-600"
           />
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-stone-600">Enter to send</span>
+            <span className="text-[10px] text-stone-600">{t("Enter to send")}</span>
             <Button type="submit" size="sm" disabled={busy || !text.trim()} data-testid="chat-send">
               <ArrowUp className="size-3.5" />
-              Send
+              {t("Send")}
             </Button>
           </div>
         </div>

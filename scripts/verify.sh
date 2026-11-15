@@ -60,7 +60,12 @@ npm run test
 
 # --- e) e2e ---
 step "test:e2e (playwright)"
-npx playwright install chromium
+if [ -n "${PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH:-}" ]; then
+  [ -x "$PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH" ] || fail "Chromium override is not executable"
+  "$PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH" --version
+else
+  npx playwright install chromium
+fi
 npm run test:e2e
 
 echo

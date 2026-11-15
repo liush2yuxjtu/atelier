@@ -1,5 +1,7 @@
 "use client";
 
+import { LocaleControl, useLocale } from "@/components/LocaleProvider";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,16 +9,18 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { listProjectMeta } from "@/lib/storage";
 import { createBlankProject, createDemoProject } from "@/lib/demo";
+import { localizeDemoProject } from "@/lib/demo-locale";
 import { saveProject } from "@/lib/storage";
 
 export function Landing() {
+  const { t, locale } = useLocale();
   const router = useRouter();
   const [projects] = useState(() =>
     typeof window === "undefined" ? [] : listProjectMeta(),
   );
 
   async function openDemo() {
-    const demo = createDemoProject("demo");
+    const demo = localizeDemoProject(createDemoProject("demo"), locale);
     await saveProject(demo);
     router.push("/studio/demo");
   }
@@ -31,8 +35,9 @@ export function Landing() {
     <div className="min-h-dvh bg-[#0e0c12] text-stone-100">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
         <div className="font-serif text-2xl tracking-tight text-amber-100">Atelier</div>
-        <nav className="flex gap-4 text-sm text-stone-400">
-          <a href="#how">How it works</a>
+        <nav className="flex items-center gap-4 text-sm text-stone-400">
+          <LocaleControl />
+          <a href="#how">{t("How it works")}</a>
           <a href="https://github.com" className="hover:text-stone-200">
             MIT
           </a>
@@ -42,21 +47,21 @@ export function Landing() {
         <section className="grid items-center gap-12 py-16 md:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="mb-3 text-xs tracking-[0.18em] text-amber-200/80 uppercase">
-              Open-source design canvas
+              {t("Open-source design canvas")}
             </p>
             <h1 className="font-serif text-5xl leading-[1.05] tracking-tight text-stone-50 md:text-6xl">
-              Chat on the left. Infinite canvas on the right.
+              {t("Chat on the left. Infinite canvas on the right.")}
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-stone-400">
               Atelier is a production-ready alternative to closed visual artifact tools. Multiple sandboxed artboards, reusable Design Components, live tweaks, pinned comments, and export to HTML, ZIP, PDF, PNG, and PPTX — with your own model keys.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button size="lg" onClick={() => void openDemo()} data-testid="open-demo">
-                Open the Northbound demo
+                {t("Open the Northbound demo")}
                 <ArrowRight className="size-4" />
               </Button>
               <Button size="lg" variant="secondary" onClick={() => void openBlank()} data-testid="new-canvas">
-                New blank canvas
+                {t("New blank canvas")}
               </Button>
             </div>
           </div>
@@ -103,7 +108,7 @@ export function Landing() {
         </section>
         {projects.length > 0 && (
           <section className="mt-16">
-            <h2 className="mb-4 font-serif text-2xl">Recent canvases</h2>
+            <h2 className="mb-4 font-serif text-2xl">{t("Recent canvases")}</h2>
             <ul className="divide-y divide-white/8 rounded-xl border border-white/8">
               {projects.map((p) => (
                 <li key={p.id}>
