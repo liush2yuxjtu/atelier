@@ -17,7 +17,7 @@ const browser=await chromium.launch({...(executablePath?{executablePath}:{}),hea
 const context=await browser.newContext({viewport:{width:1440,height:900},deviceScaleFactor:2,locale:'en-US'});
 const page=await context.newPage();const errors=[],requests=[];
 page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().includes('/api/chat'))requests.push({url:r.url(),method:r.method()});});
-let start=0,startWall=0;const frames=[],markers=[];let capture;
+let start=0,startWall=0,stopping=false;const frames=[],markers=[];let capture;
 const mark=(label,extra={})=>{const m={elapsed_ms:Math.round(performance.now()-start),label,...extra};markers.push(m);console.log(m);return m;};
 const box=async testid=>{const b=await page.getByTestId(testid).first().boundingBox();if(!b||b.x<0||b.y<0||b.x+b.width>1440||b.y+b.height>900)throw Error('Framing failure '+testid+JSON.stringify(b));return b;};
 async function move(testid){const b=await box(testid);await page.mouse.move(b.x+b.width*.86,b.y+b.height*.8,{steps:20});await page.waitForTimeout(350);return b;}
@@ -41,10 +41,13 @@ try{
  if(!rehearse){
   capture=await context.newCDPSession(page);
   capture.on('Page.screencastFrame',event=>{
+   if(stopping)return;
    const file=`frames/${String(frames.length).padStart(5,'0')}.jpg`;
    fs.writeFileSync(path.join(out,file),Buffer.from(event.data,'base64'));
    frames.push({file,elapsed_ms:event.metadata.timestamp*1000-startWall,browser_timestamp_s:event.metadata.timestamp});
-   void capture.send('Page.screencastFrameAck',{sessionId:event.sessionId});
+   void capture.send('Page.screencastFrameAck',{sessionId:event.sessionId}).catch(error=>{
+    if(!stopping)errors.push('Screencast acknowledgement failed: '+String(error));
+   });
   });
   await capture.send('Page.startScreencast',{format:'jpeg',quality:92,maxWidth:2880,maxHeight:1800,everyNthFrame:1});
  }
@@ -59,6 +62,7 @@ try{
  if(requests.length)throw Error('Unexpected model request');
  fs.writeFileSync(path.join(out,'evidence/rehearsal.json'),JSON.stringify({semantics:'PASS',selectors:'PASS',state:'PASS',framing:'PASS',before,result,model_calls:requests.length,page_errors:errors},null,2));
 }finally{
+ stopping=true;
  if(capture){await capture.send('Page.stopScreencast');await capture.detach();}
  fs.writeFileSync(path.join(out,'evidence/native-clicks.json'),JSON.stringify(await page.evaluate(()=>window.__demoClicks??[]),null,2));
  fs.writeFileSync(path.join(out,'frames.json'),JSON.stringify(frames));
