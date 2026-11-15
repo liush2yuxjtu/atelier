@@ -1,0 +1,19 @@
+{
+  "id": "clip04",
+  "product": "Atelier",
+  "locale": "zh-CN",
+  "sha256": "63fa7a710129e8f5ed96f5edd80883b64320912b18ac96c1c0ce915770141328",
+  "duration_s": 17.766667,
+  "decoded_frames": 533,
+  "file": "PASS",
+  "native_playback": "PASS",
+  "independent_visual": "PASS",
+  "changed": false,
+  "proof_scope": "Native Mood control and headline/copy change",
+  "source_runtime_claim": "Local prepared demo, zero model calls",
+  "reading_hold": {
+    "headline_s": 3.6404
+  },
+  "ocr": "Recognized core labels; visual adjudication retained for stylized Chinese heading",
+  "notes": "PASS。风格从简洁变为活泼；前后标题、按钮和副标题可读，因果清楚。全景辅助字小、用户口碑数字略糊，原生 pinned comment 轻微干扰但未遮关键控件。"
+}

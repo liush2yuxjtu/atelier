@@ -1,0 +1,82 @@
+{
+  "sha256": "bd8efdf78d2cc5af7d4bcc67f143a15d9a9cf74feca45f36c7044bde22284fe4",
+  "bytes": 4048445,
+  "machine_verdict": "PASS",
+  "visual_verdict": "pending",
+  "native_playback_verdict": "pending",
+  "duration_s": 19.433333,
+  "width": 1280,
+  "height": 800,
+  "codec": "h264",
+  "pix_fmt": "yuv420p",
+  "decoded_frames": 583,
+  "audio_streams": 0,
+  "faststart": true,
+  "frames": [
+    {
+      "time_s": 0.0,
+      "path": "frame-00.png"
+    },
+    {
+      "time_s": 1.2933333111111112,
+      "path": "frame-01.png"
+    },
+    {
+      "time_s": 2.5866666222222223,
+      "path": "frame-02.png"
+    },
+    {
+      "time_s": 3.879999933333333,
+      "path": "frame-03.png"
+    },
+    {
+      "time_s": 5.173333244444445,
+      "path": "frame-04.png"
+    },
+    {
+      "time_s": 6.466666555555556,
+      "path": "frame-05.png"
+    },
+    {
+      "time_s": 7.759999866666666,
+      "path": "frame-06.png"
+    },
+    {
+      "time_s": 9.053333177777777,
+      "path": "frame-07.png"
+    },
+    {
+      "time_s": 10.34666648888889,
+      "path": "frame-08.png"
+    },
+    {
+      "time_s": 11.6399998,
+      "path": "frame-09.png"
+    },
+    {
+      "time_s": 12.933333111111113,
+      "path": "frame-10.png"
+    },
+    {
+      "time_s": 14.226666422222221,
+      "path": "frame-11.png"
+    },
+    {
+      "time_s": 15.519999733333332,
+      "path": "frame-12.png"
+    },
+    {
+      "time_s": 16.813333044444445,
+      "path": "frame-13.png"
+    },
+    {
+      "time_s": 18.106666355555554,
+      "path": "frame-14.png"
+    },
+    {
+      "time_s": 19.399999666666666,
+      "path": "frame-15.png"
+    }
+  ],
+  "note": "A decoded file and contact sheet do not establish visual or playback PASS."
+}

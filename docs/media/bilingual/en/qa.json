@@ -42,5 +42,14 @@
       "Surrounding small artboard/brief text unreadable"
     ]
   },
-  "chinese_ocr": "not run; independent visual review required"
+  "chinese_ocr": "not run; independent visual review required",
+  "complete_mp4_audit": {
+    "file": "PASS",
+    "native_player": "PASS at 1x to ended",
+    "independent_full_film_review": "PASS",
+    "video_sha256": "bd8efdf78d2cc5af7d4bcc67f143a15d9a9cf74feca45f36c7044bde22284fe4",
+    "video_bytes_changed": false,
+    "evidence_directory": "../complete-video-audit/en",
+    "OCR_note": "Control and headline OCR plus independent visual review retained"
+  }
 }

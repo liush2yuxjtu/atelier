@@ -40,3 +40,7 @@ Use a new output path; scripts refuse to overwrite previous edits. Current MP4/G
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run verify` passed: append-only prompts, typecheck, lint (existing warnings only), 67 unit tests, 10 browser tests. The media-recording test is skipped by the project's default, as intended. See [the full gate log](verification.txt). Both delivered formats decode without errors and raw SHA-256 remains unchanged.
 
 `npm run build` reached the production build but this environment's proxy denies Google Fonts requests (independently confirmed with HTTP 403). It could not fetch Geist, Geist Mono or Instrument Serif; see [the build error](build-network-blocked.txt). No fonts were mocked and no product font configuration was changed to conceal the network failure.
+
+## Complete MP4 audit
+
+The full English and Chinese MP4 files were separately decoded, checked for faststart, played in Chromium at 1× to `ended`, and blindly reviewed from full-film frames. Both passed without changing their published bytes. This is additional to the earlier GIF review, not inferred from it. See [English receipts](complete-video-audit/en/) and [中文回执](complete-video-audit/zh-CN/). The small yellow marker is the demo’s native pinned comment, not a synthesized pointer. The Chinese stylized headline has OCR false negatives; independent visual adjudication is retained explicitly rather than labeled OCR PASS. This does not change the existing production-build network limitation.

@@ -47,5 +47,14 @@
       "Other knobs not demonstrated"
     ]
   },
-  "chinese_ocr": "not run; independent visual review required"
+  "chinese_ocr": "not run; independent visual review required",
+  "complete_mp4_audit": {
+    "file": "PASS",
+    "native_player": "PASS at 1x to ended",
+    "independent_full_film_review": "PASS",
+    "video_sha256": "63fa7a710129e8f5ed96f5edd80883b64320912b18ac96c1c0ce915770141328",
+    "video_bytes_changed": false,
+    "evidence_directory": "../complete-video-audit/zh-CN",
+    "OCR_note": "Core Chinese control recognized after isolated crop; stylized headline retained as explicit independent-visual adjudication, not OCR PASS"
+  }
 }

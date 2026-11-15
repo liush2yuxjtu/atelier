@@ -1,0 +1,19 @@
+{
+  "id": "clip03",
+  "product": "Atelier",
+  "locale": "en",
+  "sha256": "bd8efdf78d2cc5af7d4bcc67f143a15d9a9cf74feca45f36c7044bde22284fe4",
+  "duration_s": 19.433333,
+  "decoded_frames": 583,
+  "file": "PASS",
+  "native_playback": "PASS",
+  "independent_visual": "PASS",
+  "changed": false,
+  "proof_scope": "Native Mood control and headline/copy change",
+  "source_runtime_claim": "Local prepared demo, zero model calls",
+  "reading_hold": {
+    "headline_s": 3.0896
+  },
+  "ocr": "OCR evidence and independent frame reading retained",
+  "notes": "PASS。Mood 从 SaaS 变为 Playful，标题及 supporting/button copy 更新。全景文字小，局部裁切保留必要文字。黄色标记被读者误认成 pointer；源代码证明它是内置 pinned comment。没有证明完整视觉重设计或其他控件。"
+}
