@@ -1,0 +1,41 @@
+[
+  {
+    "elapsed_ms": 242,
+    "label": "before: native Mood control",
+    "text": "Coffee that tastes like the trail.",
+    "locale": "en"
+  },
+  {
+    "elapsed_ms": 6625,
+    "label": "pointer on Playful"
+  },
+  {
+    "elapsed_ms": 7526,
+    "label": "click Playful",
+    "box": {
+      "x": 1276.171875,
+      "y": 290.875,
+      "width": 56.703125,
+      "height": 26.5
+    }
+  },
+  {
+    "elapsed_ms": 9797,
+    "label": "result: same hero rewritten",
+    "result": "Bags without the boredom",
+    "hero": {
+      "x": 671.4797210693359,
+      "y": 310.71539306640625,
+      "width": 494.14735412597656,
+      "height": 147.04214477539062
+    }
+  },
+  {
+    "elapsed_ms": 11832,
+    "label": "pointer parked"
+  },
+  {
+    "elapsed_ms": 19672,
+    "label": "end"
+  }
+]

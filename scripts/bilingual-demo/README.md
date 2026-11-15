@@ -7,8 +7,9 @@ The recorded feature is a native prepared control, not a model-generation benchm
 3. Run `DEMO_LOCALE=zh-CN node scripts/bilingual-demo/record.mjs /absolute/path/to/new-rehearsal --rehearse`. A fresh isolated browser context creates the built-in Northbound demo, selects Home, opens Tweaks and verifies the real Mood change. It never clears a user's existing profile.
 4. Use a new path for the actual take: `DEMO_LOCALE=zh-CN node scripts/bilingual-demo/record.mjs docs/media/runs/bilingual-v1-new-take`. Repeat with `DEMO_LOCALE=en` and a separate path for English.
 5. Install FFmpeg, ffprobe, Python and Pillow. On Linux, install Noto Sans CJK fonts for the browser. Run `python scripts/bilingual-demo/render.py docs/media/runs/bilingual-v1-new-take --edit v1`.
-6. Inspect the actual images and run `python scripts/bilingual-demo/inspect.py docs/media/runs/bilingual-v1-new-take/edits/v1`. Have an independent viewer interpret the ordered frames without the intended brief. Revise only into a new edit directory.
-7. Run the repository's complete `npm run verify` before committing. A supplied `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` uses that executable for the same browser tests; default installations still download the pinned Chromium. No gate is skipped.
+6. If the base GIF exceeds 3 MiB, run `python scripts/bilingual-demo/finalize.py SOURCE_EDIT NEW_EDIT --colors 128` (or `--colors 96`). This preserves camera, frame rate and timing in a new edit; inspect the palette change before using it.
+7. Inspect the actual images and run `python scripts/bilingual-demo/inspect.py docs/media/runs/bilingual-v1-new-take/edits/v1`. Have an independent viewer interpret the ordered frames without the intended brief. Revise only into a new edit directory.
+8. Run the repository's complete `npm run verify` before committing. A supplied `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` uses that executable for the same browser tests; default installations still download the pinned Chromium. No gate is skipped.
 
 The language selector changes UI labels; existing authored content is preserved. A newly opened Northbound demo gets native localized Home copy. This localization covers the studio/Tweaks flow, not every dialog or every sample artboard.
 

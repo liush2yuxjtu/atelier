@@ -1,0 +1,41 @@
+[
+  {
+    "elapsed_ms": 19,
+    "label": "before: native Mood control",
+    "text": "把山野的风味，装进咖啡杯。",
+    "locale": "zh-CN"
+  },
+  {
+    "elapsed_ms": 5165,
+    "label": "pointer on Playful"
+  },
+  {
+    "elapsed_ms": 6069,
+    "label": "click Playful",
+    "box": {
+      "x": 1253,
+      "y": 273,
+      "width": 44,
+      "height": 26.5
+    }
+  },
+  {
+    "elapsed_ms": 7927,
+    "label": "result: same hero rewritten",
+    "result": "每一袋，都有新鲜感",
+    "hero": {
+      "x": 671.4797210693359,
+      "y": 316.87164306640625,
+      "width": 494.14735412597656,
+      "height": 147.04214477539062
+    }
+  },
+  {
+    "elapsed_ms": 10280,
+    "label": "pointer parked"
+  },
+  {
+    "elapsed_ms": 17764,
+    "label": "end"
+  }
+]

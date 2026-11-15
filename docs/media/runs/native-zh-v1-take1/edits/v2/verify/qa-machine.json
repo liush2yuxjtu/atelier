@@ -1,0 +1,29 @@
+{
+  "ui_language": "zh-CN",
+  "native_language_recording": true,
+  "subtitle_overlay": false,
+  "gif": {
+    "frames": 96,
+    "duration_s": 8.0,
+    "size": [
+      520,
+      400
+    ],
+    "bytes": 2887489
+  },
+  "mp4": {
+    "duration_s": 17.766667,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "size": [
+      1280,
+      800
+    ]
+  },
+  "decode_pass": true,
+  "raw_hash_unchanged": true,
+  "camera_result_hold_s": 3.6404001464843745,
+  "visual_review": "pending",
+  "independent_cold_viewer": "pending",
+  "chinese_ocr": "not run; independent visual review required"
+}

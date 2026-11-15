@@ -1,0 +1,46 @@
+{
+  "ui_language": "en",
+  "native_language_recording": true,
+  "subtitle_overlay": false,
+  "gif": {
+    "frames": 96,
+    "duration_s": 8.0,
+    "size": [
+      520,
+      400
+    ],
+    "bytes": 3094291
+  },
+  "mp4": {
+    "duration_s": 19.433333,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "size": [
+      1280,
+      800
+    ]
+  },
+  "decode_pass": true,
+  "raw_hash_unchanged": true,
+  "camera_result_hold_s": 3.0896000976562483,
+  "visual_review": {
+    "verdict": "PASS for Mood selection and native headline change",
+    "reviewer": "primary agent",
+    "date": "2026-11-15",
+    "images": [
+      "verify/control.png",
+      "verify/result.png",
+      "verify/result-end.png"
+    ]
+  },
+  "independent_cold_viewer": {
+    "verdict": "PASS",
+    "reviewer": "atelier_en_cold_viewer",
+    "understood": "SaaS -> Playful changes coffee headline and supporting/button copy",
+    "limitations": [
+      "No claim of broad visual redesign or linked-page change",
+      "Surrounding small artboard/brief text unreadable"
+    ]
+  },
+  "chinese_ocr": "not run; independent visual review required"
+}

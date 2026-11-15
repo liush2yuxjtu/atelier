@@ -1,0 +1,10 @@
+{
+  "semantics": "PASS",
+  "selectors": "PASS",
+  "state": "PASS",
+  "framing": "PASS",
+  "before": "把山野的风味，装进咖啡杯。",
+  "result": "每一袋，都有新鲜感",
+  "model_calls": 0,
+  "page_errors": []
+}

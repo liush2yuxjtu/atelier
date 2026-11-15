@@ -1,0 +1,20 @@
+[
+  {
+    "locale": "en",
+    "take": "native-en-v1-take2",
+    "edit": "v3",
+    "mp4_s": 19.433333,
+    "result_hold_s": 3.09,
+    "commit": "519609a2ee09d5ffe38a07c4fd7b9f295f3fe11a",
+    "raw_sha256": "7559738f44ab27e31b4e104e3d7712f89fcacf330a6097d639723be197f8d4e8"
+  },
+  {
+    "locale": "zh-CN",
+    "take": "native-zh-v1-take1",
+    "edit": "v2",
+    "mp4_s": 17.766667,
+    "result_hold_s": 3.64,
+    "commit": "b601091afcd6546b9b83fc91598046155b94e8b7",
+    "raw_sha256": "7d52b793fbb0ed5ee4b55e008ebdb79d7eb28377673a64c3d2e7d7e98ce9e276"
+  }
+]

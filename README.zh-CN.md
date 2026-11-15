@@ -9,7 +9,11 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [对比](docs/COMPARISON.md) · [架构](docs/ARCHITECTURE.md) · [Design Components](docs/DC-PROTOCOL.md)
 
-![三次色板、Compare、Approved — Tweaks 是探索，不是抠像素](docs/media/tweaks-v4.gif)
+![在真实中文界面点击活泼，同一页面标题立即变化](docs/media/bilingual/zh-CN/feature-8s.gif)
+
+[观看中文界面完整视频](docs/media/bilingual/zh-CN/demo.mp4) · [English video](docs/media/bilingual/en/demo.mp4) · [录制方法与验收](docs/media/bilingual/README.md)
+
+首页和工具栏可通过 **English / 简体中文** 切换工作台及微调控件语言。新打开的中文示例包含中文首页文案；切换界面语言保留已有项目内容。中文覆盖本段演示流程，尚未覆盖所有弹窗和示例页面。
 
 Atelier 是独立产品。它借鉴了 Claude Artifacts / Claude Design 的**交互形态**（对话 + 实时画布 + 隔离 iframe + Tweaks），但**不复制** Anthropic 的提示词、商标或源码。
 

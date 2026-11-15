@@ -1,0 +1,45 @@
+{
+  "viewport": [
+    1440,
+    900
+  ],
+  "dpr": 2,
+  "boxes": {
+    "control": {
+      "x": 1276.171875,
+      "y": 290.875,
+      "width": 56.703125,
+      "height": 26.5
+    },
+    "mood": {
+      "x": 1153,
+      "y": 290.875,
+      "width": 275,
+      "height": 26.5
+    },
+    "board": {
+      "x": 608.9119873046875,
+      "y": 152.91200256347656,
+      "width": 452.5400390625,
+      "height": 298.0592803955078
+    },
+    "hero": {
+      "x": 672.9119873046875,
+      "y": 329.9913024902344,
+      "width": 491.390625,
+      "height": 136.78125
+    },
+    "panel": {
+      "x": 1141,
+      "y": 133,
+      "width": 299,
+      "height": 828.375
+    }
+  },
+  "before": "Coffee that tastes like the trail.",
+  "registry": {
+    "native": false,
+    "pluno": false
+  },
+  "interaction": "Local Zustand state and sandbox postMessage; no API request for Mood change"
+}

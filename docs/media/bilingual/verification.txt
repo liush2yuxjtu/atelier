@@ -1,0 +1,92 @@
+
+> atelier@0.1.0 verify
+> bash scripts/verify.sh
+
+
+==> prompts/ append-only (merge-base with origin/main)
+ok (merge-base 1bb3faa0f30d)
+
+==> typecheck
+
+> atelier@0.1.0 typecheck
+> tsc --noEmit
+
+
+==> lint
+
+> atelier@0.1.0 lint
+> eslint
+
+
+/workspace/atelier/scripts/generative-v1/discover.mjs
+  20:66  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/workspace/atelier/scripts/v6/rec.mjs
+  31:7    warning  'lookOf' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  31:87   warning  'id' is defined but never used               @typescript-eslint/no-unused-vars
+  31:101  warning  'pr' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+/workspace/atelier/scripts/v7/rec.mjs
+  23:7   warning  'look' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  23:45  warning  's' is assigned a value but never used     @typescript-eslint/no-unused-vars
+
+/workspace/atelier/src/lib/store.ts
+  29:3  warning  'encodeSections' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 7 problems (0 errors, 7 warnings)
+
+
+==> test (vitest)
+
+> atelier@0.1.0 test
+> vitest run
+
+
+ RUN  v3.2.4 /workspace/atelier
+
+ ✓ tests/theme.test.ts (5 tests) 32ms
+ ✓ tests/locale.test.ts (2 tests) 25ms
+ ✓ tests/export.test.ts (5 tests) 91ms
+ ✓ tests/dc.test.ts (16 tests) 245ms
+ ✓ tests/protocol.test.ts (6 tests) 21ms
+ ✓ tests/tweaks.test.ts (9 tests) 38ms
+ ✓ tests/parse.test.ts (4 tests) 12ms
+ ✓ tests/review-tweaks.test.ts (7 tests) 27ms
+ ✓ tests/extract.test.ts (3 tests) 12ms
+ ✓ tests/tweak-bind.test.ts (10 tests) 192ms
+
+ Test Files  10 passed (10)
+      Tests  67 passed (67)
+   Start at  03:11:33
+   Duration  6.04s (transform 1.61s, setup 0ms, collect 4.13s, tests 693ms, environment 1.75s, prepare 2.03s)
+
+
+==> test:e2e (playwright)
+Chromium 156.0.8078.79 built on Debian GNU/Linux 13 (trixie)
+
+> atelier@0.1.0 test:e2e
+> playwright test
+
+
+Running 11 tests using 2 workers
+
+  -   1 [chromium] › e2e/dc-demo-video.spec.ts:35:5 › open demo, stream, edit, tweak, compose DC, export
+(node:14367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › e2e/studio.spec.ts:26:7 › Atelier studio › landing opens the demo canvas with multiple artboards (18.3s)
+  ✓   2 [chromium] › e2e/locale.spec.ts:3:5 › Chinese Mood controls update Chinese demo copy and preserve the saved project (27.5s)
+  ✓   4 [chromium] › e2e/studio.spec.ts:44:7 › Atelier studio › edit mode, tweak panel, and export dialog (19.3s)
+  ✓   5 [chromium] › e2e/studio.spec.ts:67:7 › Atelier studio › offline chat streams a new artboard onto the canvas (14.9s)
+  ✓   6 [chromium] › e2e/studio.spec.ts:82:7 › Atelier studio › duplicate and arrange artboards (9.9s)
+  ✓   7 [chromium] › e2e/studio.spec.ts:93:7 › Atelier studio › design component library, composed board, and prop tweaks (15.5s)
+  ✓   8 [chromium] › e2e/studio.spec.ts:125:7 › Atelier studio › present mode, moss palette, approve, undo (19.0s)
+  ✓   9 [chromium] › e2e/studio.spec.ts:165:7 › Atelier studio › unlink isolates a token; push override restores the link (10.8s)
+  ✓  10 [chromium] › e2e/studio.spec.ts:183:7 › Atelier studio › generate knobs infers a look on a board without a schema (10.8s)
+  ✓  11 [chromium] › e2e/studio.spec.ts:195:7 › Atelier studio › generative tweaks restructure landing, dashboard, and pricing (14.6s)
+
+  1 skipped
+  10 passed (2.3m)
+
+verify: all steps passed

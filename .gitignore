@@ -69,3 +69,15 @@ docs/media/runs/**/demo.mp4
 docs/media/runs/**/feature-8s.gif
 docs/media/runs/**/edits/full.mp4
 docs/media/runs/**/raw/page@*.webm
+
+# Superseded subtitle-only drafts and individual native screencast frames.
+# Full immutable raw MP4s, timestamps and receipts are committed for final native takes.
+/docs/media/runs/bilingual-v1-take*/
+/docs/media/runs/native-*/frames/
+/scripts/bilingual-demo/__pycache__/
+# Failed English teardown take is kept locally for diagnosis.
+/docs/media/runs/native-en-v1-take1/
+# Publish current media once under docs/media/bilingual; retain receipts and QA here.
+/docs/media/runs/native-*/edits/**/en/
+/docs/media/runs/native-*/edits/**/zh-CN/
+/docs/media/runs/native-*/edits/**/capture.ffconcat

@@ -1,0 +1,198 @@
+{
+  "source": "raw/gt.mp4",
+  "source_sha256": "7d52b793fbb0ed5ee4b55e008ebdb79d7eb28377673a64c3d2e7d7e98ce9e276",
+  "capture_frames": 185,
+  "capture_source_size": [
+    1440,
+    900
+  ],
+  "capture_origin_ms": 19.014892578125,
+  "capture_timestamp_order": "sorted by browser timestamp; no nominal-fps speedup",
+  "raw_duration_s": 17.744985107421876,
+  "click_s": 6.39838525390625,
+  "click_xy": [
+    1291,
+    295
+  ],
+  "result_s": 7.907985107421875,
+  "gif_start_s": 4.39838525390625,
+  "gif_result_visible_s": 3.6404001464843745,
+  "new_recording": true,
+  "ui_language": "zh-CN",
+  "localizations": "independent fresh take in native product language; no subtitles",
+  "model_calls": 0,
+  "source_environment": "local-repository-demo",
+  "production_verified": false,
+  "records": [
+    {
+      "kind": "mp4",
+      "source_interval_s": [
+        0,
+        17.744985107421876
+      ],
+      "frames": 533,
+      "keyframes": [
+        [
+          0,
+          0,
+          0,
+          1440,
+          900
+        ],
+        [
+          0.7,
+          0,
+          0,
+          1440,
+          900
+        ],
+        [
+          1.5,
+          615,
+          205,
+          310,
+          193.75
+        ],
+        [
+          4.19838525390625,
+          615,
+          205,
+          310,
+          193.75
+        ],
+        [
+          4.99838525390625,
+          600,
+          135,
+          840,
+          525
+        ],
+        [
+          5.79838525390625,
+          1120,
+          208,
+          320,
+          200
+        ],
+        [
+          7.04838525390625,
+          1120,
+          208,
+          320,
+          200
+        ],
+        [
+          8.157985107421876,
+          590,
+          150,
+          850,
+          531.25
+        ],
+        [
+          8.757985107421876,
+          615,
+          205,
+          310,
+          193.75
+        ],
+        [
+          16.344985107421877,
+          615,
+          205,
+          310,
+          193.75
+        ],
+        [
+          17.444985107421875,
+          0,
+          0,
+          1440,
+          900
+        ]
+      ],
+      "native_area": [
+        1280,
+        800
+      ]
+    },
+    {
+      "kind": "gif",
+      "source_interval_s": [
+        4.39838525390625,
+        12.39838525390625
+      ],
+      "frames": 240,
+      "keyframes": [
+        [
+          4.39838525390625,
+          600,
+          135,
+          840,
+          646.1538
+        ],
+        [
+          4.84838525390625,
+          615,
+          205,
+          280,
+          215.3846
+        ],
+        [
+          5.39838525390625,
+          615,
+          205,
+          280,
+          215.3846
+        ],
+        [
+          5.89838525390625,
+          1120,
+          208,
+          320,
+          246.1538
+        ],
+        [
+          7.14838525390625,
+          1120,
+          208,
+          320,
+          246.1538
+        ],
+        [
+          8.157985107421876,
+          600,
+          135,
+          840,
+          646.1538
+        ],
+        [
+          8.757985107421876,
+          615,
+          205,
+          280,
+          215.3846
+        ],
+        [
+          12.39838525390625,
+          615,
+          205,
+          280,
+          215.3846
+        ]
+      ],
+      "native_area": [
+        520,
+        400
+      ]
+    }
+  ],
+  "subtitles": false,
+  "artifacts": {
+    "zh-CN/demo.mp4": "63fa7a710129e8f5ed96f5edd80883b64320912b18ac96c1c0ce915770141328",
+    "zh-CN/feature-8s.gif": "83c7a1688331fae9cae8edf30af87d91c6b1cc45d20422f18c4522dcf636fd85",
+    "zh-CN/gif-camera.mp4": "9b4e90a3e4bccb42fc4a5c71da2a8f24f82340f0dd7910fdbd6ebff916a7a65a"
+  },
+  "gif_palette_colors": 128,
+  "parent_edit": "v1",
+  "parent_manifest_sha256": "c1fc904e66042658fe3a6a87b2279475611b8c2657401c4f6d5f7a4618ab5153"
+}

@@ -1,0 +1,10 @@
+{
+  "semantics": "PASS",
+  "selectors": "PASS",
+  "state": "PASS",
+  "framing": "PASS",
+  "before": "Coffee that tastes like the trail.",
+  "result": "Bags without the boredom",
+  "model_calls": 0,
+  "page_errors": []
+}

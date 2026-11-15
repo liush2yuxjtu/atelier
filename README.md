@@ -9,7 +9,11 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [Comparison](docs/COMPARISON.md) · [Architecture](docs/ARCHITECTURE.md) · [Design Components](docs/DC-PROTOCOL.md)
 
-![Three palette switches, Compare, Approved — Tweaks as exploration, not pixel-pushing](docs/media/tweaks-v4.gif)
+![Switch Mood to Playful and see the same headline change live](docs/media/bilingual/en/feature-8s.gif)
+
+[Watch the English walkthrough](docs/media/bilingual/en/demo.mp4) · [中文界面视频](docs/media/bilingual/zh-CN/demo.mp4) · [Recording method and evidence](docs/media/bilingual/README.md)
+
+Use **English / 简体中文** in the landing page or toolbar to change the studio and Tweaks labels. Newly opened Chinese demos include localized Home copy; existing project content is preserved. This covers the demonstrated workflow, not every dialog or demo page.
 
 Atelier is a standalone product inspired by the *shape* of Claude Artifacts and Claude Design (chat + live canvas + isolated iframes + tweaks). It does **not** copy Anthropic prompts, trademarks, or source.
 

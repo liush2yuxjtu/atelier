@@ -1,0 +1,51 @@
+{
+  "ui_language": "zh-CN",
+  "native_language_recording": true,
+  "subtitle_overlay": false,
+  "gif": {
+    "frames": 96,
+    "duration_s": 8.0,
+    "size": [
+      520,
+      400
+    ],
+    "bytes": 2887489
+  },
+  "mp4": {
+    "duration_s": 17.766667,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "size": [
+      1280,
+      800
+    ]
+  },
+  "decode_pass": true,
+  "raw_hash_unchanged": true,
+  "camera_result_hold_s": 3.6404001464843745,
+  "visual_review": {
+    "verdict": "PASS for native Mood selection and headline change",
+    "reviewed_images": [
+      "verify/control.png",
+      "verify/result.png",
+      "verify/result-end.png"
+    ],
+    "reviewer": "primary agent",
+    "date": "2026-11-15",
+    "limitations": [
+      "Native headline wraps inside the original design",
+      "Small CTA and paragraph text not consistently readable at GIF size; no claim of full-copy legibility"
+    ]
+  },
+  "independent_cold_viewer": {
+    "verdict": "PASS for single style switch",
+    "reviewer": "atelier_zh_cold_viewer",
+    "scope": "Click 活泼, read changed native Chinese headline",
+    "limitations": [
+      "Small button copy not reliably readable",
+      "Native result headline has awkward line wrapping",
+      "Other knobs not demonstrated"
+    ]
+  },
+  "chinese_ocr": "not run; independent visual review required"
+}
